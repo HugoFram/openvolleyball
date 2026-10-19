@@ -2,13 +2,13 @@ import QRCode from "qrcode";
 import type { PaperForm } from "../src/domain/scans";
 import { qrPayload } from "../src/domain/scans";
 
-export function paperMarkers(doc: PDFKit.PDFDocument) {
+export function paperMarkers(doc: PDFKit.PDFDocument, height = 841.89) {
   doc.save().fillColor("#000000");
   for (const [x, y] of [
     [22, 22],
     [567, 22],
-    [22, 814],
-    [567, 814],
+    [22, height - 28],
+    [567, height - 28],
   ])
     doc.rect(x, y, 6, 6).fill();
   doc.restore();

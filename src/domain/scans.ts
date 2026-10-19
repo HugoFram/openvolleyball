@@ -26,6 +26,8 @@ export interface PaperForm {
   sourceHash?: string;
   fixtureKey?: string;
   qr: Rect;
+  /** Physical page region; aligned scans contain only this region. Legacy forms use A4. */
+  region?: Rect;
   fields: PaperField[];
   participants: Record<string, [string | null, string | null]>;
 }
@@ -43,7 +45,7 @@ export interface ScanValue {
   confidence?: number;
   alternatives?: string[];
   issue?: string;
-  reader?: "contrast-v2" | "style-cnn-v3";
+  reader?: "contrast-v2" | "style-cnn-v3" | "trocr-v1";
 }
 export interface ScanPage {
   id: string;

@@ -1,9 +1,47 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.3`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.4`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
+
+## Inscriptions : imprimer, couper et scanner
+
+Dans **Inscriptions → Fiches d’inscription vierges**, choisir **2 fiches par page**.
+Les deux moitiés ont maintenant exactement la même disposition : nom du tournoi,
+logo, site en pied de fiche, titre, tableau, QR et quatre repères propres à la fiche.
+Couper sur la ligne médiane. Les identifiants QR des fiches restent distincts.
+
+1. Distribuer une demi-feuille à chaque équipe. Remplir le nom de l’équipe et
+   trois ou quatre joueurs, une ligne par cellule. Cocher un seul niveau par joueur.
+   E-mail et club sont facultatifs ; laisser les cellules inutiles vides.
+2. Scanner les demi-feuilles à 200–300 ppp en PDF multipages, PNG ou JPEG. Le
+   scanner peut détecter l’A5 ou utiliser une page A4 blanche autour de la fiche.
+   Conserver le QR et les quatre repères de la demi-feuille, sans les rogner.
+   Les fiches tournées et les A4 non découpées à deux fiches sont acceptées.
+3. Importer dans **Feuilles scannées**. Le lecteur propose les noms, e-mails et
+   clubs localement, en lisant les cases de niveaux séparément. La progression
+   indique le champ en cours ; le modèle est gardé en mémoire pendant le lot.
+   **Interrompre l’analyse** arrête le lecteur ; **Reprendre l’analyse** permet de
+   continuer avec les sources conservées.
+4. Comparer chaque proposition à son extrait d’image. Vérifier particulièrement
+   les accents et les e-mails ; un format d’e-mail incorrect est signalé sans
+   inventer les caractères manquants. Corriger ou laisser vide un champ facultatif.
+   **Enregistrer le brouillon** permet de reprendre la relecture plus tard.
+5. **Enregistrer l’équipe** ajoute uniquement l’équipe relue, dans la bonne
+   catégorie. L’autre moitié reste indépendante. Les règles de trois/quatre joueurs
+   et le verrouillage habituel des inscriptions restent appliqués.
+
+Le modèle est fourni dans l’exécutable : aucun téléchargement, cache préalable,
+GPU ou connexion réseau ne sont nécessaires. Cette première transcription est
+basée sur TrOCR/IAM ; elle n’est pas spécialisée pour les noms français ou les
+adresses e-mail. Une proposition plausible peut être incorrecte. Aucune précision
+chiffrée sur les vraies fiches n’est annoncée ; une relecture est nécessaire.
+[Fiche technique et limites](../assets/models/registration-model-card.md).
+
+Réimprimer les formulaires pour les découper : les anciennes fiches alpha.1–3
+à deux par A4 avaient des repères communs à toute la page. Elles restent utilisables
+comme A4 complètes ; elles ne bénéficient pas des nouveaux repères après découpe.
 
 ## Nouveautés alpha.3
 
@@ -72,7 +110,7 @@ Une modification sportive reste protégée comme avant.
    score dans les petites cases Final, un chiffre par case, de gauche à droite. Laisser les cases restantes
    vides ; ne pas écrire de tiret. Les scores à un, deux ou trois chiffres sont
    possibles. Cocher une seule case N/R/D/U par joueur sur les inscriptions.
-5. Scanner en A4 à 200 ou 300 ppp, en conservant toute la page et ses quatre
+5. Scanner en A4 (ou demi-A4 pour une inscription) à 200 ou 300 ppp, en conservant toute la page et ses quatre
    repères. Enregistrer en PDF multipages, PNG ou JPEG avec le logiciel du
    scanner. Aucun pilotage spécifique de l’imprimante n’est encore nécessaire.
 6. Ouvrir **Feuilles scannées → Importer des scans**. Plusieurs fichiers peuvent
@@ -81,8 +119,8 @@ Une modification sportive reste protégée comme avant.
    **Valider les résultats**. Une paire vide laisse la rencontre inchangée ; une
    seule valeur dans une paire est refusée. Les autres rencontres peuvent être
    scannées plus tard.
-8. Pour une inscription, recopier le nom de l’équipe, les noms des joueurs,
-   e-mails et clubs depuis les images. Vérifier les niveaux cochés. L’équipe
+8. Pour une inscription, relire et corriger le nom de l’équipe, les noms des joueurs,
+   e-mails et clubs proposés à côté des images. Vérifier les niveaux cochés. L’équipe
    n’est enregistrée qu’avec trois ou quatre joueurs et respecte le verrouillage
    habituel des inscriptions.
 
@@ -188,8 +226,8 @@ comme référence de comparaison. QR codes,
 redressement par quatre repères, découpage des cases, préparation des chiffres
 et lecture des cases cochées restent locaux. Aucun GPU n’est requis.
 
-Le modèle reconnaît des chiffres isolés, pas du texte libre. Les noms, clubs et
-e-mails restent à recopier à cette étape. Les propositions et l’indicateur de
+Le modèle de scores reconnaît des chiffres isolés ; un modèle distinct transcrit
+les inscriptions manuscrites. Les propositions et l’indicateur de
 lecture incertaine ne sont pas une garantie d’exactitude. Une vérification humaine
 reste obligatoire, même si le score proposé respecte les règles du volleyball.
 
@@ -208,8 +246,8 @@ téléphones ne sont pas encore intégrés.
 
 1. Mesurer le taux d’erreurs et le temps de relecture avec de vrais scans de tournoi,
    sur un jeu de validation distinct. Ajuster les cases et le prétraitement.
-2. Ajouter un modèle local de texte manuscrit pour les inscriptions, après mesure
-   de sa qualité en français, de sa vitesse et de la taille distribuée.
+2. Évaluer puis améliorer le lecteur d’inscriptions sur de vraies écritures
+   françaises, en particulier les noms propres, accents et e-mails.
 3. Ajouter le compagnon local pour téléphones : envoi de photos et saisie directe
    des scores, avec appairage et validation sur le poste principal.
 4. Ajouter le dossier de scans surveillé et les intégrations de scanner utiles
@@ -229,11 +267,17 @@ téléphones ne sont pas encore intégrés.
       propositions et corriger les lectures encore signalées.
 - [ ] Importer deux inscriptions sur une A4 ; vérifier les cases N/R/D/U et créer
       une équipe à trois joueurs, puis une à quatre.
+- [ ] Imprimer deux fiches par A4 ; vérifier le même titre/logo/site sur les deux,
+      couper au centre et scanner chaque moitié indépendamment, dont une tournée.
+- [ ] Tester une demi-feuille sur un fond A4 : bon recadrage, bon QR et bons niveaux.
+- [ ] Vérifier noms, accents, clubs et e-mails ; laisser la quatrième ligne vide,
+      corriger une proposition puis enregistrer une seule équipe.
+- [ ] Interrompre puis reprendre un lot ; vérifier les brouillons et données déjà relues.
 - [ ] Enregistrer un brouillon, fermer et rouvrir le tournoi.
 - [ ] Réimporter le même fichier : aucune duplication.
 - [ ] Essayer une ancienne feuille après échange des équipes du tableau : refus.
 - [ ] Vérifier qu’un score contradictoire renvoie vers la correction explicite.
 
-Depuis les sources : `npm ci`, puis `npm start`. `npm test` et `npm run test:ui`
+Depuis les sources : `npm ci`, `npm run models:fetch`, puis `npm start`. `npm test` et `npm run test:ui`
 exécutent respectivement les tests de domaine/PDF et les essais Electron. Les
 tests utilisent uniquement des dossiers jetables.

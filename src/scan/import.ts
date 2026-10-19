@@ -53,45 +53,82 @@ export async function* scannedPages(
     }
   }
 }
-export function analyzePage(
-  canvas: HTMLCanvasElement,
-  forms: PaperForm[],
-  tournamentId: string,
-): Promise<PageResult[]> {
-  return new Promise((resolve, reject) => {
-    const worker = new Worker(new URL("./vision.worker.ts", import.meta.url), {
-      type: "module",
-    });
-    const timeout = setTimeout(() => {
-      worker.terminate();
-      reject(
-        new Error(
-          "La lecture a dépassé deux minutes. Réessayez avec un scan plus petit.",
-        ),
-      );
-    }, 120000);
-    const finish = () => {
-      clearTimeout(timeout);
-      worker.terminate();
-    };
-    worker.onmessage = (e) => {
-      finish();
-      e.data.error ? reject(new Error(e.data.error)) : resolve(e.data.results);
-    };
-    worker.onerror = (e) => {
-      finish();
-      reject(new Error(e.message));
-    };
-    const image = canvas
-      .getContext("2d")!
-      .getImageData(0, 0, canvas.width, canvas.height);
-    worker.postMessage(
-      {
-        raster: { width: image.width, height: image.height, data: image.data },
-        forms,
-        tournamentId,
-      },
-      [image.data.buffer],
-    );
+export function createScanReader() {
+  const worker = new Worker(new URL("./vision.worker.ts", import.meta.url), {
+    type: "module",
   });
+  let fail: ((e: Error) => void) | undefined,
+    disposed = false;
+  return {
+    dispose() {
+      disposed = true;
+      fail?.(new Error("Analyse interrompue."));
+      worker.terminate();
+    },
+    analyze(
+      canvas: HTMLCanvasElement,
+      forms: PaperForm[],
+      tournamentId: string,
+      onProgress?: (text: string) => void,
+    ): Promise<PageResult[]> {
+      return new Promise((resolve, reject) => {
+        if (disposed || fail) {
+          reject(new Error("Lecteur indisponible."));
+          return;
+        }
+        let timeout: ReturnType<typeof setTimeout>;
+        const finish = () => {
+          clearTimeout(timeout);
+          fail = undefined;
+        };
+        fail = (e) => {
+          finish();
+          reject(e);
+        };
+        const deadline = () => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            fail?.(
+              new Error(
+                "La lecture d’un champ a dépassé deux minutes. Réessayez avec une image plus nette.",
+              ),
+            );
+            worker.terminate();
+            disposed = true;
+          }, 120000);
+        };
+        deadline();
+        worker.onmessage = (e) => {
+          if (e.data.progress) {
+            deadline();
+            onProgress?.(e.data.progress);
+            return;
+          }
+          finish();
+          e.data.error
+            ? reject(new Error(e.data.error))
+            : resolve(e.data.results);
+        };
+        worker.onerror = (e) => {
+          finish();
+          reject(new Error(e.message));
+        };
+        const image = canvas
+          .getContext("2d")!
+          .getImageData(0, 0, canvas.width, canvas.height);
+        worker.postMessage(
+          {
+            raster: {
+              width: image.width,
+              height: image.height,
+              data: image.data,
+            },
+            forms,
+            tournamentId,
+          },
+          [image.data.buffer],
+        );
+      });
+    },
+  };
 }

@@ -33,10 +33,15 @@ export async function makeRegistrationSheet(
     forms: PaperForm[] = [];
   for (let page = 0; page < pages; page++) {
     doc.addPage();
-    printHeader(doc, t);
-    paperMarkers(doc);
     for (let form = 0; form < perPage; form++) {
-      const y = 115 + form * 335;
+      const height = perPage === 2 ? 841.89 / 2 : 841.89,
+        offset = form * height,
+        y = 115 + offset;
+      doc.save().translate(0, offset);
+      printHeader(doc, t);
+      paperMarkers(doc, height);
+      printFooter(doc, t, page + 1, pages, height - 35.89);
+      doc.restore();
       const paper: PaperForm = {
         id: id(),
         documentId,
@@ -48,6 +53,7 @@ export async function makeRegistrationSheet(
         teamId: team?.id,
         label: `Inscription · ${category} · ${team?.name || `Fiche ${page * perPage + form + 1}`}`,
         qr: [485, y - 4, 64, 64],
+        region: [0, offset, 595.28, height],
         fields: [],
         participants: {},
       };
@@ -83,7 +89,7 @@ export async function makeRegistrationSheet(
         widths = [150, 44, 180, 149],
         xs = [36];
       widths.forEach((w) => xs.push(xs.at(-1)! + w));
-      const row = Math.min(MAX_TABLE_ROW_HEIGHT, perPage === 2 ? 43 : 116),
+      const row = Math.min(MAX_TABLE_ROW_HEIGHT, perPage === 2 ? 38 : 116),
         bottom = top + 26 + 4 * row;
       doc.font("Bold").fontSize(9);
       ["Nom du joueur", "Niveau", "E-mail", "Club"].forEach((label, i) =>
@@ -146,7 +152,16 @@ export async function makeRegistrationSheet(
         );
       }
     }
-    printFooter(doc, t, page + 1, pages);
+    if (perPage === 2)
+      doc
+        .save()
+        .dash(3, { space: 4 })
+        .strokeColor("#a4afbb")
+        .lineWidth(0.4)
+        .moveTo(36, 841.89 / 2)
+        .lineTo(559, 841.89 / 2)
+        .stroke()
+        .restore();
   }
   doc.end();
   const file = `documents/inscription-${team?.id || category}-${perPage}-${pages}-r${t.revision}.pdf`;

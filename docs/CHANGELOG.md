@@ -1,3 +1,20 @@
+# Version 2.0.0-alpha.4
+
+- Deux fiches d’inscription identiques par A4 : titre, logo et site sur chaque
+  moitié, ligne de découpe centrale, QR et quatre repères indépendants.
+- Import de demi-feuilles découpées en PDF/PNG/JPEG, même tournées ou placées sur
+  une page A4 ; recadrage propre à chaque fiche et lecture séparée des niveaux.
+- Transcription manuscrite entièrement locale des équipes, joueurs, e-mails et
+  clubs avec un modèle TrOCR quantifié embarqué. Cellules vides préservées,
+  avertissements sur les e-mails invalides, image à côté de chaque proposition.
+- Modèle conservé pendant le lot, progression par champ, interruption et reprise.
+  Création d’équipe après relecture explicite, avec les protections habituelles.
+- Les anciens formulaires restent reconnus comme A4 complètes ; réimprimer pour
+  profiter des repères de chaque demi-feuille. Le lecteur de scores alpha.3 est conservé.
+- Validation : 64 tests de domaine/stockage/PDF/modèles et 17 tests Electron, dont
+  demi-PDF tournés, JPEG sur fond A4, modèle réellement exécuté hors ligne,
+  interruption/reprise et correction d’une équipe avant enregistrement.
+
 # Version 2.0.0-alpha.3
 
 - Bouton **Imprimer toutes les feuilles** dans chaque phase confirmée : impression

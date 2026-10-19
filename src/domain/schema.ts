@@ -69,6 +69,18 @@ const paperForm = z.object({
   sourceHash: text.optional(),
   fixtureKey: z.string().max(30000).optional(),
   qr: rect,
+  region: rect
+    .refine(
+      ([x, y, w, h]) =>
+        x >= 0 &&
+        y >= 0 &&
+        w <= 595.28 &&
+        h <= 841.89 &&
+        x + w <= 595.29 &&
+        y + h <= 841.9,
+      "Région de fiche invalide",
+    )
+    .optional(),
   fields: z.array(
     z.object({
       key: id,
@@ -115,7 +127,9 @@ export const tournamentSchema = z.object({
             confidence: z.number().min(0).max(1).optional(),
             alternatives: z.array(z.string().max(3)).max(5).optional(),
             issue: text.optional(),
-            reader: z.enum(["contrast-v2", "style-cnn-v3"]).optional(),
+            reader: z
+              .enum(["contrast-v2", "style-cnn-v3", "trocr-v1"])
+              .optional(),
           }),
         ),
         originalValues: z
@@ -126,7 +140,9 @@ export const tournamentSchema = z.object({
               confidence: z.number().min(0).max(1).optional(),
               alternatives: z.array(z.string().max(3)).max(5).optional(),
               issue: text.optional(),
-              reader: z.enum(["contrast-v2", "style-cnn-v3"]).optional(),
+              reader: z
+                .enum(["contrast-v2", "style-cnn-v3", "trocr-v1"])
+                .optional(),
             }),
           )
           .optional(),

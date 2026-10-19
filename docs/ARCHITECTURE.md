@@ -110,6 +110,29 @@ The print renderer has a restrictive CSP and no tournament command bridge. Windo
 
 ## Distribution and verification
 
+Registration forms now snapshot an optional physical `region` (full A4 or one
+half). Both halves use the same translated drawing routine, header/footer and
+four local anchors. Page-coordinate metadata remains suitable for printing;
+alignment outputs only the selected region, and `localRect` maps fields into that
+image for checkbox/text recognition and review. Templates without a region retain
+legacy A4 behavior. Persisted metadata includes the region; there is no destructive
+template migration or re-reading of approved teams.
+
+The scan-batch worker lazily imports the local TrOCR reader for nonempty text
+fields. Transformers.js uses a pinned, shared CPU WASM runtime; no native Node
+inference dependency enters the package. Empty-ink checks precede generation.
+Progress messages renew a per-field inactivity deadline; cancellation terminates
+the worker, and completed-page transactions remain persisted. Partial model
+failure preserves checkbox results and any earlier text for manual review.
+`trocr-v1` identifies immutable original suggestions independently of edits.
+
+Registration model assets are pinned by revision/SHA-256 in their manifest,
+prepared by a developer-only downloader, verified at build and bundled only under
+`dist/assets` to avoid duplicate weights. Runtime model/remote cache loading is
+disabled; the local protocol and CSP prevent cloud access. The small manifest,
+licenses and model card remain tracked in Git; upstream weights are reproducible
+via `npm run models:fetch` and are included in the Windows executable.
+
 Alpha.3 replaces the runtime MNIST-12 model with the independent digit CNN described
 in `assets/models/model-card.md`. Preprocessing/consensus thresholds are retained;
 the model adapts to reviewed writing through an offline developer tool with public

@@ -10,6 +10,7 @@ import {
   type Raster,
 } from "./geometry";
 import { readScore } from "./digits";
+import { localRect, textCrop, textSuggestion } from "./handwriting";
 function locate(
   data: Uint8ClampedArray,
   width: number,
@@ -153,11 +154,12 @@ self.onmessage = async (
         0,
         0,
       ];
+      const [fx, fy, fw, fh] = form.region || [0, 0, 595.28, 841.89];
       const reference = [
-        { x: 25, y: 25 },
-        { x: 570, y: 25 },
-        { x: 570, y: 817 },
-        { x: 25, y: 817 },
+        { x: fx + 25, y: fy + 25 },
+        { x: fx + 570, y: fy + 25 },
+        { x: fx + 570, y: form.region ? fy + fh - 25 : 817 },
+        { x: fx + 25, y: form.region ? fy + fh - 25 : 817 },
       ];
       const scale =
         Math.hypot(poly[1].x - poly[0].x, poly[1].y - poly[0].y) / form.qr[2];
@@ -167,7 +169,7 @@ self.onmessage = async (
       const aligned = markers.every(Boolean);
       if (aligned)
         h = homography(reference, markers as { x: number; y: number }[]);
-      const image = alignRaster(raster, h),
+      const image = alignRaster(raster, h, 2, form.region),
         values: Record<string, ScanValue> = {};
       let note = aligned
         ? undefined
@@ -202,9 +204,47 @@ self.onmessage = async (
         if (aligned)
           for (const field of form.fields)
             if (field.choices)
-              values[field.key] = { value: markedChoice(image, field.choices) };
-        note =
-          "Fiche identifiée. Vérifiez les niveaux cochés et recopiez les noms, e-mails et clubs depuis l’image. La reconnaissance du texte manuscrit est prévue dans une prochaine étape.";
+              values[field.key] = {
+                value: markedChoice(
+                  image,
+                  field.choices.map((c) => ({
+                    ...c,
+                    rect: localRect(form, c.rect),
+                  })),
+                ),
+              };
+        if (aligned) {
+          try {
+            for (const field of form.fields.filter(
+              (f) => !f.choices && !f.key.endsWith(":level"),
+            )) {
+              const crop = textCrop(image, localRect(form, field.rect));
+              if (!crop) {
+                values[field.key] = { value: "", reader: "trocr-v1" };
+                continue;
+              }
+              self.postMessage({
+                progress: `Inscription · ${field.label
+                  .replace(/name$/, "Nom")
+                  .replace(/email$/, "E-mail")
+                  .replace(/club$/, "Club")}`,
+              });
+              const { transcribe } = await import("./text-reader");
+              values[field.key] = textSuggestion(
+                await transcribe(crop, field.key.endsWith(":email") ? 80 : 48),
+                field.key,
+              );
+            }
+            note =
+              "Transcription locale proposée. Vérifiez chaque champ sur l’image, en particulier les accents et les e-mails, puis enregistrez l’équipe.";
+          } catch (error) {
+            note =
+              "Lecture manuscrite indisponible ou interrompue : recopiez les champs depuis l’image. " +
+              (error as Error).message;
+          }
+        } else
+          note =
+            "Repères de la fiche incomplets : transcription suspendue. Vérifiez l’image et saisissez les informations manuellement.";
       }
       results.push({
         formId: form.id,

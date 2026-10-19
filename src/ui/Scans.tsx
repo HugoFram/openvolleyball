@@ -13,8 +13,9 @@ import type { Session } from "../domain/types";
 import type { PaperForm, Rect, ScanPage, ScanValue } from "../domain/scans";
 import { currentForm } from "../domain/scans";
 import { defaultRules, validateScore } from "../domain/engine";
-import { analyzePage, scannedPages } from "../scan/import";
+import { createScanReader, scannedPages } from "../scan/import";
 import { normalizedScale } from "../scan/geometry";
+import { localRect } from "../scan/handwriting";
 
 export function ScansView() {
   const { session, native, notify, dirty, busy, confirm } = useApp();
@@ -34,6 +35,9 @@ export function ScansView() {
   const visible = pages.filter((s) => filter === "all" || s.status === filter);
   const page = visible.find((s) => s.id === selected) || visible[0];
   const canceled = useRef(false);
+  const reader = useRef<ReturnType<typeof createScanReader> | undefined>(
+    undefined,
+  );
   const [image, setImage] = useState("");
   async function navigate(action: () => void) {
     if (
@@ -98,10 +102,12 @@ export function ScansView() {
           if (canceled.current) return;
           number++;
           setProgress(`${source.name} · page ${number}`);
-          const results = await analyzePage(
+          const results = await reader.current!.analyze(
             canvas,
             live.current.tournament.paperForms || [],
             s.tournament.id,
+            (field) =>
+              setProgress(`${source.name} · page ${number} · ${field}`),
           );
           canvas.width = canvas.height = 0;
           if (canceled.current) return;
@@ -127,10 +133,12 @@ export function ScansView() {
     dirty("scan-processing", true);
     try {
       const s = importNew ? await mutate("scan-import") : live.current;
+      reader.current = createScanReader();
       await processSources(s);
     } catch (e) {
       notify((e as Error).message, true);
     } finally {
+      reader.current?.dispose();
       setWorking(false);
       dirty("scan-processing", false);
       setProgress("");
@@ -139,6 +147,7 @@ export function ScansView() {
   useEffect(
     () => () => {
       canceled.current = true;
+      reader.current?.dispose();
       dirty("scan-processing", false);
     },
     [],
@@ -196,6 +205,16 @@ export function ScansView() {
           <span className="muted">
             Lecture locale · aucune connexion Internet
           </span>
+          {working && (
+            <button
+              onClick={() => {
+                canceled.current = true;
+                reader.current?.dispose();
+              }}
+            >
+              Interrompre l’analyse
+            </button>
+          )}
         </div>
       </div>
       {working && (
@@ -297,8 +316,9 @@ export function ScansView() {
               QR code, remplissez-les puis scannez-les.
             </p>
             <p>
-              Les scores proposés restent à vérifier. Les fiches d’inscription
-              sont identifiées et se recopient à côté de leur image.
+              Les scores et les inscriptions manuscrites sont proposés pour
+              relecture à côté de leur image. Les demi-feuilles découpées sont
+              acceptées.
             </p>
           </section>
         )}
@@ -429,7 +449,7 @@ function Review({
                       field.digits.reduce((sum, r) => sum + r[2], 0) + 4,
                       field.digits[0][3] + 4,
                     ]
-                  : field.rect
+                  : localRect(f, field.rect)
               }
             />
           )}
@@ -473,8 +493,10 @@ function Review({
           )}
           {values[field.key]?.issue && (
             <span className="scan-uncertain">
-              {values[field.key].issue}. Choisissez une proposition ou saisissez
-              le score.
+              {values[field.key].issue}.{" "}
+              {field.matchId
+                ? "Choisissez une proposition ou saisissez le score."
+                : "Corrigez le texte ou laissez ce champ vide."}
             </span>
           )}
           {!!values[field.key]?.alternatives?.length &&
@@ -492,6 +514,13 @@ function Review({
                   </button>
                 ))}
               </span>
+            )}
+          {f.kind === "registration" &&
+            values[field.key]?.reader === "trocr-v1" &&
+            value && (
+              <small className="muted">
+                Texte proposé · à vérifier sur l’image
+              </small>
             )}
         </label>
       );

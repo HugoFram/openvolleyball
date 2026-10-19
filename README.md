@@ -1,10 +1,16 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.3** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.4** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
-avec l’image. Aucun accès Internet requis. Les inscriptions sont identifiées et
-recopiées manuellement ; la reconnaissance du texte libre et les téléphones sont
-les prochaines étapes. [Guide et checklist v2](docs/V2-OFFLINE.md).
+avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
+transcrites localement puis relues. Les téléphones restent une prochaine étape.
+[Guide et checklist v2](docs/V2-OFFLINE.md).
+
+Alpha.4 rend les deux fiches d’inscription d’une A4 identiques et autonomes : titre,
+logo, site, QR et quatre repères sur chaque moitié. Imprimer, couper au milieu,
+faire remplir, puis importer les demi-feuilles en PDF/PNG/JPEG. Noms d’équipes et
+de joueurs, e-mails et clubs sont proposés par un lecteur manuscrit embarqué ;
+les niveaux cochés sont lus séparément. Vérifier et corriger avant d’enregistrer.
 
 Alpha.3 ajoute **Imprimer toutes les feuilles** dans chaque phase : tous les
 groupes/terrains ou matchs du tableau dans une seule impression. Le nouveau CNN
@@ -23,16 +29,20 @@ Application de bureau en français pour préparer et conduire un tournoi local d
 
 ## Lancer
 
-**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.3-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
+**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.4-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
 
 Depuis les sources, avec Node.js **22.13 ou plus récent** :
 
 ```powershell
 npm ci
+npm run models:fetch
 npm start
 ```
 
 Construire le programme portable : `npm run package`. Le résultat est placé dans `release/`.
+`models:fetch` est une préparation des sources pour les développeurs : les fichiers
+publics sont figés et contrôlés par SHA-256. L’application distribuée inclut déjà
+le modèle et fonctionne intégralement hors ligne, y compris à son premier lancement.
 
 ## Essayer immédiatement
 

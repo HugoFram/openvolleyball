@@ -44,9 +44,16 @@ it("Actual PDFs place the website in the footer, omit app branding and use the r
         const text = content.map((item) => item.str).join(" ");
         expect(text).not.toContain("OPEN VOLLEYBALL");
         expect(text).toContain(t.name);
-        const url = content.find((item) => item.str === t.branding!.website)!;
-        expect(url).toBeDefined();
-        expect(url.transform[5]).toBeLessThan(50);
+        const urls = content.filter((item) => item.str === t.branding!.website);
+        expect(urls).toHaveLength(index === 0 ? 1 : 2);
+        expect(urls.at(-1)!.transform[5]).toBeLessThan(50);
+        if (index === 1) {
+          expect(content.filter((item) => item.str === t.name)).toHaveLength(2);
+          expect(urls[0].transform[5] - urls[1].transform[5]).toBeCloseTo(
+            841.89 / 2,
+            2,
+          );
+        }
         if (index === 0) {
           const labels = content.filter((item) =>
             ["Équipe 1", "Équipe 2", "Score 1", "Score 2", "Arbitre"].includes(

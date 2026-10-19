@@ -40,13 +40,14 @@ export function printFooter(
   t: Tournament,
   page: number,
   pages: number,
+  y = 806,
 ) {
   if (t.branding?.website)
     doc
       .font("Regular")
       .fontSize(9)
       .fillColor("#465b73")
-      .text(t.branding.website, 36, 806, {
+      .text(t.branding.website, 36, y, {
         width: 450,
         height: 12,
         ellipsis: true,
@@ -56,7 +57,7 @@ export function printFooter(
     .font("Regular")
     .fontSize(8)
     .fillColor("#465b73")
-    .text(`${page}/${pages}`, 500, 806, {
+    .text(`${page}/${pages}`, 500, y, {
       width: 59,
       align: "right",
       lineBreak: false,

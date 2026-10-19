@@ -43,8 +43,12 @@ Avant le tournoi, imprimez une feuille sur le matériel du site et gardez une co
 
 ## Préversion v2 : feuilles scannées
 
-La préversion v2 lit les scores manuscrits et les niveaux cochés entièrement sur
+La préversion v2 lit les scores manuscrits, les inscriptions et les niveaux cochés entièrement sur
 l’ordinateur. **Feuilles scannées** importe PDF multipages, PNG et JPEG, puis permet
-de vérifier chaque valeur avant validation. Les inscriptions se recopient à côté
-de leur image. Imprimer les nouvelles feuilles avec QR codes et conserver une
+de vérifier chaque valeur avant validation. Pour les inscriptions, imprimer deux
+fiches par A4, couper sur la ligne centrale puis scanner les demi-feuilles remplies.
+Chaque moitié possède le titre, logo, site, QR et ses quatre repères. Écrire une
+ligne par cellule. Vérifier les propositions de texte, les accents et les e-mails,
+puis enregistrer chaque équipe. Les fiches entières restent acceptées.
+Imprimer les nouvelles feuilles avec QR codes et conserver une
 copie du tournoi v1 avant de tester v2. Voir le [guide v2 et sa checklist](V2-OFFLINE.md).

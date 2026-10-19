@@ -56,9 +56,36 @@ await fs.copyFile(
   `assets/models/${modelManifest.file}`,
   `dist/assets/models/${modelManifest.file}`,
 );
+const registration = JSON.parse(
+  await fs.readFile("assets/models/registration-manifest.json", "utf8"),
+);
+for (const entry of registration.files) {
+  const source = `assets/models/${registration.directory}/${entry.file}`;
+  const bytes = await fs.readFile(source).catch(() => {
+    throw new Error(
+      "Run npm run models:fetch to prepare the bundled registration model.",
+    );
+  });
+  if (
+    bytes.length !== entry.bytes ||
+    createHash("sha256").update(bytes).digest("hex") !== entry.sha256
+  )
+    throw new Error(`Registration model integrity check failed: ${entry.file}`);
+  const target = `dist/assets/models/${registration.directory}/${entry.file}`;
+  await fs.mkdir(target.substring(0, target.lastIndexOf("/")), {
+    recursive: true,
+  });
+  await fs.writeFile(target, bytes);
+}
+await fs.copyFile(
+  "node_modules/@huggingface/transformers/LICENSE",
+  "assets/licenses/Transformers.js.txt",
+);
 for (const [pkg, name, file] of [
   ["qrcode", "qrcode", "license"],
   ["jsqr", "jsQR", "LICENSE"],
+  ["@huggingface/tokenizers", "Tokenizers.js", "LICENSE"],
+  ["@huggingface/jinja", "Jinja", "LICENSE"],
 ])
   await fs.copyFile(
     `node_modules/${pkg}/${file}`,

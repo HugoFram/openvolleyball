@@ -26,7 +26,7 @@ const valuesSchema = z.record(
     confidence: z.number().min(0).max(1).optional(),
     alternatives: z.array(z.string().max(3)).max(5).optional(),
     issue: z.string().max(2000).optional(),
-    reader: z.enum(["contrast-v2", "style-cnn-v3"]).optional(),
+    reader: z.enum(["contrast-v2", "style-cnn-v3", "trocr-v1"]).optional(),
   }),
 );
 const pageSchema = z.object({

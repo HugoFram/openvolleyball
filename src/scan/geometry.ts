@@ -49,7 +49,8 @@ export interface Raster {
 /** The normalized canvas uses x/2 and y/2; rounded A4 pixel dimensions must
  * not introduce another scale change when exporting or displaying a crop. */
 export const normalizedScale = (width: number, height: number) =>
-  width === Math.round(595.28 * 2) && height === Math.round(841.89 * 2)
+  width === Math.round(595.28 * 2) &&
+  [Math.round(841.89 * 2), Math.round(841.89)].includes(height)
     ? 2
     : width / 595.28;
 const dark = (im: Raster, x: number, y: number) => {
@@ -135,14 +136,19 @@ export function findMarker(
     }
   return best;
 }
-export function alignRaster(im: Raster, h: Transform, scale = 2): Raster {
-  const width = Math.round(595.28 * scale),
-    height = Math.round(841.89 * scale),
+export function alignRaster(
+  im: Raster,
+  h: Transform,
+  scale = 2,
+  region: Rect = [0, 0, 595.28, 841.89],
+): Raster {
+  const width = Math.round(region[2] * scale),
+    height = Math.round(region[3] * scale),
     data = new Uint8ClampedArray(width * height * 4);
   data.fill(255);
   for (let y = 0; y < height; y++)
     for (let x = 0; x < width; x++) {
-      const p = project(h, x / scale, y / scale),
+      const p = project(h, x / scale + region[0], y / scale + region[1]),
         sx = Math.round(p.x),
         sy = Math.round(p.y);
       if (sx < 0 || sy < 0 || sx >= im.width || sy >= im.height) continue;

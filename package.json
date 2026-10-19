@@ -1,6 +1,6 @@
 {
   "name": "open-volleyball",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "private": true,
   "type": "module",
   "description": "Gestion locale de tournois de volleyball",
@@ -14,7 +14,8 @@
     "test": "vitest run",
     "test:ui": "playwright test",
     "package": "npm run build && electron-builder --win portable --x64",
-    "sample": "tsx scripts/sample.ts"
+    "sample": "tsx scripts/sample.ts",
+    "models:fetch": "node scripts/fetch-registration-model.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.0",
@@ -25,6 +26,7 @@
     "zod": "^4.1.0"
   },
   "devDependencies": {
+    "@huggingface/transformers": "4.3.1",
     "@playwright/test": "^1.56.0",
     "@types/node": "^22.0.0",
     "@types/pdfkit": "^0.17.0",
@@ -57,6 +59,7 @@
       "dist/**/*",
       "dist-electron/**/*",
       "assets/**/*",
+      "!assets/models/registration/**/*",
       "node_modules/pdfkit/**/*",
       "package.json"
     ],
@@ -67,6 +70,11 @@
     },
     "portable": {
       "artifactName": "Open-Volleyball-${version}-Windows.exe"
+    }
+  },
+  "overrides": {
+    "@huggingface/transformers": {
+      "onnxruntime-web": "1.30.0"
     }
   }
 }
