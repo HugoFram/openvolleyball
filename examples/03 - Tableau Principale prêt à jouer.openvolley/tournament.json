@@ -1,0 +1,5656 @@
+{
+  "format": "open-volleyball",
+  "checksum": "86724e0d3384e686b7d746f8beec9b01a11469983a073ba80beb0790bf3ac7f8",
+  "data": {
+    "schema": 1,
+    "id": "f01182df-ed9f-446e-88e7-a67141447139",
+    "name": "Tournoi des Alpes · 104 résultats",
+    "createdAt": "2026-10-18T21:36:17.825Z",
+    "modifiedAt": "2026-10-18T21:36:18.343Z",
+    "revision": 119,
+    "rules": {
+      "confirmed": true,
+      "margin": 2,
+      "crossGroup": "place-first",
+      "referee": "resting-or-external",
+      "bronze": true
+    },
+    "teams": [
+      {
+        "id": "441950c1-bf60-4d88-b2be-50685d64052d",
+        "category": "Hommes",
+        "name": "Aigles",
+        "players": [
+          {
+            "id": "bf408f6a-1a21-47ce-b5fc-e437fb94dd97",
+            "name": "Joueur 1.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "082dd03e-2cd6-45ff-bb2f-5b75ef59b3ed",
+            "name": "Joueur 1.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "6b72a46e-936c-46a9-b927-d2e4d4d0c268",
+            "name": "Joueur 1.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+        "category": "Hommes",
+        "name": "Alpines",
+        "players": [
+          {
+            "id": "44b06c6e-a8d5-4f28-9847-e548af6746f0",
+            "name": "Joueur 2.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "2a819bb3-3421-462f-adcb-dbe2bfed0ab0",
+            "name": "Joueur 2.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "3411d2a3-77f8-45ad-bb9f-d42984e7653c",
+            "name": "Joueur 2.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "8a960530-b672-46a8-83f1-f6475cd9d8ce",
+            "name": "Joueur 2.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+        "category": "Hommes",
+        "name": "Éclairs",
+        "players": [
+          {
+            "id": "ea38fa60-b373-47ef-9693-48ebbcb6b52e",
+            "name": "Joueur 3.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "d63d892c-951b-425d-8ed4-b6335323ce52",
+            "name": "Joueur 3.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "aa7fecf6-44ab-4db6-9af6-fcdc9c0d6279",
+            "name": "Joueur 3.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+        "category": "Hommes",
+        "name": "Lynx",
+        "players": [
+          {
+            "id": "e87b6b1f-f118-4f8b-aa26-b544cde7980b",
+            "name": "Joueur 4.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "bab47d02-033f-4c90-a213-2cb435d4f057",
+            "name": "Joueur 4.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "3cf3a38a-5a32-4ba2-bf4e-87319ed3f718",
+            "name": "Joueur 4.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "7fe514ef-655e-415f-8e0e-126b942c2eb2",
+            "name": "Joueur 4.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "893d233f-8857-402f-9d0d-28224b621948",
+        "category": "Hommes",
+        "name": "Marmottes",
+        "players": [
+          {
+            "id": "a658d79b-1dc6-48e0-9429-a7b2cb456c2c",
+            "name": "Joueur 5.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "988cd9d2-4509-4666-8ade-5b722a72b8e8",
+            "name": "Joueur 5.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "e37cfda6-9127-4553-8b26-0c894709e85c",
+            "name": "Joueur 5.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+        "category": "Hommes",
+        "name": "Comètes",
+        "players": [
+          {
+            "id": "1e85913d-16bd-405d-9d37-6a212d39e808",
+            "name": "Joueur 6.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "d588dca1-c57f-40a0-b8d4-8511f8623e5b",
+            "name": "Joueur 6.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "93034833-7ace-498f-b9de-03294d19b29b",
+            "name": "Joueur 6.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "523db338-6329-4c12-8f49-88d75e4678f1",
+            "name": "Joueur 6.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+        "category": "Hommes",
+        "name": "Chamois",
+        "players": [
+          {
+            "id": "8637a081-407a-45b9-9b65-fa4ecc29b023",
+            "name": "Joueur 7.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "ce65cb28-ac78-4df8-893c-9147587c2303",
+            "name": "Joueur 7.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "021240d0-ffef-4bd2-9c37-4bc19ab1dd6b",
+            "name": "Joueur 7.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+        "category": "Hommes",
+        "name": "Faucons",
+        "players": [
+          {
+            "id": "23d9ba12-5452-4ebe-94e6-96d47dc18753",
+            "name": "Joueur 8.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "1961262e-e22d-49a6-8e64-172bf0afae2e",
+            "name": "Joueur 8.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "138162d9-e1aa-4193-bd2d-7e060bd64736",
+            "name": "Joueur 8.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "241f1730-699b-4946-82c1-64d9ff255e7f",
+            "name": "Joueur 8.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+        "category": "Hommes",
+        "name": "Orques",
+        "players": [
+          {
+            "id": "d0dc6b19-17bb-4b46-8337-641f70c20241",
+            "name": "Joueur 9.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "5bcfb631-9f9b-42db-90b3-13daf34c51ae",
+            "name": "Joueur 9.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "46e843dc-dff8-4071-9618-57d0f54c628b",
+            "name": "Joueur 9.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+        "category": "Hommes",
+        "name": "Panthères",
+        "players": [
+          {
+            "id": "6b58145a-9eda-438f-a0ec-8ddbe4c248b7",
+            "name": "Joueur 10.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "8342b215-9740-4f3c-800e-08a18d4d7c67",
+            "name": "Joueur 10.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "61d49ccf-2de6-4a77-a94e-25115145622c",
+            "name": "Joueur 10.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "cdb96968-ad1c-4fea-95a6-ceaafffc1aee",
+            "name": "Joueur 10.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "651f0215-a4f4-45ce-b660-eb8447d66714",
+        "category": "Hommes",
+        "name": "Renards",
+        "players": [
+          {
+            "id": "22f5bb48-bdac-4d5f-88df-8a9345cdd81a",
+            "name": "Joueur 11.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "036344cb-3f25-4a9a-a1cb-22302a2313ee",
+            "name": "Joueur 11.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "413ccd95-850e-45fb-9b9e-be39162e3dbe",
+            "name": "Joueur 11.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+        "category": "Hommes",
+        "name": "Tigres",
+        "players": [
+          {
+            "id": "e7367672-6a46-4a73-b496-f9a6856fd060",
+            "name": "Joueur 12.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "fc9ac3c1-a6a3-431f-8ed4-324ac030636d",
+            "name": "Joueur 12.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "0bed1703-32b0-48de-a98d-ae73af750083",
+            "name": "Joueur 12.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "439b0146-d93d-4956-8b12-dde7944756a2",
+            "name": "Joueur 12.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+        "category": "Hommes",
+        "name": "Hérons",
+        "players": [
+          {
+            "id": "c048e715-4cfa-404b-bb82-f3488cd34ced",
+            "name": "Joueur 13.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "110188ab-f32a-46e3-a0c2-930802179ab8",
+            "name": "Joueur 13.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "b72df07c-a7d2-4e49-a7a8-a4e5306771d1",
+            "name": "Joueur 13.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "c6569485-daf8-4564-8091-aa747df4520f",
+        "category": "Hommes",
+        "name": "Bisons",
+        "players": [
+          {
+            "id": "9f9506f7-fcdf-4f33-97bf-70fe1fedd5c4",
+            "name": "Joueur 14.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "651249d6-f3b7-40e8-bc9a-80b6eab1d7dc",
+            "name": "Joueur 14.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "8e7a8592-9024-4791-8add-74c0793e25a1",
+            "name": "Joueur 14.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "eaea5e80-0b71-4e7e-ae2c-97cd98268096",
+            "name": "Joueur 14.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+        "category": "Hommes",
+        "name": "Loups",
+        "players": [
+          {
+            "id": "ae9d0ba8-446d-43de-84e3-21272010b396",
+            "name": "Joueur 15.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "3535b137-98da-4d59-8453-54ecc5fb4340",
+            "name": "Joueur 15.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "a77b594d-8bdc-4a73-87d4-94f8ff7866ef",
+            "name": "Joueur 15.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "4d8e81a7-0703-4b82-a452-1c927e187596",
+        "category": "Hommes",
+        "name": "Pumas",
+        "players": [
+          {
+            "id": "4336e57e-0d68-4aa2-af0c-0e016b8de315",
+            "name": "Joueur 16.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "d43e1b83-c1f5-4c84-b995-7251387aef35",
+            "name": "Joueur 16.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "2ef44714-9bbf-49da-958d-452ac0c65a97",
+            "name": "Joueur 16.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "728d52f1-31c9-41d8-8499-4f3725680612",
+            "name": "Joueur 16.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+        "category": "Hommes",
+        "name": "Cobras",
+        "players": [
+          {
+            "id": "861ecd1a-5283-4577-9896-f784cd62c32b",
+            "name": "Joueur 17.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "d799115d-cf3f-44e5-96f7-eb4db3d3da1b",
+            "name": "Joueur 17.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "b577cfd4-70f8-4388-83ec-474c62f894f8",
+            "name": "Joueur 17.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "a327247d-548f-420e-9cbb-9f0a476049ef",
+        "category": "Hommes",
+        "name": "Phénix",
+        "players": [
+          {
+            "id": "b0e9648e-7857-4ff5-9f6d-f15c0b453ffe",
+            "name": "Joueur 18.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "2d89ef81-3131-4cee-89a7-707c36b691c6",
+            "name": "Joueur 18.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "33eba17e-3628-40cb-9066-f00e913cdad7",
+            "name": "Joueur 18.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "4c27ef20-d20e-48bc-b0c7-5da0b0826934",
+            "name": "Joueur 18.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+        "category": "Hommes",
+        "name": "Loutres",
+        "players": [
+          {
+            "id": "222b4a15-a9e2-44e9-b704-c728181caad0",
+            "name": "Joueur 19.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "edcd4487-108a-4e46-be6e-5d2ef51fbf62",
+            "name": "Joueur 19.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "0ead2e38-3b72-4c16-b8ec-e2fcdc88f4d9",
+            "name": "Joueur 19.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+        "category": "Hommes",
+        "name": "Mistral",
+        "players": [
+          {
+            "id": "d13904a7-5d66-4920-800b-c4b41744739b",
+            "name": "Joueur 20.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "834d3b27-11a1-4f10-9c1e-da2734624183",
+            "name": "Joueur 20.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "0592fc7e-ec82-401d-b5f6-429e60d723ff",
+            "name": "Joueur 20.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "c5a46daf-2fd4-43c2-b8c9-80362399bb6d",
+            "name": "Joueur 20.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+        "category": "Hommes",
+        "name": "Soleil",
+        "players": [
+          {
+            "id": "738e7ff7-08e2-4652-ac59-ed28d01c81d9",
+            "name": "Joueur 21.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "5a3c1974-8b0d-418f-8fda-959fb2e2126a",
+            "name": "Joueur 21.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "3ff4d0bd-4570-4120-9b21-3a3110c501f3",
+            "name": "Joueur 21.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+        "category": "Hommes",
+        "name": "Aurore",
+        "players": [
+          {
+            "id": "63199473-f64c-45de-87db-7c2f762af9d1",
+            "name": "Joueur 22.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "1bf38c5d-07db-4bf2-babe-ddbe46689407",
+            "name": "Joueur 22.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "5cb90117-d4be-41e3-83b2-3e4f97a40b97",
+            "name": "Joueur 22.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "5b29ad86-e93f-4b75-abcf-efe8c8acfd8a",
+            "name": "Joueur 22.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+        "category": "Hommes",
+        "name": "Rivage",
+        "players": [
+          {
+            "id": "add455ff-c7c6-4ffe-9cbd-7a15a2fa1242",
+            "name": "Joueur 23.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "b2a616f4-fe05-4ad3-a061-e9702be62b02",
+            "name": "Joueur 23.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "eed426d6-71f7-460a-ae79-cc008177af03",
+            "name": "Joueur 23.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "abe747d3-4141-4428-921d-570a5dbcb790",
+        "category": "Femmes",
+        "name": "Aigles",
+        "players": [
+          {
+            "id": "025fbd4d-1a19-46ca-a5b8-482ccded7958",
+            "name": "Joueur 1.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "f26b2f77-3490-4a9f-bf07-1f85add0009e",
+            "name": "Joueur 1.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "659b691c-bf9d-49e1-871a-d09f66bbd102",
+            "name": "Joueur 1.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "217b78f7-8dec-4338-9366-161eaa50dd97",
+        "category": "Femmes",
+        "name": "Alpines",
+        "players": [
+          {
+            "id": "de80a9dd-851d-4aa3-8c05-4d7a181dd501",
+            "name": "Joueur 2.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "01494391-80c5-4d62-96a0-301ab45423eb",
+            "name": "Joueur 2.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "fa51babe-25ca-4b7a-9ff6-641087b80e76",
+            "name": "Joueur 2.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "72f8f152-df66-4d8e-b3dd-f82850d4b523",
+            "name": "Joueur 2.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "8c8a6e37-4673-4f82-9e4b-d8c0f2438238",
+        "category": "Femmes",
+        "name": "Éclairs",
+        "players": [
+          {
+            "id": "4812f62a-ddad-4a8b-88a4-568540abe081",
+            "name": "Joueur 3.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "59bf7840-12dc-4eaa-95c7-24c5d4fd39f2",
+            "name": "Joueur 3.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "45ad8c58-c16f-4981-b95f-2242c72c115b",
+            "name": "Joueur 3.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "1aaf486a-5962-4819-810c-1481abbaef7e",
+        "category": "Femmes",
+        "name": "Lynx",
+        "players": [
+          {
+            "id": "9c3c7b3b-f842-49eb-ae4e-86fe49fa1664",
+            "name": "Joueur 4.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "24071798-b310-403e-a63e-9747e8a2e4e7",
+            "name": "Joueur 4.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "495b3709-e09b-4258-a86d-435fd7b961c9",
+            "name": "Joueur 4.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "ec99fd08-314c-443d-82a8-2d6e4ba6fba9",
+            "name": "Joueur 4.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "3893c140-84cf-4930-a7b3-6a6ff6df35f0",
+        "category": "Femmes",
+        "name": "Marmottes",
+        "players": [
+          {
+            "id": "59e20d58-41cf-46b3-aa3f-f3d6912e8350",
+            "name": "Joueur 5.1",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "d6265ee3-4d85-4480-bf80-f0a6c0ee72d6",
+            "name": "Joueur 5.2",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "ba720171-74fe-4e28-8e2a-506d08d4ab0d",
+            "name": "Joueur 5.3",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "a64f12d9-5138-4b6a-afb3-5fdeffc52da6",
+        "category": "Femmes",
+        "name": "Comètes",
+        "players": [
+          {
+            "id": "9d040d12-6649-4747-b94b-1a0ec45734dc",
+            "name": "Joueur 6.1",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "f5abd1a3-63dc-4c9b-b383-2da192774bd2",
+            "name": "Joueur 6.2",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "96f4f81a-c0f1-4315-b3d6-a61e1b689a53",
+            "name": "Joueur 6.3",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "18ca7a14-cdbf-408b-9181-5b2948231b0f",
+            "name": "Joueur 6.4",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "e156f267-e5ea-4d66-a9ca-943f89d051b5",
+        "category": "Femmes",
+        "name": "Chamois",
+        "players": [
+          {
+            "id": "2ade7d14-fee9-4ab5-836a-ecfe0b117b9e",
+            "name": "Joueur 7.1",
+            "level": 2,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "62f0e41b-7b0e-45bb-9fec-e931de1c29a3",
+            "name": "Joueur 7.2",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "26c8ae5c-b140-44e3-870d-0ec964c3e4e4",
+            "name": "Joueur 7.3",
+            "level": 0,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      },
+      {
+        "id": "f623038a-a115-4c55-8333-aacfa264b982",
+        "category": "Femmes",
+        "name": "Faucons",
+        "players": [
+          {
+            "id": "7b66cca1-2dc8-489b-96cd-843fde157485",
+            "name": "Joueur 8.1",
+            "level": 3,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "10f4241a-07db-4223-a4ef-8513308c73bf",
+            "name": "Joueur 8.2",
+            "level": 0,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "bcc77b48-1bb0-47b0-9d15-33c227710f0b",
+            "name": "Joueur 8.3",
+            "level": 1,
+            "email": "",
+            "club": ""
+          },
+          {
+            "id": "321ce818-c55b-49e8-a365-ed5b5e4f5d7c",
+            "name": "Joueur 8.4",
+            "level": 2,
+            "email": "",
+            "club": ""
+          }
+        ],
+        "withdrawn": false
+      }
+    ],
+    "phases": [
+      {
+        "id": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "category": "Hommes",
+        "lane": "Commun",
+        "kind": "groups",
+        "number": 1,
+        "sourceId": null,
+        "status": "Terminée",
+        "target": 21,
+        "groups": [
+          {
+            "id": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "name": "Groupe 1",
+            "teamIds": [
+              "282a467c-761a-47f4-b4dd-99f34763bdbf",
+              "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+              "4d8e81a7-0703-4b82-a452-1c927e187596",
+              "441950c1-bf60-4d88-b2be-50685d64052d",
+              "7275bcad-73d8-4294-bcb6-b777eba6ce1a"
+            ],
+            "courts": [
+              "1",
+              "1B"
+            ]
+          },
+          {
+            "id": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "name": "Groupe 2",
+            "teamIds": [
+              "a4fa66c8-4851-48df-96df-b2038ba04d80",
+              "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+              "cf9677f8-3dea-45c7-ab08-0db19675d375",
+              "a327247d-548f-420e-9cbb-9f0a476049ef",
+              "a982f188-d3cb-4ed1-afef-992d99fa4ef0"
+            ],
+            "courts": [
+              "2",
+              "2B"
+            ]
+          },
+          {
+            "id": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "name": "Groupe 3",
+            "teamIds": [
+              "651f0215-a4f4-45ce-b660-eb8447d66714",
+              "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+              "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+              "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+              "fe601044-2b3d-49cc-bf41-fc8904c601ff"
+            ],
+            "courts": [
+              "3",
+              "3B"
+            ]
+          },
+          {
+            "id": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "name": "Groupe 4",
+            "teamIds": [
+              "91f0dc69-9709-448e-988f-5872c41a5ca0",
+              "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+              "c6569485-daf8-4564-8091-aa747df4520f",
+              "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+              "545f0c1b-4761-4f62-9827-f1380f0f7d4f"
+            ],
+            "courts": [
+              "4",
+              "4B"
+            ]
+          },
+          {
+            "id": "a16a2b84-048b-48f9-8610-806c71d43cad",
+            "name": "Groupe 5",
+            "teamIds": [
+              "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+              "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+              "893d233f-8857-402f-9d0d-28224b621948"
+            ],
+            "courts": [
+              "5"
+            ]
+          }
+        ],
+        "matches": [
+          {
+            "id": "df5dec5c-9132-478c-b08f-2098907d3d08",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 1,
+            "slot": 0,
+            "court": "1",
+            "referee": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "a": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              0,
+              21
+            ]
+          },
+          {
+            "id": "6c0294b2-25f7-4d51-8d16-f2b5a62e9538",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 2,
+            "slot": 0,
+            "court": "1B",
+            "referee": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "a": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "b": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              1
+            ]
+          },
+          {
+            "id": "24c68c97-c5fc-4678-acca-73fd9222650d",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 3,
+            "slot": 1,
+            "court": "1",
+            "referee": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "a": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              2,
+              21
+            ]
+          },
+          {
+            "id": "995c8ea9-699b-482f-87a0-f218e4b0c778",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 4,
+            "slot": 1,
+            "court": "1B",
+            "referee": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "a": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "b": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              3
+            ]
+          },
+          {
+            "id": "f5d500ad-ebb3-4479-bb5b-f1978d83d41b",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 5,
+            "slot": 2,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "b": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "round": 0,
+            "target": 21,
+            "score": [
+              4,
+              21
+            ]
+          },
+          {
+            "id": "db6505a2-3f80-4785-858b-dc3f34ecfd75",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 6,
+            "slot": 2,
+            "court": "1B",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "b": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              5
+            ]
+          },
+          {
+            "id": "1e2da504-58dd-484d-b83d-f4247e36ca86",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 7,
+            "slot": 3,
+            "court": "1",
+            "referee": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "a": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "b": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "round": 0,
+            "target": 21,
+            "score": [
+              6,
+              21
+            ]
+          },
+          {
+            "id": "e9b099af-aef3-4770-9019-e6e37c6a045d",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 8,
+            "slot": 3,
+            "court": "1B",
+            "referee": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "a": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "b": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              7
+            ]
+          },
+          {
+            "id": "c6c16c71-b9c0-409e-8b67-28960c47d30b",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 9,
+            "slot": 4,
+            "court": "1",
+            "referee": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "a": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "b": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "round": 0,
+            "target": 21,
+            "score": [
+              8,
+              21
+            ]
+          },
+          {
+            "id": "2472df20-fcfe-49f1-ba75-8824f6a27367",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+            "order": 10,
+            "slot": 4,
+            "court": "1B",
+            "referee": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "a": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              9
+            ]
+          },
+          {
+            "id": "74784be5-eb35-43cd-8226-6178f03a40f2",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 1,
+            "slot": 0,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "b": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              10,
+              21
+            ]
+          },
+          {
+            "id": "f8c44ca2-a58f-472c-ab78-fe4d3bf42ca2",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 2,
+            "slot": 0,
+            "court": "2B",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "b": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              11
+            ]
+          },
+          {
+            "id": "8c5b145c-9ca3-4647-bb96-017387b30f03",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 3,
+            "slot": 1,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              12,
+              21
+            ]
+          },
+          {
+            "id": "07ee0f32-edaf-4552-87c4-9cf8bbbe4fde",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 4,
+            "slot": 1,
+            "court": "2B",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              13
+            ]
+          },
+          {
+            "id": "f443264c-7e08-4ec5-87a6-9d4383a2463e",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 5,
+            "slot": 2,
+            "court": "2",
+            "referee": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "round": 0,
+            "target": 21,
+            "score": [
+              14,
+              21
+            ]
+          },
+          {
+            "id": "17b01a68-794a-4e68-b5b6-dc11537b2800",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 6,
+            "slot": 2,
+            "court": "2B",
+            "referee": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "a": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              15
+            ]
+          },
+          {
+            "id": "0feb51f5-d6ea-48ef-b52d-e53e0fada526",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 7,
+            "slot": 3,
+            "court": "2",
+            "referee": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "round": 0,
+            "target": 21,
+            "score": [
+              16,
+              21
+            ]
+          },
+          {
+            "id": "8a5cc14e-d85f-48b1-b9d4-ba49c678c5a2",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 8,
+            "slot": 3,
+            "court": "2B",
+            "referee": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              17
+            ]
+          },
+          {
+            "id": "722ea750-daed-4f9a-8069-8d87f2051027",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 9,
+            "slot": 4,
+            "court": "2",
+            "referee": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "round": 0,
+            "target": 21,
+            "score": [
+              18,
+              21
+            ]
+          },
+          {
+            "id": "e858185a-e2a7-4fef-8de8-fee85f764ff9",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+            "order": 10,
+            "slot": 4,
+            "court": "2B",
+            "referee": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              0
+            ]
+          },
+          {
+            "id": "528e9bab-d90d-4800-b56c-fc66a208fbad",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 1,
+            "slot": 0,
+            "court": "3",
+            "referee": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "a": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              1,
+              21
+            ]
+          },
+          {
+            "id": "46e6fee5-5de8-4335-ba33-fb39ce73b584",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 2,
+            "slot": 0,
+            "court": "3B",
+            "referee": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "a": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "b": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              2
+            ]
+          },
+          {
+            "id": "ad2bbebb-bac2-4bb5-a2c1-7aeb2a0d2032",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 3,
+            "slot": 1,
+            "court": "3",
+            "referee": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "a": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              3,
+              21
+            ]
+          },
+          {
+            "id": "e23a9cee-fe2a-412d-b579-dd2ee1e9df2d",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 4,
+            "slot": 1,
+            "court": "3B",
+            "referee": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "a": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "b": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              4
+            ]
+          },
+          {
+            "id": "abac02d9-f33b-4ec9-9597-e0fd05f5d32c",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 5,
+            "slot": 2,
+            "court": "3",
+            "referee": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "a": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "b": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              5,
+              21
+            ]
+          },
+          {
+            "id": "20606bfc-080c-4431-8838-bc01cba37dc9",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 6,
+            "slot": 2,
+            "court": "3B",
+            "referee": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "a": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "b": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              6
+            ]
+          },
+          {
+            "id": "fac2e623-e5aa-4afa-8885-8084d9c4c9ce",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 7,
+            "slot": 3,
+            "court": "3",
+            "referee": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "a": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "b": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "round": 0,
+            "target": 21,
+            "score": [
+              7,
+              21
+            ]
+          },
+          {
+            "id": "61b24e78-da4f-40a8-b5b1-4ff13ce8a1c0",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 8,
+            "slot": 3,
+            "court": "3B",
+            "referee": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "a": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "b": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              8
+            ]
+          },
+          {
+            "id": "ed1bc1f4-6de8-43eb-8e94-ea36dc851002",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 9,
+            "slot": 4,
+            "court": "3",
+            "referee": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "a": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "b": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "round": 0,
+            "target": 21,
+            "score": [
+              9,
+              21
+            ]
+          },
+          {
+            "id": "9de8d4b4-3099-475e-a22d-463199f93e5f",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+            "order": 10,
+            "slot": 4,
+            "court": "3B",
+            "referee": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "a": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              10
+            ]
+          },
+          {
+            "id": "b7c9ed47-91bf-45c2-aba8-ab4a05993092",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 1,
+            "slot": 0,
+            "court": "4",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              11,
+              21
+            ]
+          },
+          {
+            "id": "09784fd3-e0f4-4a65-8faf-0998a58bd1d6",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 2,
+            "slot": 0,
+            "court": "4B",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "c6569485-daf8-4564-8091-aa747df4520f",
+            "b": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              12
+            ]
+          },
+          {
+            "id": "3dc33691-7d11-4c0b-af6e-cfe3946156eb",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 3,
+            "slot": 1,
+            "court": "4",
+            "referee": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              13,
+              21
+            ]
+          },
+          {
+            "id": "459dfa62-5751-4e44-96fd-0af7cbe53f38",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 4,
+            "slot": 1,
+            "court": "4B",
+            "referee": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "a": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "b": "c6569485-daf8-4564-8091-aa747df4520f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              14
+            ]
+          },
+          {
+            "id": "fc4f16e2-11b5-4c7a-bdea-e268cf84de4b",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 5,
+            "slot": 2,
+            "court": "4",
+            "referee": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              15,
+              21
+            ]
+          },
+          {
+            "id": "2d685285-249c-40f1-9c81-77395f773520",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 6,
+            "slot": 2,
+            "court": "4B",
+            "referee": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "a": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "b": "c6569485-daf8-4564-8091-aa747df4520f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              16
+            ]
+          },
+          {
+            "id": "fb376195-fb9f-4afe-ab2e-e2a39a789ec8",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 7,
+            "slot": 3,
+            "court": "4",
+            "referee": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "c6569485-daf8-4564-8091-aa747df4520f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              17,
+              21
+            ]
+          },
+          {
+            "id": "093b526f-f0d9-4390-8905-d38d7fcaf817",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 8,
+            "slot": 3,
+            "court": "4B",
+            "referee": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "a": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "b": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              18
+            ]
+          },
+          {
+            "id": "e0cc649d-2381-4deb-8385-aaae4b67aab7",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 9,
+            "slot": 4,
+            "court": "4",
+            "referee": "c6569485-daf8-4564-8091-aa747df4520f",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "round": 0,
+            "target": 21,
+            "score": [
+              0,
+              21
+            ]
+          },
+          {
+            "id": "13788835-14e4-4317-9ac9-6fbf77e7ee0a",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+            "order": 10,
+            "slot": 4,
+            "court": "4B",
+            "referee": "c6569485-daf8-4564-8091-aa747df4520f",
+            "a": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              1
+            ]
+          },
+          {
+            "id": "9999048c-f8e4-4744-8021-4255c3ebc270",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a16a2b84-048b-48f9-8610-806c71d43cad",
+            "order": 1,
+            "slot": 0,
+            "court": "5",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "b": "893d233f-8857-402f-9d0d-28224b621948",
+            "round": 0,
+            "target": 21,
+            "score": [
+              2,
+              21
+            ]
+          },
+          {
+            "id": "13d96d09-c598-4de5-b75d-b90806015ab0",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a16a2b84-048b-48f9-8610-806c71d43cad",
+            "order": 2,
+            "slot": 1,
+            "court": "5",
+            "referee": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "893d233f-8857-402f-9d0d-28224b621948",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              3
+            ]
+          },
+          {
+            "id": "51de8807-1b44-4b44-b572-16d425fdbfae",
+            "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+            "groupId": "a16a2b84-048b-48f9-8610-806c71d43cad",
+            "order": 3,
+            "slot": 2,
+            "court": "5",
+            "referee": "893d233f-8857-402f-9d0d-28224b621948",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "round": 0,
+            "target": 21,
+            "score": [
+              4,
+              21
+            ]
+          }
+        ],
+        "teamIds": [
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+          "282a467c-761a-47f4-b4dd-99f34763bdbf",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+          "a4fa66c8-4851-48df-96df-b2038ba04d80",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375",
+          "651f0215-a4f4-45ce-b660-eb8447d66714",
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+          "c6569485-daf8-4564-8091-aa747df4520f",
+          "91f0dc69-9709-448e-988f-5872c41a5ca0",
+          "4d8e81a7-0703-4b82-a452-1c927e187596",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36"
+        ],
+        "teamNames": {
+          "441950c1-bf60-4d88-b2be-50685d64052d": "Aigles",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91": "Alpines",
+          "282a467c-761a-47f4-b4dd-99f34763bdbf": "Éclairs",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c": "Lynx",
+          "893d233f-8857-402f-9d0d-28224b621948": "Marmottes",
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7": "Comètes",
+          "a4fa66c8-4851-48df-96df-b2038ba04d80": "Chamois",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa": "Faucons",
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": "Orques",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375": "Panthères",
+          "651f0215-a4f4-45ce-b660-eb8447d66714": "Renards",
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3": "Tigres",
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0": "Hérons",
+          "c6569485-daf8-4564-8091-aa747df4520f": "Bisons",
+          "91f0dc69-9709-448e-988f-5872c41a5ca0": "Loups",
+          "4d8e81a7-0703-4b82-a452-1c927e187596": "Pumas",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": "Cobras",
+          "a327247d-548f-420e-9cbb-9f0a476049ef": "Phénix",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": "Loutres",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": "Mistral",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f": "Soleil",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": "Aurore",
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36": "Rivage"
+        },
+        "levels": {
+          "441950c1-bf60-4d88-b2be-50685d64052d": 1,
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91": 1.5,
+          "282a467c-761a-47f4-b4dd-99f34763bdbf": 1.6666666666666667,
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c": 1.5,
+          "893d233f-8857-402f-9d0d-28224b621948": 1,
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7": 1.5,
+          "a4fa66c8-4851-48df-96df-b2038ba04d80": 1.6666666666666667,
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa": 1.5,
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": 1,
+          "cf9677f8-3dea-45c7-ab08-0db19675d375": 1.5,
+          "651f0215-a4f4-45ce-b660-eb8447d66714": 1.6666666666666667,
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3": 1.5,
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0": 1,
+          "c6569485-daf8-4564-8091-aa747df4520f": 1.5,
+          "91f0dc69-9709-448e-988f-5872c41a5ca0": 1.6666666666666667,
+          "4d8e81a7-0703-4b82-a452-1c927e187596": 1.5,
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": 1,
+          "a327247d-548f-420e-9cbb-9f0a476049ef": 1.5,
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": 1.6666666666666667,
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": 1.5,
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f": 1,
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": 1.5,
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36": 1.6666666666666667
+        },
+        "createdAt": "2026-10-18T21:36:17.826Z",
+        "rules": {
+          "confirmed": true,
+          "margin": 2,
+          "crossGroup": "place-first",
+          "referee": "resting-or-external",
+          "bronze": true
+        },
+        "decisions": {}
+      },
+      {
+        "id": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+        "category": "Hommes",
+        "lane": "Principale",
+        "kind": "groups",
+        "number": 2,
+        "sourceId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "status": "Terminée",
+        "target": 21,
+        "groups": [
+          {
+            "id": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "name": "Groupe 1",
+            "teamIds": [
+              "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+              "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+              "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+              "441950c1-bf60-4d88-b2be-50685d64052d"
+            ],
+            "courts": [
+              "1"
+            ]
+          },
+          {
+            "id": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "name": "Groupe 2",
+            "teamIds": [
+              "a327247d-548f-420e-9cbb-9f0a476049ef",
+              "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+              "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+              "893d233f-8857-402f-9d0d-28224b621948"
+            ],
+            "courts": [
+              "2"
+            ]
+          }
+        ],
+        "matches": [
+          {
+            "id": "31b7bfe0-7edf-48a3-bced-f9e32423eaeb",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "order": 1,
+            "slot": 0,
+            "court": "1",
+            "referee": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "round": 0,
+            "target": 21,
+            "score": [
+              0,
+              21
+            ]
+          },
+          {
+            "id": "78a761de-cef7-4b3f-b85b-b7a75cc107be",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "order": 2,
+            "slot": 1,
+            "court": "1",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              1
+            ]
+          },
+          {
+            "id": "e87c2adc-aa59-4124-a70e-489f2b73617e",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "order": 3,
+            "slot": 2,
+            "court": "1",
+            "referee": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              2,
+              21
+            ]
+          },
+          {
+            "id": "2a502691-b836-49cf-9f47-763f1d6aefda",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "order": 4,
+            "slot": 3,
+            "court": "1",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "b": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              3
+            ]
+          },
+          {
+            "id": "ab7ee9e6-2bef-48a6-936d-2de74c0a1687",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "order": 5,
+            "slot": 4,
+            "court": "1",
+            "referee": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              4,
+              21
+            ]
+          },
+          {
+            "id": "5a84c4c1-fe62-498d-9b89-615ce34ae95c",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+            "order": 6,
+            "slot": 5,
+            "court": "1",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "b": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              5
+            ]
+          },
+          {
+            "id": "4d53ee83-7982-4cd7-aff4-81c159ad8152",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "order": 1,
+            "slot": 0,
+            "court": "2",
+            "referee": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "893d233f-8857-402f-9d0d-28224b621948",
+            "round": 0,
+            "target": 21,
+            "score": [
+              6,
+              21
+            ]
+          },
+          {
+            "id": "828228a2-d717-4528-a687-19d47fff0059",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "order": 2,
+            "slot": 1,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              7
+            ]
+          },
+          {
+            "id": "26407057-a668-45de-945a-554bf620cb8a",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "order": 3,
+            "slot": 2,
+            "court": "2",
+            "referee": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              8,
+              21
+            ]
+          },
+          {
+            "id": "241a6e2c-6634-4c83-8512-96e843bc0ce2",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "order": 4,
+            "slot": 3,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "893d233f-8857-402f-9d0d-28224b621948",
+            "b": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              9
+            ]
+          },
+          {
+            "id": "9cf53935-14ad-4ed5-ab00-a6654091087c",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "order": 5,
+            "slot": 4,
+            "court": "2",
+            "referee": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              10,
+              21
+            ]
+          },
+          {
+            "id": "b5f6215e-411d-481c-85d6-5ecfeca27196",
+            "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+            "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+            "order": 6,
+            "slot": 5,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "b": "893d233f-8857-402f-9d0d-28224b621948",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              11
+            ]
+          }
+        ],
+        "teamIds": [
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0"
+        ],
+        "teamNames": {
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": "Orques",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": "Cobras",
+          "a327247d-548f-420e-9cbb-9f0a476049ef": "Phénix",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": "Aurore",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": "Loutres",
+          "893d233f-8857-402f-9d0d-28224b621948": "Marmottes",
+          "441950c1-bf60-4d88-b2be-50685d64052d": "Aigles",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": "Mistral"
+        },
+        "levels": {
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": 1,
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": 1,
+          "a327247d-548f-420e-9cbb-9f0a476049ef": 1.5,
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": 1.5,
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": 1.6666666666666667,
+          "893d233f-8857-402f-9d0d-28224b621948": 1,
+          "441950c1-bf60-4d88-b2be-50685d64052d": 1,
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": 1.5
+        },
+        "createdAt": "2026-10-18T21:36:17.840Z",
+        "rules": {
+          "confirmed": true,
+          "margin": 2,
+          "crossGroup": "place-first",
+          "referee": "resting-or-external",
+          "bronze": true
+        },
+        "decisions": {}
+      },
+      {
+        "id": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+        "category": "Hommes",
+        "lane": "Consolante",
+        "kind": "groups",
+        "number": 2,
+        "sourceId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "status": "Terminée",
+        "target": 21,
+        "groups": [
+          {
+            "id": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "name": "Groupe 1",
+            "teamIds": [
+              "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+              "651f0215-a4f4-45ce-b660-eb8447d66714",
+              "cf9677f8-3dea-45c7-ab08-0db19675d375",
+              "c6569485-daf8-4564-8091-aa747df4520f",
+              "a982f188-d3cb-4ed1-afef-992d99fa4ef0"
+            ],
+            "courts": [
+              "1"
+            ]
+          },
+          {
+            "id": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "name": "Groupe 2",
+            "teamIds": [
+              "a4fa66c8-4851-48df-96df-b2038ba04d80",
+              "282a467c-761a-47f4-b4dd-99f34763bdbf",
+              "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+              "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+              "545f0c1b-4761-4f62-9827-f1380f0f7d4f"
+            ],
+            "courts": [
+              "2"
+            ]
+          },
+          {
+            "id": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "name": "Groupe 3",
+            "teamIds": [
+              "91f0dc69-9709-448e-988f-5872c41a5ca0",
+              "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+              "4d8e81a7-0703-4b82-a452-1c927e187596",
+              "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+              "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c"
+            ],
+            "courts": [
+              "3"
+            ]
+          }
+        ],
+        "matches": [
+          {
+            "id": "9ad5a201-c7c6-453f-af6c-38146bec6082",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 1,
+            "slot": 0,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "b": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              0,
+              21
+            ]
+          },
+          {
+            "id": "d05b9279-da25-41d8-bcb8-07bc56c6611a",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 2,
+            "slot": 1,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "b": "c6569485-daf8-4564-8091-aa747df4520f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              1
+            ]
+          },
+          {
+            "id": "dee27abb-70e2-47e7-8d4b-d163ca4b382c",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 3,
+            "slot": 2,
+            "court": "1",
+            "referee": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "a": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "b": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              2,
+              21
+            ]
+          },
+          {
+            "id": "74b7a879-85f2-4088-98e0-6c6f6de701b7",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 4,
+            "slot": 3,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              3
+            ]
+          },
+          {
+            "id": "9e0f7a7c-0ead-4afe-a16a-b1559dbdfda5",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 5,
+            "slot": 4,
+            "court": "1",
+            "referee": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "a": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "b": "c6569485-daf8-4564-8091-aa747df4520f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              4,
+              21
+            ]
+          },
+          {
+            "id": "3dc96713-a90f-44de-97ae-e215527907dc",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 6,
+            "slot": 5,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              5
+            ]
+          },
+          {
+            "id": "947bced5-e756-4453-83b9-8c3456923713",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 7,
+            "slot": 6,
+            "court": "1",
+            "referee": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "a": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "round": 0,
+            "target": 21,
+            "score": [
+              6,
+              21
+            ]
+          },
+          {
+            "id": "25b17110-9c62-4890-89fd-6becf96e772c",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 8,
+            "slot": 7,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "c6569485-daf8-4564-8091-aa747df4520f",
+            "b": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              7
+            ]
+          },
+          {
+            "id": "db2b142c-b594-474e-8817-29f985081e7c",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 9,
+            "slot": 8,
+            "court": "1",
+            "referee": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "a": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "b": "651f0215-a4f4-45ce-b660-eb8447d66714",
+            "round": 0,
+            "target": 21,
+            "score": [
+              8,
+              21
+            ]
+          },
+          {
+            "id": "9f56ea23-06e0-4103-835e-43528f398b84",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+            "order": 10,
+            "slot": 9,
+            "court": "1",
+            "referee": "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+            "a": "c6569485-daf8-4564-8091-aa747df4520f",
+            "b": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              9
+            ]
+          },
+          {
+            "id": "845da91c-edab-45af-8589-e91464f237c7",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 1,
+            "slot": 0,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              10,
+              21
+            ]
+          },
+          {
+            "id": "52146ce0-9638-46c6-b933-778a088fb113",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 2,
+            "slot": 1,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "b": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              11
+            ]
+          },
+          {
+            "id": "f8508b50-ee1a-428b-9863-fd223fd64561",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 3,
+            "slot": 2,
+            "court": "2",
+            "referee": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              12,
+              21
+            ]
+          },
+          {
+            "id": "4b5e441d-9ccf-4c67-a526-41b72e8bba68",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 4,
+            "slot": 3,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "b": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              13
+            ]
+          },
+          {
+            "id": "2cce92d2-0155-4243-9ae9-91535e74c59d",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 5,
+            "slot": 4,
+            "court": "2",
+            "referee": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "round": 0,
+            "target": 21,
+            "score": [
+              14,
+              21
+            ]
+          },
+          {
+            "id": "fd98ee25-fb7d-49c3-b7ba-4c5c194e111d",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 6,
+            "slot": 5,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "b": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              15
+            ]
+          },
+          {
+            "id": "4c59e944-2e9d-45a4-9ea9-41cf343c7a33",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 7,
+            "slot": 6,
+            "court": "2",
+            "referee": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "round": 0,
+            "target": 21,
+            "score": [
+              16,
+              21
+            ]
+          },
+          {
+            "id": "6f2f2282-48dd-412e-b6ce-635a072695fd",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 8,
+            "slot": 7,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "b": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              17
+            ]
+          },
+          {
+            "id": "52ac38a1-0c3a-4f9e-aa40-949258fd52f1",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 9,
+            "slot": 8,
+            "court": "2",
+            "referee": "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "a": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "b": "282a467c-761a-47f4-b4dd-99f34763bdbf",
+            "round": 0,
+            "target": 21,
+            "score": [
+              18,
+              21
+            ]
+          },
+          {
+            "id": "3e200603-4c2d-41a9-84fb-4124a277b7d2",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+            "order": 10,
+            "slot": 9,
+            "court": "2",
+            "referee": "a4fa66c8-4851-48df-96df-b2038ba04d80",
+            "a": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              0
+            ]
+          },
+          {
+            "id": "b0dca293-1bbb-42ac-ac4f-2039309e8c9d",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 1,
+            "slot": 0,
+            "court": "3",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "b": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "round": 0,
+            "target": 21,
+            "score": [
+              1,
+              21
+            ]
+          },
+          {
+            "id": "b0acd803-8f9d-4a0f-b088-3ef8ffd73143",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 2,
+            "slot": 1,
+            "court": "3",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "b": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              2
+            ]
+          },
+          {
+            "id": "b0727ec6-e9f8-4a8d-b0a3-08aadda694fd",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 3,
+            "slot": 2,
+            "court": "3",
+            "referee": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "round": 0,
+            "target": 21,
+            "score": [
+              3,
+              21
+            ]
+          },
+          {
+            "id": "0c10d35f-9b2f-417a-8a98-bdeab37d204e",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 4,
+            "slot": 3,
+            "court": "3",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "b": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              4
+            ]
+          },
+          {
+            "id": "3a2adb95-584d-45ee-8260-796fc655de7e",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 5,
+            "slot": 4,
+            "court": "3",
+            "referee": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "round": 0,
+            "target": 21,
+            "score": [
+              5,
+              21
+            ]
+          },
+          {
+            "id": "989cf289-c4b0-43e1-86b1-bda6f9e40514",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 6,
+            "slot": 5,
+            "court": "3",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "b": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              6
+            ]
+          },
+          {
+            "id": "2b81d616-2eeb-49f5-9b58-67bdc60554d6",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 7,
+            "slot": 6,
+            "court": "3",
+            "referee": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "round": 0,
+            "target": 21,
+            "score": [
+              7,
+              21
+            ]
+          },
+          {
+            "id": "b47dca31-f99c-4fb0-9c63-55ef759d6782",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 8,
+            "slot": 7,
+            "court": "3",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "b": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              8
+            ]
+          },
+          {
+            "id": "68368504-4c95-4449-9c29-ff29db8b5597",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 9,
+            "slot": 8,
+            "court": "3",
+            "referee": "4d8e81a7-0703-4b82-a452-1c927e187596",
+            "a": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "b": "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+            "round": 0,
+            "target": 21,
+            "score": [
+              9,
+              21
+            ]
+          },
+          {
+            "id": "ffec85b6-233d-4463-ae00-066044f28d96",
+            "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+            "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+            "order": 10,
+            "slot": 9,
+            "court": "3",
+            "referee": "91f0dc69-9709-448e-988f-5872c41a5ca0",
+            "a": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "b": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              10
+            ]
+          }
+        ],
+        "teamIds": [
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+          "4d8e81a7-0703-4b82-a452-1c927e187596",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375",
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+          "c6569485-daf8-4564-8091-aa747df4520f",
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+          "a4fa66c8-4851-48df-96df-b2038ba04d80",
+          "91f0dc69-9709-448e-988f-5872c41a5ca0",
+          "651f0215-a4f4-45ce-b660-eb8447d66714",
+          "282a467c-761a-47f4-b4dd-99f34763bdbf"
+        ],
+        "teamNames": {
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0": "Hérons",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f": "Soleil",
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7": "Comètes",
+          "4d8e81a7-0703-4b82-a452-1c927e187596": "Pumas",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375": "Panthères",
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3": "Tigres",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa": "Faucons",
+          "c6569485-daf8-4564-8091-aa747df4520f": "Bisons",
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36": "Rivage",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91": "Alpines",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c": "Lynx",
+          "a4fa66c8-4851-48df-96df-b2038ba04d80": "Chamois",
+          "91f0dc69-9709-448e-988f-5872c41a5ca0": "Loups",
+          "651f0215-a4f4-45ce-b660-eb8447d66714": "Renards",
+          "282a467c-761a-47f4-b4dd-99f34763bdbf": "Éclairs"
+        },
+        "levels": {
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0": 1,
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f": 1,
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7": 1.5,
+          "4d8e81a7-0703-4b82-a452-1c927e187596": 1.5,
+          "cf9677f8-3dea-45c7-ab08-0db19675d375": 1.5,
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3": 1.5,
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa": 1.5,
+          "c6569485-daf8-4564-8091-aa747df4520f": 1.5,
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36": 1.6666666666666667,
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91": 1.5,
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c": 1.5,
+          "a4fa66c8-4851-48df-96df-b2038ba04d80": 1.6666666666666667,
+          "91f0dc69-9709-448e-988f-5872c41a5ca0": 1.6666666666666667,
+          "651f0215-a4f4-45ce-b660-eb8447d66714": 1.6666666666666667,
+          "282a467c-761a-47f4-b4dd-99f34763bdbf": 1.6666666666666667
+        },
+        "createdAt": "2026-10-18T21:36:17.845Z",
+        "rules": {
+          "confirmed": true,
+          "margin": 2,
+          "crossGroup": "place-first",
+          "referee": "resting-or-external",
+          "bronze": true
+        },
+        "decisions": {}
+      },
+      {
+        "id": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+        "category": "Hommes",
+        "lane": "Principale",
+        "kind": "groups",
+        "number": 3,
+        "sourceId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+        "status": "Terminée",
+        "target": 21,
+        "groups": [
+          {
+            "id": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "name": "Groupe 1",
+            "teamIds": [
+              "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+              "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+              "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+              "441950c1-bf60-4d88-b2be-50685d64052d"
+            ],
+            "courts": [
+              "1"
+            ]
+          },
+          {
+            "id": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "name": "Groupe 2",
+            "teamIds": [
+              "a327247d-548f-420e-9cbb-9f0a476049ef",
+              "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+              "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+              "893d233f-8857-402f-9d0d-28224b621948"
+            ],
+            "courts": [
+              "2"
+            ]
+          }
+        ],
+        "matches": [
+          {
+            "id": "86ba8eb6-47a2-41b7-8225-f5ceac00489e",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "order": 1,
+            "slot": 0,
+            "court": "1",
+            "referee": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "round": 0,
+            "target": 21,
+            "score": [
+              0,
+              21
+            ]
+          },
+          {
+            "id": "f486c414-d8b5-4bd2-9a3e-bef8f8db3765",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "order": 2,
+            "slot": 1,
+            "court": "1",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              1
+            ]
+          },
+          {
+            "id": "bec4f950-c689-4240-a695-1a062cc417cb",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "order": 3,
+            "slot": 2,
+            "court": "1",
+            "referee": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "round": 0,
+            "target": 21,
+            "score": [
+              2,
+              21
+            ]
+          },
+          {
+            "id": "c962c44a-50ab-4b4b-a2db-4830204363f4",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "order": 4,
+            "slot": 3,
+            "court": "1",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "b": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              3
+            ]
+          },
+          {
+            "id": "f7737988-2248-4b0b-81e1-318ba40c05d2",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "order": 5,
+            "slot": 4,
+            "court": "1",
+            "referee": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "a": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "b": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "round": 0,
+            "target": 21,
+            "score": [
+              4,
+              21
+            ]
+          },
+          {
+            "id": "f3cd8c49-409c-4af4-8434-4e0dd5f1725e",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+            "order": 6,
+            "slot": 5,
+            "court": "1",
+            "referee": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "a": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "b": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              5
+            ]
+          },
+          {
+            "id": "225db053-8c2a-4218-8b24-092caea1fe96",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "order": 1,
+            "slot": 0,
+            "court": "2",
+            "referee": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "893d233f-8857-402f-9d0d-28224b621948",
+            "round": 0,
+            "target": 21,
+            "score": [
+              6,
+              21
+            ]
+          },
+          {
+            "id": "ca9dbf0d-8344-43d3-94fb-40537868aeb5",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "order": 2,
+            "slot": 1,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              7
+            ]
+          },
+          {
+            "id": "6a7b2a42-2835-4c12-8064-f097bd395e2f",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "order": 3,
+            "slot": 2,
+            "court": "2",
+            "referee": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              8,
+              21
+            ]
+          },
+          {
+            "id": "719cb235-b798-461e-9fe2-5e313ea3bf93",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "order": 4,
+            "slot": 3,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "893d233f-8857-402f-9d0d-28224b621948",
+            "b": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              9
+            ]
+          },
+          {
+            "id": "0abd3ade-849a-409a-a66a-01bef839d91c",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "order": 5,
+            "slot": 4,
+            "court": "2",
+            "referee": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "a": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "b": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "round": 0,
+            "target": 21,
+            "score": [
+              10,
+              21
+            ]
+          },
+          {
+            "id": "e1374012-ba6d-4c65-bce7-5be768be1a5f",
+            "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+            "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+            "order": 6,
+            "slot": 5,
+            "court": "2",
+            "referee": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "a": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "b": "893d233f-8857-402f-9d0d-28224b621948",
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              11
+            ]
+          }
+        ],
+        "teamIds": [
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0"
+        ],
+        "teamNames": {
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": "Orques",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": "Cobras",
+          "a327247d-548f-420e-9cbb-9f0a476049ef": "Phénix",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": "Aurore",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": "Loutres",
+          "893d233f-8857-402f-9d0d-28224b621948": "Marmottes",
+          "441950c1-bf60-4d88-b2be-50685d64052d": "Aigles",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": "Mistral"
+        },
+        "levels": {
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": 1,
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": 1,
+          "a327247d-548f-420e-9cbb-9f0a476049ef": 1.5,
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": 1.5,
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": 1.6666666666666667,
+          "893d233f-8857-402f-9d0d-28224b621948": 1,
+          "441950c1-bf60-4d88-b2be-50685d64052d": 1,
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": 1.5
+        },
+        "createdAt": "2026-10-18T21:36:17.860Z",
+        "rules": {
+          "confirmed": true,
+          "margin": 2,
+          "crossGroup": "place-first",
+          "referee": "resting-or-external",
+          "bronze": true
+        },
+        "decisions": {}
+      },
+      {
+        "id": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+        "category": "Hommes",
+        "lane": "Consolante",
+        "kind": "knockout",
+        "number": 3,
+        "sourceId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+        "status": "Terminée",
+        "target": 21,
+        "groups": [],
+        "matches": [
+          {
+            "id": "7cf55d01-1f32-46d1-acc8-c976a4da09f0",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 1,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "b": null,
+            "refs": [
+              {
+                "type": "team",
+                "id": "a982f188-d3cb-4ed1-afef-992d99fa4ef0"
+              },
+              {
+                "type": "bye",
+                "id": ""
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": null,
+            "bye": true
+          },
+          {
+            "id": "7ebd0909-b2f7-470b-9245-4a82433d7113",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 2,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "c6569485-daf8-4564-8091-aa747df4520f",
+            "b": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+            "refs": [
+              {
+                "type": "team",
+                "id": "c6569485-daf8-4564-8091-aa747df4520f"
+              },
+              {
+                "type": "team",
+                "id": "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              1
+            ],
+            "bye": false
+          },
+          {
+            "id": "1808112e-ee9e-4b5b-83e2-eafa2bae7d35",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 3,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "refs": [
+              {
+                "type": "team",
+                "id": "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c"
+              },
+              {
+                "type": "team",
+                "id": "cf9677f8-3dea-45c7-ab08-0db19675d375"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": [
+              2,
+              21
+            ],
+            "bye": false
+          },
+          {
+            "id": "a741916f-ebdf-46a6-860a-88d2b1894250",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 4,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "b": "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+            "refs": [
+              {
+                "type": "team",
+                "id": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91"
+              },
+              {
+                "type": "team",
+                "id": "545f0c1b-4761-4f62-9827-f1380f0f7d4f"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": [
+              21,
+              3
+            ],
+            "bye": false
+          },
+          {
+            "id": "8739fa91-a5a5-4596-a53c-81086af5dfae",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 5,
+            "slot": 1,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "b": "c6569485-daf8-4564-8091-aa747df4520f",
+            "refs": [
+              {
+                "type": "winner",
+                "id": "7cf55d01-1f32-46d1-acc8-c976a4da09f0"
+              },
+              {
+                "type": "winner",
+                "id": "7ebd0909-b2f7-470b-9245-4a82433d7113"
+              }
+            ],
+            "round": 1,
+            "target": 21,
+            "score": [
+              4,
+              21
+            ],
+            "bye": false
+          },
+          {
+            "id": "308c5d5e-b7bc-4c3f-9cb0-ec37d4e2e29c",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 6,
+            "slot": 1,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "b": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "refs": [
+              {
+                "type": "winner",
+                "id": "1808112e-ee9e-4b5b-83e2-eafa2bae7d35"
+              },
+              {
+                "type": "winner",
+                "id": "a741916f-ebdf-46a6-860a-88d2b1894250"
+              }
+            ],
+            "round": 1,
+            "target": 21,
+            "score": [
+              21,
+              5
+            ],
+            "bye": false
+          },
+          {
+            "id": "261cdb6c-4093-449e-8908-21f489b9a573",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 7,
+            "slot": 2,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "c6569485-daf8-4564-8091-aa747df4520f",
+            "b": "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "refs": [
+              {
+                "type": "winner",
+                "id": "8739fa91-a5a5-4596-a53c-81086af5dfae"
+              },
+              {
+                "type": "winner",
+                "id": "308c5d5e-b7bc-4c3f-9cb0-ec37d4e2e29c"
+              }
+            ],
+            "round": 2,
+            "target": 25,
+            "score": [
+              6,
+              25
+            ],
+            "bye": false
+          },
+          {
+            "id": "634375c4-09a9-46ef-8747-197c3d776513",
+            "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+            "order": 8,
+            "slot": 2,
+            "court": "2",
+            "referee": "Arbitre externe à désigner",
+            "a": "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+            "b": "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+            "refs": [
+              {
+                "type": "loser",
+                "id": "8739fa91-a5a5-4596-a53c-81086af5dfae"
+              },
+              {
+                "type": "loser",
+                "id": "308c5d5e-b7bc-4c3f-9cb0-ec37d4e2e29c"
+              }
+            ],
+            "round": 2,
+            "bronze": true,
+            "target": 25,
+            "score": [
+              25,
+              7
+            ],
+            "bye": false
+          }
+        ],
+        "teamIds": [
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+          "c6569485-daf8-4564-8091-aa747df4520f",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375"
+        ],
+        "teamNames": {
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0": "Hérons",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c": "Lynx",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91": "Alpines",
+          "c6569485-daf8-4564-8091-aa747df4520f": "Bisons",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa": "Faucons",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f": "Soleil",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375": "Panthères"
+        },
+        "levels": {
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0": 1,
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c": 1.5,
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91": 1.5,
+          "c6569485-daf8-4564-8091-aa747df4520f": 1.5,
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa": 1.5,
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f": 1,
+          "cf9677f8-3dea-45c7-ab08-0db19675d375": 1.5
+        },
+        "createdAt": "2026-10-18T21:36:17.868Z",
+        "rules": {
+          "confirmed": true,
+          "margin": 2,
+          "crossGroup": "place-first",
+          "referee": "resting-or-external",
+          "bronze": true
+        },
+        "seeds": [
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+          "c6569485-daf8-4564-8091-aa747df4520f",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375"
+        ],
+        "decisions": {
+          "seeds:7:0fdd2fdc-4d61-4019-884e-096138c3afe3,4d8e81a7-0703-4b82-a452-1c927e187596,cf9677f8-3dea-45c7-ab08-0db19675d375": [
+            "cf9677f8-3dea-45c7-ab08-0db19675d375",
+            "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+            "4d8e81a7-0703-4b82-a452-1c927e187596"
+          ]
+        }
+      },
+      {
+        "id": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+        "category": "Hommes",
+        "lane": "Principale",
+        "kind": "knockout",
+        "number": 4,
+        "sourceId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+        "status": "En cours",
+        "target": 21,
+        "groups": [],
+        "matches": [
+          {
+            "id": "6ecf25f5-0685-49d8-83ce-badca9d5a4ee",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 1,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "441950c1-bf60-4d88-b2be-50685d64052d",
+            "b": "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+            "refs": [
+              {
+                "type": "team",
+                "id": "441950c1-bf60-4d88-b2be-50685d64052d"
+              },
+              {
+                "type": "team",
+                "id": "ed7e7a4b-1593-42d7-a21a-99f34e84813e"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "cf0261e9-db15-4b4b-af4e-fa760e1041b9",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 2,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+            "b": "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+            "refs": [
+              {
+                "type": "team",
+                "id": "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a"
+              },
+              {
+                "type": "team",
+                "id": "fe601044-2b3d-49cc-bf41-fc8904c601ff"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "2d829683-0e34-4e07-9cc7-9891bc4b3e7e",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 3,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "893d233f-8857-402f-9d0d-28224b621948",
+            "b": "a327247d-548f-420e-9cbb-9f0a476049ef",
+            "refs": [
+              {
+                "type": "team",
+                "id": "893d233f-8857-402f-9d0d-28224b621948"
+              },
+              {
+                "type": "team",
+                "id": "a327247d-548f-420e-9cbb-9f0a476049ef"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "95ec6b17-4819-4f21-aee6-abafa57540a9",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 4,
+            "slot": 0,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+            "b": "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+            "refs": [
+              {
+                "type": "team",
+                "id": "76c209f6-81b8-472e-af30-a5f24bc1dbd0"
+              },
+              {
+                "type": "team",
+                "id": "7275bcad-73d8-4294-bcb6-b777eba6ce1a"
+              }
+            ],
+            "round": 0,
+            "target": 21,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "46d14513-ac42-4eb1-a203-07983c2de26e",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 5,
+            "slot": 1,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": null,
+            "b": null,
+            "refs": [
+              {
+                "type": "winner",
+                "id": "6ecf25f5-0685-49d8-83ce-badca9d5a4ee"
+              },
+              {
+                "type": "winner",
+                "id": "cf0261e9-db15-4b4b-af4e-fa760e1041b9"
+              }
+            ],
+            "round": 1,
+            "target": 21,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "722b4be6-25ec-4a8c-8f01-0faa70cf76f8",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 6,
+            "slot": 1,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": null,
+            "b": null,
+            "refs": [
+              {
+                "type": "winner",
+                "id": "2d829683-0e34-4e07-9cc7-9891bc4b3e7e"
+              },
+              {
+                "type": "winner",
+                "id": "95ec6b17-4819-4f21-aee6-abafa57540a9"
+              }
+            ],
+            "round": 1,
+            "target": 21,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "d0b46793-444f-4f49-9540-403047e48b01",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 7,
+            "slot": 2,
+            "court": "1",
+            "referee": "Arbitre externe à désigner",
+            "a": null,
+            "b": null,
+            "refs": [
+              {
+                "type": "winner",
+                "id": "46d14513-ac42-4eb1-a203-07983c2de26e"
+              },
+              {
+                "type": "winner",
+                "id": "722b4be6-25ec-4a8c-8f01-0faa70cf76f8"
+              }
+            ],
+            "round": 2,
+            "target": 25,
+            "score": null,
+            "bye": false
+          },
+          {
+            "id": "730d22e5-80ee-4edb-878d-94cf694de663",
+            "phaseId": "fd7cb2e7-7087-4090-9595-7bf29ba4282b",
+            "order": 8,
+            "slot": 2,
+            "court": "2",
+            "referee": "Arbitre externe à désigner",
+            "a": null,
+            "b": null,
+            "refs": [
+              {
+                "type": "loser",
+                "id": "46d14513-ac42-4eb1-a203-07983c2de26e"
+              },
+              {
+                "type": "loser",
+                "id": "722b4be6-25ec-4a8c-8f01-0faa70cf76f8"
+              }
+            ],
+            "round": 2,
+            "bronze": true,
+            "target": 25,
+            "score": null,
+            "bye": false
+          }
+        ],
+        "teamIds": [
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e"
+        ],
+        "teamNames": {
+          "441950c1-bf60-4d88-b2be-50685d64052d": "Aigles",
+          "893d233f-8857-402f-9d0d-28224b621948": "Marmottes",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": "Mistral",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": "Aurore",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": "Cobras",
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": "Orques",
+          "a327247d-548f-420e-9cbb-9f0a476049ef": "Phénix",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": "Loutres"
+        },
+        "levels": {
+          "441950c1-bf60-4d88-b2be-50685d64052d": 1,
+          "893d233f-8857-402f-9d0d-28224b621948": 1,
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0": 1.5,
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a": 1.5,
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff": 1,
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a": 1,
+          "a327247d-548f-420e-9cbb-9f0a476049ef": 1.5,
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e": 1.6666666666666667
+        },
+        "createdAt": "2026-10-18T21:36:18.343Z",
+        "rules": {
+          "confirmed": true,
+          "margin": 2,
+          "crossGroup": "place-first",
+          "referee": "resting-or-external",
+          "bronze": true
+        },
+        "seeds": [
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e"
+        ],
+        "decisions": {}
+      }
+    ],
+    "splits": [
+      {
+        "id": "209121e2-3e5e-48b0-867b-1272db70a1e2",
+        "category": "Hommes",
+        "sourceId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "principale": [
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0"
+        ],
+        "consolante": [
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+          "4d8e81a7-0703-4b82-a452-1c927e187596",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375",
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+          "c6569485-daf8-4564-8091-aa747df4520f",
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+          "a4fa66c8-4851-48df-96df-b2038ba04d80",
+          "91f0dc69-9709-448e-988f-5872c41a5ca0",
+          "651f0215-a4f4-45ce-b660-eb8447d66714",
+          "282a467c-761a-47f4-b4dd-99f34763bdbf"
+        ],
+        "createdAt": "2026-10-18T21:36:17.839Z",
+        "ranking": [
+          "7275bcad-73d8-4294-bcb6-b777eba6ce1a",
+          "fe601044-2b3d-49cc-bf41-fc8904c601ff",
+          "a327247d-548f-420e-9cbb-9f0a476049ef",
+          "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+          "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+          "893d233f-8857-402f-9d0d-28224b621948",
+          "441950c1-bf60-4d88-b2be-50685d64052d",
+          "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+          "a982f188-d3cb-4ed1-afef-992d99fa4ef0",
+          "545f0c1b-4761-4f62-9827-f1380f0f7d4f",
+          "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+          "4d8e81a7-0703-4b82-a452-1c927e187596",
+          "cf9677f8-3dea-45c7-ab08-0db19675d375",
+          "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+          "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+          "c6569485-daf8-4564-8091-aa747df4520f",
+          "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+          "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+          "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+          "a4fa66c8-4851-48df-96df-b2038ba04d80",
+          "91f0dc69-9709-448e-988f-5872c41a5ca0",
+          "651f0215-a4f4-45ce-b660-eb8447d66714",
+          "282a467c-761a-47f4-b4dd-99f34763bdbf"
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "id": "d08acfd6-946a-4ce6-807a-ad96ab080d07",
+        "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "groupId": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+        "file": "documents/bcfba69d-fce2-497f-b1da-50bc5316ff4b-007e9fbc-e340-4dd9-82f7-d88b993e2bc4-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "b01f7fc7-37a3-4ec6-bd4a-38df3a48de76",
+        "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "groupId": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+        "file": "documents/bcfba69d-fce2-497f-b1da-50bc5316ff4b-ebefc056-61bd-43cb-8572-20eb3b0bfe8a-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "6fa88aaa-5325-43c9-a926-7a48ac346852",
+        "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "groupId": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+        "file": "documents/bcfba69d-fce2-497f-b1da-50bc5316ff4b-bca8c613-b7bf-4ca5-b023-2a134ebc7300-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "858f8b52-95b7-48ef-a627-aa37e586f06e",
+        "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "groupId": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+        "file": "documents/bcfba69d-fce2-497f-b1da-50bc5316ff4b-a4393171-8926-40c5-a31c-acdb2e5c2ad4-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "469a7155-addb-4e73-b901-db69c8bfc5ad",
+        "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+        "groupId": "a16a2b84-048b-48f9-8610-806c71d43cad",
+        "file": "documents/bcfba69d-fce2-497f-b1da-50bc5316ff4b-a16a2b84-048b-48f9-8610-806c71d43cad-r119.pdf",
+        "revision": 119,
+        "pages": 1
+      },
+      {
+        "id": "b4224841-a082-40c6-8a17-4c0c08739611",
+        "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+        "groupId": "6aa545d1-ea6f-4edc-b5aa-be121768c204",
+        "file": "documents/8f475c6a-5f59-4a3c-9fd9-03addd1ba35e-6aa545d1-ea6f-4edc-b5aa-be121768c204-r119.pdf",
+        "revision": 119,
+        "pages": 1
+      },
+      {
+        "id": "f2c2bf78-a2a0-4c1d-b089-06fa1e055d3c",
+        "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+        "groupId": "336e0f03-7e0b-49d4-961f-c279776850ec",
+        "file": "documents/8f475c6a-5f59-4a3c-9fd9-03addd1ba35e-336e0f03-7e0b-49d4-961f-c279776850ec-r119.pdf",
+        "revision": 119,
+        "pages": 1
+      },
+      {
+        "id": "05b4eab1-59c3-433a-8490-4cf3294d6778",
+        "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+        "groupId": "73d2e721-f052-4f2d-ae5b-cb5f0dd0852f",
+        "file": "documents/c43ee129-31b5-41ff-ab44-ff41e7ee96d1-73d2e721-f052-4f2d-ae5b-cb5f0dd0852f-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "c3c04f1d-d9fd-4ff2-8d9d-694b27aa7202",
+        "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+        "groupId": "5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580",
+        "file": "documents/c43ee129-31b5-41ff-ab44-ff41e7ee96d1-5bc1dafe-9d6e-444b-a4d3-aa8ec9a30580-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "06533125-77e7-466b-b1bc-108c620ed079",
+        "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+        "groupId": "bdd658fa-f204-49d6-8a0e-fed1cef82198",
+        "file": "documents/c43ee129-31b5-41ff-ab44-ff41e7ee96d1-bdd658fa-f204-49d6-8a0e-fed1cef82198-r119.pdf",
+        "revision": 119,
+        "pages": 2
+      },
+      {
+        "id": "b49bc4bf-f217-4e94-b4e0-6f66573d3cf4",
+        "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+        "groupId": "ef187963-467f-42e8-aa75-7c9601d50a75",
+        "file": "documents/cf59e682-fe9c-455e-a2fd-b0f4241c66b7-ef187963-467f-42e8-aa75-7c9601d50a75-r119.pdf",
+        "revision": 119,
+        "pages": 1
+      },
+      {
+        "id": "a11cc135-befc-4473-b28b-cbe42883334b",
+        "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+        "groupId": "f147c39b-8c13-438c-bebd-8358e9bb87d7",
+        "file": "documents/cf59e682-fe9c-455e-a2fd-b0f4241c66b7-f147c39b-8c13-438c-bebd-8358e9bb87d7-r119.pdf",
+        "revision": 119,
+        "pages": 1
+      }
+    ],
+    "audit": [
+      {
+        "id": "98d3aab2-ce9f-414a-b958-1cd735550855",
+        "at": "2026-10-18T21:36:17.825Z",
+        "action": "rules",
+        "detail": {
+          "type": "rules",
+          "rules": {
+            "confirmed": true,
+            "margin": 2,
+            "crossGroup": "place-first",
+            "referee": "resting-or-external",
+            "bronze": true
+          }
+        },
+        "revision": 1
+      },
+      {
+        "id": "829881bd-352c-47a0-a7da-7ffcbc5ad119",
+        "at": "2026-10-18T21:36:17.825Z",
+        "action": "demo-teams",
+        "detail": {
+          "type": "demo-teams",
+          "category": "Hommes",
+          "count": 23
+        },
+        "revision": 2
+      },
+      {
+        "id": "f6959329-2610-49dc-97cd-11b26f5f9426",
+        "at": "2026-10-18T21:36:17.826Z",
+        "action": "demo-teams",
+        "detail": {
+          "type": "demo-teams",
+          "category": "Femmes",
+          "count": 8
+        },
+        "revision": 3
+      },
+      {
+        "id": "d7411561-c7a5-4ae6-9246-cc7e6cd03c00",
+        "at": "2026-10-18T21:36:17.826Z",
+        "action": "draft",
+        "detail": {
+          "type": "draft",
+          "category": "Hommes",
+          "lane": "Commun",
+          "structure": [
+            5,
+            5,
+            5,
+            5,
+            3
+          ],
+          "target": 21
+        },
+        "revision": 4
+      },
+      {
+        "id": "a3ed05db-7b51-4594-a861-fa41d02a2834",
+        "at": "2026-10-18T21:36:17.826Z",
+        "action": "draft-update",
+        "detail": {
+          "type": "draft-update",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "groups": [
+            {
+              "id": "007e9fbc-e340-4dd9-82f7-d88b993e2bc4",
+              "name": "Groupe 1",
+              "teamIds": [
+                "282a467c-761a-47f4-b4dd-99f34763bdbf",
+                "17f9b3f5-9493-46f9-8b20-5faae0378f36",
+                "4d8e81a7-0703-4b82-a452-1c927e187596",
+                "441950c1-bf60-4d88-b2be-50685d64052d",
+                "7275bcad-73d8-4294-bcb6-b777eba6ce1a"
+              ],
+              "courts": [
+                "1",
+                "1B"
+              ]
+            },
+            {
+              "id": "ebefc056-61bd-43cb-8572-20eb3b0bfe8a",
+              "name": "Groupe 2",
+              "teamIds": [
+                "a4fa66c8-4851-48df-96df-b2038ba04d80",
+                "2ac2aac4-50ea-4d7d-97ef-e08d2c4d6b91",
+                "cf9677f8-3dea-45c7-ab08-0db19675d375",
+                "a327247d-548f-420e-9cbb-9f0a476049ef",
+                "a982f188-d3cb-4ed1-afef-992d99fa4ef0"
+              ],
+              "courts": [
+                "2",
+                "2B"
+              ]
+            },
+            {
+              "id": "bca8c613-b7bf-4ca5-b023-2a134ebc7300",
+              "name": "Groupe 3",
+              "teamIds": [
+                "651f0215-a4f4-45ce-b660-eb8447d66714",
+                "0f8916d5-b84b-47a5-b37f-ad60b6c1be8c",
+                "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+                "76c209f6-81b8-472e-af30-a5f24bc1dbd0",
+                "fe601044-2b3d-49cc-bf41-fc8904c601ff"
+              ],
+              "courts": [
+                "3",
+                "3B"
+              ]
+            },
+            {
+              "id": "a4393171-8926-40c5-a31c-acdb2e5c2ad4",
+              "name": "Groupe 4",
+              "teamIds": [
+                "91f0dc69-9709-448e-988f-5872c41a5ca0",
+                "b6d90472-caaa-4963-b461-c8a0bed0bae7",
+                "c6569485-daf8-4564-8091-aa747df4520f",
+                "9ef9a8fc-b5fc-4a4a-b7ed-3044cd03855a",
+                "545f0c1b-4761-4f62-9827-f1380f0f7d4f"
+              ],
+              "courts": [
+                "4",
+                "4B"
+              ]
+            },
+            {
+              "id": "a16a2b84-048b-48f9-8610-806c71d43cad",
+              "name": "Groupe 5",
+              "teamIds": [
+                "ed7e7a4b-1593-42d7-a21a-99f34e84813e",
+                "f3ce5c1a-1448-498e-a70a-22ce9eae8eaa",
+                "893d233f-8857-402f-9d0d-28224b621948"
+              ],
+              "courts": [
+                "5"
+              ]
+            }
+          ],
+          "target": 21
+        },
+        "revision": 5
+      },
+      {
+        "id": "111fb155-9540-4e35-973e-d286a7d78d64",
+        "at": "2026-10-18T21:36:17.826Z",
+        "action": "confirm",
+        "detail": {
+          "type": "confirm",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b"
+        },
+        "revision": 6
+      },
+      {
+        "id": "dfdbb2d0-1ce4-4ba3-b966-1540f1c12e5d",
+        "at": "2026-10-18T21:36:17.827Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "df5dec5c-9132-478c-b08f-2098907d3d08",
+          "score": [
+            0,
+            21
+          ]
+        },
+        "revision": 7
+      },
+      {
+        "id": "ce41b144-c3de-412a-8364-45ebd3962e44",
+        "at": "2026-10-18T21:36:17.827Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "6c0294b2-25f7-4d51-8d16-f2b5a62e9538",
+          "score": [
+            21,
+            1
+          ]
+        },
+        "revision": 8
+      },
+      {
+        "id": "1ea4915a-3139-4246-9c4c-5575b49bc17f",
+        "at": "2026-10-18T21:36:17.827Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "24c68c97-c5fc-4678-acca-73fd9222650d",
+          "score": [
+            2,
+            21
+          ]
+        },
+        "revision": 9
+      },
+      {
+        "id": "18eb09aa-e3f0-4735-88b7-0e78b4465f00",
+        "at": "2026-10-18T21:36:17.827Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "995c8ea9-699b-482f-87a0-f218e4b0c778",
+          "score": [
+            21,
+            3
+          ]
+        },
+        "revision": 10
+      },
+      {
+        "id": "dc538eea-3d2f-42f3-a5bd-c40c3a754d94",
+        "at": "2026-10-18T21:36:17.828Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "f5d500ad-ebb3-4479-bb5b-f1978d83d41b",
+          "score": [
+            4,
+            21
+          ]
+        },
+        "revision": 11
+      },
+      {
+        "id": "ea67a89a-7684-4d08-9e96-cb80017bbb44",
+        "at": "2026-10-18T21:36:17.828Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "db6505a2-3f80-4785-858b-dc3f34ecfd75",
+          "score": [
+            21,
+            5
+          ]
+        },
+        "revision": 12
+      },
+      {
+        "id": "a2247550-94a4-44f4-bcee-61c3bcb11711",
+        "at": "2026-10-18T21:36:17.828Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "1e2da504-58dd-484d-b83d-f4247e36ca86",
+          "score": [
+            6,
+            21
+          ]
+        },
+        "revision": 13
+      },
+      {
+        "id": "665a79c6-6290-41b8-847d-87ac255fe0ef",
+        "at": "2026-10-18T21:36:17.828Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "e9b099af-aef3-4770-9019-e6e37c6a045d",
+          "score": [
+            21,
+            7
+          ]
+        },
+        "revision": 14
+      },
+      {
+        "id": "3b4339c5-efc3-4940-ba8f-d6971431c91f",
+        "at": "2026-10-18T21:36:17.828Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "c6c16c71-b9c0-409e-8b67-28960c47d30b",
+          "score": [
+            8,
+            21
+          ]
+        },
+        "revision": 15
+      },
+      {
+        "id": "641fbdc7-1f85-49e2-8e16-769e319cee3d",
+        "at": "2026-10-18T21:36:17.829Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "2472df20-fcfe-49f1-ba75-8824f6a27367",
+          "score": [
+            21,
+            9
+          ]
+        },
+        "revision": 16
+      },
+      {
+        "id": "393c4f2d-77fd-496b-bec8-67c66a3b812d",
+        "at": "2026-10-18T21:36:17.829Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "74784be5-eb35-43cd-8226-6178f03a40f2",
+          "score": [
+            10,
+            21
+          ]
+        },
+        "revision": 17
+      },
+      {
+        "id": "7e605216-8b05-47e4-a188-4aa9490cc058",
+        "at": "2026-10-18T21:36:17.829Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "f8c44ca2-a58f-472c-ab78-fe4d3bf42ca2",
+          "score": [
+            21,
+            11
+          ]
+        },
+        "revision": 18
+      },
+      {
+        "id": "e52f5ca9-b106-4e29-9f81-004d12d7376f",
+        "at": "2026-10-18T21:36:17.830Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "8c5b145c-9ca3-4647-bb96-017387b30f03",
+          "score": [
+            12,
+            21
+          ]
+        },
+        "revision": 19
+      },
+      {
+        "id": "10cd0e0c-1197-4936-9f76-f94e7d16116c",
+        "at": "2026-10-18T21:36:17.830Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "07ee0f32-edaf-4552-87c4-9cf8bbbe4fde",
+          "score": [
+            21,
+            13
+          ]
+        },
+        "revision": 20
+      },
+      {
+        "id": "d3bbb406-b98e-4daa-8f60-e351de6a8709",
+        "at": "2026-10-18T21:36:17.830Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "f443264c-7e08-4ec5-87a6-9d4383a2463e",
+          "score": [
+            14,
+            21
+          ]
+        },
+        "revision": 21
+      },
+      {
+        "id": "2c83f37f-29e8-49a0-afa3-d188dcd875fb",
+        "at": "2026-10-18T21:36:17.830Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "17b01a68-794a-4e68-b5b6-dc11537b2800",
+          "score": [
+            21,
+            15
+          ]
+        },
+        "revision": 22
+      },
+      {
+        "id": "98498d6b-ecd1-4d8b-9b6c-10f83cc195fa",
+        "at": "2026-10-18T21:36:17.831Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "0feb51f5-d6ea-48ef-b52d-e53e0fada526",
+          "score": [
+            16,
+            21
+          ]
+        },
+        "revision": 23
+      },
+      {
+        "id": "c1f79ff9-c2d6-4b7c-a866-5d8d7dbb2dba",
+        "at": "2026-10-18T21:36:17.831Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "8a5cc14e-d85f-48b1-b9d4-ba49c678c5a2",
+          "score": [
+            21,
+            17
+          ]
+        },
+        "revision": 24
+      },
+      {
+        "id": "38988bd6-5ada-4195-b3b5-95f9c3da0234",
+        "at": "2026-10-18T21:36:17.831Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "722ea750-daed-4f9a-8069-8d87f2051027",
+          "score": [
+            18,
+            21
+          ]
+        },
+        "revision": 25
+      },
+      {
+        "id": "f7bc898e-b9ae-4a94-be68-9e5b7e7b6d06",
+        "at": "2026-10-18T21:36:17.831Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "e858185a-e2a7-4fef-8de8-fee85f764ff9",
+          "score": [
+            21,
+            0
+          ]
+        },
+        "revision": 26
+      },
+      {
+        "id": "a4cadbf3-1e3d-475c-88cf-f7c11d35312c",
+        "at": "2026-10-18T21:36:17.832Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "528e9bab-d90d-4800-b56c-fc66a208fbad",
+          "score": [
+            1,
+            21
+          ]
+        },
+        "revision": 27
+      },
+      {
+        "id": "aed4514e-06dc-4f54-832c-4aa038ec31d7",
+        "at": "2026-10-18T21:36:17.832Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "46e6fee5-5de8-4335-ba33-fb39ce73b584",
+          "score": [
+            21,
+            2
+          ]
+        },
+        "revision": 28
+      },
+      {
+        "id": "c233c8e5-2a5d-4daa-8714-97b432e99644",
+        "at": "2026-10-18T21:36:17.832Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "ad2bbebb-bac2-4bb5-a2c1-7aeb2a0d2032",
+          "score": [
+            3,
+            21
+          ]
+        },
+        "revision": 29
+      },
+      {
+        "id": "67e9aa9a-6041-49ae-818b-d198799f1d6c",
+        "at": "2026-10-18T21:36:17.833Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "e23a9cee-fe2a-412d-b579-dd2ee1e9df2d",
+          "score": [
+            21,
+            4
+          ]
+        },
+        "revision": 30
+      },
+      {
+        "id": "0d32f772-c8c8-4a55-9d67-af8bb917cb54",
+        "at": "2026-10-18T21:36:17.833Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "abac02d9-f33b-4ec9-9597-e0fd05f5d32c",
+          "score": [
+            5,
+            21
+          ]
+        },
+        "revision": 31
+      },
+      {
+        "id": "718c5796-d23c-4378-b91c-83989aae30f2",
+        "at": "2026-10-18T21:36:17.834Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "20606bfc-080c-4431-8838-bc01cba37dc9",
+          "score": [
+            21,
+            6
+          ]
+        },
+        "revision": 32
+      },
+      {
+        "id": "b44e2f12-827b-4d5f-8880-8136912035aa",
+        "at": "2026-10-18T21:36:17.834Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "fac2e623-e5aa-4afa-8885-8084d9c4c9ce",
+          "score": [
+            7,
+            21
+          ]
+        },
+        "revision": 33
+      },
+      {
+        "id": "ea92a950-b161-4051-af8f-b5376132ee44",
+        "at": "2026-10-18T21:36:17.834Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "61b24e78-da4f-40a8-b5b1-4ff13ce8a1c0",
+          "score": [
+            21,
+            8
+          ]
+        },
+        "revision": 34
+      },
+      {
+        "id": "b239f737-e681-4e3e-9eb7-3680f1f23854",
+        "at": "2026-10-18T21:36:17.835Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "ed1bc1f4-6de8-43eb-8e94-ea36dc851002",
+          "score": [
+            9,
+            21
+          ]
+        },
+        "revision": 35
+      },
+      {
+        "id": "890b002e-f32f-43ff-8112-e8201b4fe659",
+        "at": "2026-10-18T21:36:17.835Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "9de8d4b4-3099-475e-a22d-463199f93e5f",
+          "score": [
+            21,
+            10
+          ]
+        },
+        "revision": 36
+      },
+      {
+        "id": "09d1f496-f3a1-4729-97e4-9d61e0629304",
+        "at": "2026-10-18T21:36:17.835Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "b7c9ed47-91bf-45c2-aba8-ab4a05993092",
+          "score": [
+            11,
+            21
+          ]
+        },
+        "revision": 37
+      },
+      {
+        "id": "47f6294b-70d9-4f90-8ac9-8469e1acf3cb",
+        "at": "2026-10-18T21:36:17.835Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "09784fd3-e0f4-4a65-8faf-0998a58bd1d6",
+          "score": [
+            21,
+            12
+          ]
+        },
+        "revision": 38
+      },
+      {
+        "id": "7fa7123f-2560-408a-8ca6-572336ac8cf4",
+        "at": "2026-10-18T21:36:17.836Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "3dc33691-7d11-4c0b-af6e-cfe3946156eb",
+          "score": [
+            13,
+            21
+          ]
+        },
+        "revision": 39
+      },
+      {
+        "id": "a4dd220a-a6e5-4d91-b6d7-c7f554d723bb",
+        "at": "2026-10-18T21:36:17.836Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "459dfa62-5751-4e44-96fd-0af7cbe53f38",
+          "score": [
+            21,
+            14
+          ]
+        },
+        "revision": 40
+      },
+      {
+        "id": "aa770481-d6b2-4784-9549-13df957cc894",
+        "at": "2026-10-18T21:36:17.836Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "fc4f16e2-11b5-4c7a-bdea-e268cf84de4b",
+          "score": [
+            15,
+            21
+          ]
+        },
+        "revision": 41
+      },
+      {
+        "id": "200479e2-ce3c-4c35-b5d9-1ae27c46510b",
+        "at": "2026-10-18T21:36:17.836Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "2d685285-249c-40f1-9c81-77395f773520",
+          "score": [
+            21,
+            16
+          ]
+        },
+        "revision": 42
+      },
+      {
+        "id": "40d9048b-d4b9-484d-9e66-515a4991378d",
+        "at": "2026-10-18T21:36:17.837Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "fb376195-fb9f-4afe-ab2e-e2a39a789ec8",
+          "score": [
+            17,
+            21
+          ]
+        },
+        "revision": 43
+      },
+      {
+        "id": "3f15f712-4ded-49c2-b56e-d5c9fdd67da1",
+        "at": "2026-10-18T21:36:17.837Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "093b526f-f0d9-4390-8905-d38d7fcaf817",
+          "score": [
+            21,
+            18
+          ]
+        },
+        "revision": 44
+      },
+      {
+        "id": "e9484fb0-9749-4a99-b60e-3984b2d3be88",
+        "at": "2026-10-18T21:36:17.837Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "e0cc649d-2381-4deb-8385-aaae4b67aab7",
+          "score": [
+            0,
+            21
+          ]
+        },
+        "revision": 45
+      },
+      {
+        "id": "ebdc475d-bbb1-46e4-858d-023f21f737d9",
+        "at": "2026-10-18T21:36:17.837Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "13788835-14e4-4317-9ac9-6fbf77e7ee0a",
+          "score": [
+            21,
+            1
+          ]
+        },
+        "revision": 46
+      },
+      {
+        "id": "f1bf60f7-00ee-4e2b-b61f-bd37a3c19ad9",
+        "at": "2026-10-18T21:36:17.838Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "9999048c-f8e4-4744-8021-4255c3ebc270",
+          "score": [
+            2,
+            21
+          ]
+        },
+        "revision": 47
+      },
+      {
+        "id": "ece7b764-c946-430b-9681-70edc2bdf853",
+        "at": "2026-10-18T21:36:17.838Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "13d96d09-c598-4de5-b75d-b90806015ab0",
+          "score": [
+            21,
+            3
+          ]
+        },
+        "revision": 48
+      },
+      {
+        "id": "5916973b-8c0a-4184-9a5a-3ab94278769f",
+        "at": "2026-10-18T21:36:17.838Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "matchId": "51de8807-1b44-4b44-b572-16d425fdbfae",
+          "score": [
+            4,
+            21
+          ]
+        },
+        "revision": 49
+      },
+      {
+        "id": "be433362-a68b-45f9-bdf6-d6e5ccf8d6d1",
+        "at": "2026-10-18T21:36:17.839Z",
+        "action": "split",
+        "detail": {
+          "type": "split",
+          "phaseId": "bcfba69d-fce2-497f-b1da-50bc5316ff4b",
+          "count": 8,
+          "decisions": {}
+        },
+        "revision": 50
+      },
+      {
+        "id": "2ec0de55-ad58-4de7-8258-23acc04cb3ee",
+        "at": "2026-10-18T21:36:17.840Z",
+        "action": "draft",
+        "detail": {
+          "type": "draft",
+          "category": "Hommes",
+          "lane": "Principale",
+          "structure": [
+            4,
+            4
+          ],
+          "target": 21
+        },
+        "revision": 51
+      },
+      {
+        "id": "d19c23c7-3b2c-44b4-9777-f7a8e135af54",
+        "at": "2026-10-18T21:36:17.840Z",
+        "action": "confirm",
+        "detail": {
+          "type": "confirm",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e"
+        },
+        "revision": 52
+      },
+      {
+        "id": "5528b83a-d808-4712-bd3c-5da8e6c3011a",
+        "at": "2026-10-18T21:36:17.841Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "31b7bfe0-7edf-48a3-bced-f9e32423eaeb",
+          "score": [
+            0,
+            21
+          ]
+        },
+        "revision": 53
+      },
+      {
+        "id": "dd46fd23-fcdd-4e5a-b0f2-37cd7f0d3865",
+        "at": "2026-10-18T21:36:17.841Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "78a761de-cef7-4b3f-b85b-b7a75cc107be",
+          "score": [
+            21,
+            1
+          ]
+        },
+        "revision": 54
+      },
+      {
+        "id": "fad3d50f-7f01-4e46-b09e-2b9007aa5292",
+        "at": "2026-10-18T21:36:17.841Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "e87c2adc-aa59-4124-a70e-489f2b73617e",
+          "score": [
+            2,
+            21
+          ]
+        },
+        "revision": 55
+      },
+      {
+        "id": "2376f641-4253-414f-ad7f-b9e05740a3a7",
+        "at": "2026-10-18T21:36:17.842Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "2a502691-b836-49cf-9f47-763f1d6aefda",
+          "score": [
+            21,
+            3
+          ]
+        },
+        "revision": 56
+      },
+      {
+        "id": "442d48c2-ea30-4388-a9e2-009cff84ee3e",
+        "at": "2026-10-18T21:36:17.842Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "ab7ee9e6-2bef-48a6-936d-2de74c0a1687",
+          "score": [
+            4,
+            21
+          ]
+        },
+        "revision": 57
+      },
+      {
+        "id": "502b473a-60bf-4709-9281-5cb66e26ca5c",
+        "at": "2026-10-18T21:36:17.842Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "5a84c4c1-fe62-498d-9b89-615ce34ae95c",
+          "score": [
+            21,
+            5
+          ]
+        },
+        "revision": 58
+      },
+      {
+        "id": "529dbc80-14ef-40c8-b0bb-fc80c53d88a3",
+        "at": "2026-10-18T21:36:17.843Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "4d53ee83-7982-4cd7-aff4-81c159ad8152",
+          "score": [
+            6,
+            21
+          ]
+        },
+        "revision": 59
+      },
+      {
+        "id": "833b2704-a36a-49f0-bc21-ccb67904099f",
+        "at": "2026-10-18T21:36:17.843Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "828228a2-d717-4528-a687-19d47fff0059",
+          "score": [
+            21,
+            7
+          ]
+        },
+        "revision": 60
+      },
+      {
+        "id": "761923a9-1b77-4a29-9fdc-bbdf7d352196",
+        "at": "2026-10-18T21:36:17.843Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "26407057-a668-45de-945a-554bf620cb8a",
+          "score": [
+            8,
+            21
+          ]
+        },
+        "revision": 61
+      },
+      {
+        "id": "b4628dfa-e410-4e60-9dc4-e3a146ee4d0d",
+        "at": "2026-10-18T21:36:17.844Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "241a6e2c-6634-4c83-8512-96e843bc0ce2",
+          "score": [
+            21,
+            9
+          ]
+        },
+        "revision": 62
+      },
+      {
+        "id": "35ef5ad4-d774-4854-a282-e935d49e7d71",
+        "at": "2026-10-18T21:36:17.844Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "9cf53935-14ad-4ed5-ab00-a6654091087c",
+          "score": [
+            10,
+            21
+          ]
+        },
+        "revision": 63
+      },
+      {
+        "id": "721d1d88-cfb2-4540-8022-2639c3880633",
+        "at": "2026-10-18T21:36:17.845Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "8f475c6a-5f59-4a3c-9fd9-03addd1ba35e",
+          "matchId": "b5f6215e-411d-481c-85d6-5ecfeca27196",
+          "score": [
+            21,
+            11
+          ]
+        },
+        "revision": 64
+      },
+      {
+        "id": "b43843df-7962-47e1-a1a9-b5fcfa94339e",
+        "at": "2026-10-18T21:36:17.845Z",
+        "action": "draft",
+        "detail": {
+          "type": "draft",
+          "category": "Hommes",
+          "lane": "Consolante",
+          "structure": [
+            5,
+            5,
+            5
+          ],
+          "target": 21
+        },
+        "revision": 65
+      },
+      {
+        "id": "49ee3cf4-ab42-4820-b423-67b6c8efdb63",
+        "at": "2026-10-18T21:36:17.845Z",
+        "action": "confirm",
+        "detail": {
+          "type": "confirm",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1"
+        },
+        "revision": 66
+      },
+      {
+        "id": "748e08a5-2818-4546-aa57-b8812fbdca4d",
+        "at": "2026-10-18T21:36:17.846Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "9ad5a201-c7c6-453f-af6c-38146bec6082",
+          "score": [
+            0,
+            21
+          ]
+        },
+        "revision": 67
+      },
+      {
+        "id": "8ca8eeff-a83a-4cbc-a25b-8c41112fb51b",
+        "at": "2026-10-18T21:36:17.846Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "d05b9279-da25-41d8-bcb8-07bc56c6611a",
+          "score": [
+            21,
+            1
+          ]
+        },
+        "revision": 68
+      },
+      {
+        "id": "93d5c3d2-1ca7-4576-a6a1-e7fb7cdba172",
+        "at": "2026-10-18T21:36:17.847Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "dee27abb-70e2-47e7-8d4b-d163ca4b382c",
+          "score": [
+            2,
+            21
+          ]
+        },
+        "revision": 69
+      },
+      {
+        "id": "51206bfd-b379-4cc1-a426-52fd17be2932",
+        "at": "2026-10-18T21:36:17.847Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "74b7a879-85f2-4088-98e0-6c6f6de701b7",
+          "score": [
+            21,
+            3
+          ]
+        },
+        "revision": 70
+      },
+      {
+        "id": "c0287ce0-e87c-4e77-8d80-5bbaac25045d",
+        "at": "2026-10-18T21:36:17.848Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "9e0f7a7c-0ead-4afe-a16a-b1559dbdfda5",
+          "score": [
+            4,
+            21
+          ]
+        },
+        "revision": 71
+      },
+      {
+        "id": "ace180c0-fa76-402c-b801-330c160fc95b",
+        "at": "2026-10-18T21:36:17.849Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "3dc96713-a90f-44de-97ae-e215527907dc",
+          "score": [
+            21,
+            5
+          ]
+        },
+        "revision": 72
+      },
+      {
+        "id": "cb6b889f-56d0-4a8b-84e3-b5892aee48bb",
+        "at": "2026-10-18T21:36:17.849Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "947bced5-e756-4453-83b9-8c3456923713",
+          "score": [
+            6,
+            21
+          ]
+        },
+        "revision": 73
+      },
+      {
+        "id": "d69a5a3b-bb97-427d-8168-8b51ab947d29",
+        "at": "2026-10-18T21:36:17.850Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "25b17110-9c62-4890-89fd-6becf96e772c",
+          "score": [
+            21,
+            7
+          ]
+        },
+        "revision": 74
+      },
+      {
+        "id": "dabb49ce-05f6-42c6-b22e-673c958bf667",
+        "at": "2026-10-18T21:36:17.850Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "db2b142c-b594-474e-8817-29f985081e7c",
+          "score": [
+            8,
+            21
+          ]
+        },
+        "revision": 75
+      },
+      {
+        "id": "d5bed824-aa12-4c8f-97c5-ef6ff8f7653f",
+        "at": "2026-10-18T21:36:17.850Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "9f56ea23-06e0-4103-835e-43528f398b84",
+          "score": [
+            21,
+            9
+          ]
+        },
+        "revision": 76
+      },
+      {
+        "id": "78f049b8-1eba-40f8-9e5e-7e4e6cbe8011",
+        "at": "2026-10-18T21:36:17.851Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "845da91c-edab-45af-8589-e91464f237c7",
+          "score": [
+            10,
+            21
+          ]
+        },
+        "revision": 77
+      },
+      {
+        "id": "cd24aa31-da9d-4713-b37b-294e3bb06688",
+        "at": "2026-10-18T21:36:17.851Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "52146ce0-9638-46c6-b933-778a088fb113",
+          "score": [
+            21,
+            11
+          ]
+        },
+        "revision": 78
+      },
+      {
+        "id": "4e71f423-5845-4eac-8dee-e091f02ebc98",
+        "at": "2026-10-18T21:36:17.852Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "f8508b50-ee1a-428b-9863-fd223fd64561",
+          "score": [
+            12,
+            21
+          ]
+        },
+        "revision": 79
+      },
+      {
+        "id": "edd199fc-9578-430c-a72b-55b98a1e25d5",
+        "at": "2026-10-18T21:36:17.852Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "4b5e441d-9ccf-4c67-a526-41b72e8bba68",
+          "score": [
+            21,
+            13
+          ]
+        },
+        "revision": 80
+      },
+      {
+        "id": "497ef46a-b7e8-4420-8ba3-5bbd932dfdbf",
+        "at": "2026-10-18T21:36:17.853Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "2cce92d2-0155-4243-9ae9-91535e74c59d",
+          "score": [
+            14,
+            21
+          ]
+        },
+        "revision": 81
+      },
+      {
+        "id": "7da3f0ef-42a2-47c2-ac0f-47ad9d1debe2",
+        "at": "2026-10-18T21:36:17.853Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "fd98ee25-fb7d-49c3-b7ba-4c5c194e111d",
+          "score": [
+            21,
+            15
+          ]
+        },
+        "revision": 82
+      },
+      {
+        "id": "12ef9ebf-2284-4822-96e9-904832979441",
+        "at": "2026-10-18T21:36:17.854Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "4c59e944-2e9d-45a4-9ea9-41cf343c7a33",
+          "score": [
+            16,
+            21
+          ]
+        },
+        "revision": 83
+      },
+      {
+        "id": "8dc57f40-67b7-4c24-8985-4fa0e059018c",
+        "at": "2026-10-18T21:36:17.854Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "6f2f2282-48dd-412e-b6ce-635a072695fd",
+          "score": [
+            21,
+            17
+          ]
+        },
+        "revision": 84
+      },
+      {
+        "id": "0a8ce8b0-ba38-413a-b9df-b3c52a2bd280",
+        "at": "2026-10-18T21:36:17.854Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "52ac38a1-0c3a-4f9e-aa40-949258fd52f1",
+          "score": [
+            18,
+            21
+          ]
+        },
+        "revision": 85
+      },
+      {
+        "id": "f2cd6908-eeaa-495b-a0f2-c9b9d6c38e3f",
+        "at": "2026-10-18T21:36:17.855Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "3e200603-4c2d-41a9-84fb-4124a277b7d2",
+          "score": [
+            21,
+            0
+          ]
+        },
+        "revision": 86
+      },
+      {
+        "id": "1e867140-2bc9-41e8-957b-005f4983cb7c",
+        "at": "2026-10-18T21:36:17.855Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "b0dca293-1bbb-42ac-ac4f-2039309e8c9d",
+          "score": [
+            1,
+            21
+          ]
+        },
+        "revision": 87
+      },
+      {
+        "id": "f38f3580-427e-4c86-94c8-7b42329e1379",
+        "at": "2026-10-18T21:36:17.856Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "b0acd803-8f9d-4a0f-b088-3ef8ffd73143",
+          "score": [
+            21,
+            2
+          ]
+        },
+        "revision": 88
+      },
+      {
+        "id": "f82a77ef-d1b6-4afa-a7b8-7696822b0837",
+        "at": "2026-10-18T21:36:17.856Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "b0727ec6-e9f8-4a8d-b0a3-08aadda694fd",
+          "score": [
+            3,
+            21
+          ]
+        },
+        "revision": 89
+      },
+      {
+        "id": "6a5f0bb2-3ff5-4226-8a2a-f7c60dd5d907",
+        "at": "2026-10-18T21:36:17.857Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "0c10d35f-9b2f-417a-8a98-bdeab37d204e",
+          "score": [
+            21,
+            4
+          ]
+        },
+        "revision": 90
+      },
+      {
+        "id": "f8d6d84a-791c-4b1d-960f-4ae308628118",
+        "at": "2026-10-18T21:36:17.857Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "3a2adb95-584d-45ee-8260-796fc655de7e",
+          "score": [
+            5,
+            21
+          ]
+        },
+        "revision": 91
+      },
+      {
+        "id": "7758b048-f989-4451-a2a6-8a97a78dacf5",
+        "at": "2026-10-18T21:36:17.858Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "989cf289-c4b0-43e1-86b1-bda6f9e40514",
+          "score": [
+            21,
+            6
+          ]
+        },
+        "revision": 92
+      },
+      {
+        "id": "08105013-df0c-4558-b638-001591c30b92",
+        "at": "2026-10-18T21:36:17.858Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "2b81d616-2eeb-49f5-9b58-67bdc60554d6",
+          "score": [
+            7,
+            21
+          ]
+        },
+        "revision": 93
+      },
+      {
+        "id": "4d5b0a0f-ee0e-492f-8910-f5920b3811d8",
+        "at": "2026-10-18T21:36:17.858Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "b47dca31-f99c-4fb0-9c63-55ef759d6782",
+          "score": [
+            21,
+            8
+          ]
+        },
+        "revision": 94
+      },
+      {
+        "id": "f1e53026-4587-4a87-9f52-e78d7c66306e",
+        "at": "2026-10-18T21:36:17.859Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "68368504-4c95-4449-9c29-ff29db8b5597",
+          "score": [
+            9,
+            21
+          ]
+        },
+        "revision": 95
+      },
+      {
+        "id": "88b03913-35e5-4cbe-aac4-32886fe58205",
+        "at": "2026-10-18T21:36:17.859Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "matchId": "ffec85b6-233d-4463-ae00-066044f28d96",
+          "score": [
+            21,
+            10
+          ]
+        },
+        "revision": 96
+      },
+      {
+        "id": "aec03b1c-9957-4ec8-b5ae-37813f03916b",
+        "at": "2026-10-18T21:36:17.860Z",
+        "action": "draft",
+        "detail": {
+          "type": "draft",
+          "category": "Hommes",
+          "lane": "Principale",
+          "structure": [
+            4,
+            4
+          ],
+          "target": 21
+        },
+        "revision": 97
+      },
+      {
+        "id": "1003f656-e064-4dbd-b070-c876c366f680",
+        "at": "2026-10-18T21:36:17.860Z",
+        "action": "confirm",
+        "detail": {
+          "type": "confirm",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7"
+        },
+        "revision": 98
+      },
+      {
+        "id": "33e99631-c7c8-4b27-8458-9ab4a7a57895",
+        "at": "2026-10-18T21:36:17.861Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "86ba8eb6-47a2-41b7-8225-f5ceac00489e",
+          "score": [
+            0,
+            21
+          ]
+        },
+        "revision": 99
+      },
+      {
+        "id": "16bdba4e-4ce6-4ee0-b5a4-5860338bd6b1",
+        "at": "2026-10-18T21:36:17.861Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "f486c414-d8b5-4bd2-9a3e-bef8f8db3765",
+          "score": [
+            21,
+            1
+          ]
+        },
+        "revision": 100
+      },
+      {
+        "id": "0bfd55e4-37bf-44d6-888a-5c0d71e31064",
+        "at": "2026-10-18T21:36:17.862Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "bec4f950-c689-4240-a695-1a062cc417cb",
+          "score": [
+            2,
+            21
+          ]
+        },
+        "revision": 101
+      },
+      {
+        "id": "b826a993-bf5e-4f24-be88-bf651568bb39",
+        "at": "2026-10-18T21:36:17.862Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "c962c44a-50ab-4b4b-a2db-4830204363f4",
+          "score": [
+            21,
+            3
+          ]
+        },
+        "revision": 102
+      },
+      {
+        "id": "f8e8cbe7-a4d4-42e3-8ce2-152792216b1d",
+        "at": "2026-10-18T21:36:17.863Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "f7737988-2248-4b0b-81e1-318ba40c05d2",
+          "score": [
+            4,
+            21
+          ]
+        },
+        "revision": 103
+      },
+      {
+        "id": "b3473b4d-69d3-408c-a34a-cc6d9581e83f",
+        "at": "2026-10-18T21:36:17.863Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "f3cd8c49-409c-4af4-8434-4e0dd5f1725e",
+          "score": [
+            21,
+            5
+          ]
+        },
+        "revision": 104
+      },
+      {
+        "id": "fd0a5f90-8330-4994-9402-cd91318c75ca",
+        "at": "2026-10-18T21:36:17.864Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "225db053-8c2a-4218-8b24-092caea1fe96",
+          "score": [
+            6,
+            21
+          ]
+        },
+        "revision": 105
+      },
+      {
+        "id": "4eeea5ec-dd75-4046-97a1-832d21640964",
+        "at": "2026-10-18T21:36:17.864Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "ca9dbf0d-8344-43d3-94fb-40537868aeb5",
+          "score": [
+            21,
+            7
+          ]
+        },
+        "revision": 106
+      },
+      {
+        "id": "35a092d3-bb61-4a8c-877b-bb9271229bd8",
+        "at": "2026-10-18T21:36:17.865Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "6a7b2a42-2835-4c12-8064-f097bd395e2f",
+          "score": [
+            8,
+            21
+          ]
+        },
+        "revision": 107
+      },
+      {
+        "id": "43bea91d-3fbd-419a-a4db-61ea8ae90eb1",
+        "at": "2026-10-18T21:36:17.865Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "719cb235-b798-461e-9fe2-5e313ea3bf93",
+          "score": [
+            21,
+            9
+          ]
+        },
+        "revision": 108
+      },
+      {
+        "id": "296c638f-a9e9-439e-819e-5c8e2add06f2",
+        "at": "2026-10-18T21:36:17.866Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "0abd3ade-849a-409a-a66a-01bef839d91c",
+          "score": [
+            10,
+            21
+          ]
+        },
+        "revision": 109
+      },
+      {
+        "id": "2de3fb61-2baa-4677-948c-02806af6253a",
+        "at": "2026-10-18T21:36:17.867Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "matchId": "e1374012-ba6d-4c65-bce7-5be768be1a5f",
+          "score": [
+            21,
+            11
+          ]
+        },
+        "revision": 110
+      },
+      {
+        "id": "e3e66d3f-e1f6-4732-bcd1-7005bdfdde9f",
+        "at": "2026-10-18T21:36:17.868Z",
+        "action": "knockout",
+        "detail": {
+          "type": "knockout",
+          "phaseId": "c43ee129-31b5-41ff-ab44-ff41e7ee96d1",
+          "lane": "Consolante",
+          "count": 7,
+          "decisions": {
+            "seeds:7:0fdd2fdc-4d61-4019-884e-096138c3afe3,4d8e81a7-0703-4b82-a452-1c927e187596,cf9677f8-3dea-45c7-ab08-0db19675d375": [
+              "cf9677f8-3dea-45c7-ab08-0db19675d375",
+              "0fdd2fdc-4d61-4019-884e-096138c3afe3",
+              "4d8e81a7-0703-4b82-a452-1c927e187596"
+            ]
+          },
+          "earlyTarget": 21,
+          "finalTarget": 25,
+          "bronze": true
+        },
+        "revision": 111
+      },
+      {
+        "id": "85a39e88-c2a5-489d-8cda-661c89c7ade5",
+        "at": "2026-10-18T21:36:17.868Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "7ebd0909-b2f7-470b-9245-4a82433d7113",
+          "score": [
+            21,
+            1
+          ]
+        },
+        "revision": 112
+      },
+      {
+        "id": "65d4dd44-e567-4da4-9951-e76ac15b8dff",
+        "at": "2026-10-18T21:36:17.869Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "1808112e-ee9e-4b5b-83e2-eafa2bae7d35",
+          "score": [
+            2,
+            21
+          ]
+        },
+        "revision": 113
+      },
+      {
+        "id": "39922ef1-0464-4b32-9568-85389d48ab48",
+        "at": "2026-10-18T21:36:17.870Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "a741916f-ebdf-46a6-860a-88d2b1894250",
+          "score": [
+            21,
+            3
+          ]
+        },
+        "revision": 114
+      },
+      {
+        "id": "ec226c4f-6b73-4714-aa65-97059b5e4e50",
+        "at": "2026-10-18T21:36:17.870Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "8739fa91-a5a5-4596-a53c-81086af5dfae",
+          "score": [
+            4,
+            21
+          ]
+        },
+        "revision": 115
+      },
+      {
+        "id": "0f659f3a-c9bd-400d-9a3c-053d1fc6c637",
+        "at": "2026-10-18T21:36:17.871Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "308c5d5e-b7bc-4c3f-9cb0-ec37d4e2e29c",
+          "score": [
+            21,
+            5
+          ]
+        },
+        "revision": 116
+      },
+      {
+        "id": "eaa412c9-3399-4009-b88e-e2c2e110b9fa",
+        "at": "2026-10-18T21:36:17.872Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "261cdb6c-4093-449e-8908-21f489b9a573",
+          "score": [
+            6,
+            25
+          ]
+        },
+        "revision": 117
+      },
+      {
+        "id": "1bfe9f48-246f-4265-b0b5-bb42aecd9fcd",
+        "at": "2026-10-18T21:36:17.872Z",
+        "action": "score",
+        "detail": {
+          "type": "score",
+          "phaseId": "fdcdc7eb-4bc2-477c-b894-1cc517cb770c",
+          "matchId": "634375c4-09a9-46ef-8747-197c3d776513",
+          "score": [
+            25,
+            7
+          ]
+        },
+        "revision": 118
+      },
+      {
+        "id": "c89951fd-b662-4db5-8af0-fa80d48ffd5d",
+        "at": "2026-10-18T21:36:18.343Z",
+        "action": "knockout",
+        "detail": {
+          "type": "knockout",
+          "phaseId": "cf59e682-fe9c-455e-a2fd-b0f4241c66b7",
+          "lane": "Principale",
+          "count": 8,
+          "decisions": {},
+          "earlyTarget": 21,
+          "finalTarget": 25,
+          "bronze": true
+        },
+        "revision": 119
+      }
+    ],
+    "archives": [],
+    "preferredSize": 4
+  }
+}

@@ -1,0 +1,11 @@
+OVSans Regular and Bold are static instances derived from the Inter variable
+font by Rasmus Andersson (https://rsms.me/inter/), licensed under the SIL Open
+Font License 1.1. See OFL.txt for the full license and copyright notice.
+
+The derived PDF fonts have been renamed OVSans to respect the reserved font
+name. Instance weights: 400 and 700; optical size 14. Original font source:
+https://github.com/rsms/inter/blob/master/docs/font-files/InterVariable.ttf
+
+The interface uses unmodified Inter assets from @fontsource/inter under the
+same OFL. The original volleyball drawing is included under the project MIT
+license. The application uses no assets from the previous Open Volleyball app.

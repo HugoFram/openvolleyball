@@ -1,0 +1,36 @@
+# Implementation notes
+
+This is an independent implementation. No previous application source, orchestration framework, database layout or assets were reused.
+
+## Stack and tradeoffs
+
+Electron supplies a self-contained desktop runtime, native directory dialogs and printing. React/TypeScript support a responsive French interface and shared typed domain model. PDFKit produces vector A4 sheets with embedded redistributable fonts. Vite builds the renderer, Vitest checks business/persistence/document behavior, and Playwright exercises the real Electron application.
+
+A browser-only implementation would make portable packages, native directory selection and printer integration less direct. A compiled native UI could yield a smaller binary but would require more bespoke work for responsive bracket interaction. Electron trades executable size and memory usage for straightforward distribution and UI maintainability.
+
+## Boundaries
+
+- `src/domain`: types, runtime package schemas, pure command transitions, ranking, scheduling, qualification, bracket dependencies and invariants.
+- `electron/store.ts`: validated packages, session locks, SHA-256 envelopes, revision snapshots and atomic writes.
+- `electron/pdf.ts`: actual A4 page layout from the stored ordered schedule.
+- `electron/main.ts`: serialized commands, ID/revision checks, native dialogs, document-before-confirmation commit, printing and restoration.
+- `electron/preload.ts`: narrow message bridge. Renderer Node integration is off, context isolation and sandboxing are enabled, content is bundled and loaded through a restricted protocol, and IPC senders are checked. See [Electron security guidance](https://www.electronjs.org/docs/latest/tutorial/security).
+- `src/ui`: registration, progression, phase preparation/scoring, bracket, rules, documents and audit. Sporting policy lives in the domain rather than the widgets.
+
+## Durable packages
+
+Each `.openvolley` folder has `tournament.json`, `tournament.backup.json`, `history/revision-N.json`, `documents/*.pdf`, and a temporary live-session lock.
+
+For a modest single-operator aggregate, versioned JSON snapshots avoid native database builds while retaining complete transaction semantics. A command clones its input and validates the complete new state. Writes use an exclusive temporary file, flush, close and atomic rename. The old revision/backup are persisted before current-state replacement. Failure leaves the in-memory authoritative revision unchanged. PDFs are generated first, then associated with the confirmed phase in a single tournament commit. A failed operation can leave an unreferenced PDF, but cannot leave a half-confirmed phase.
+
+SHA-256 detects accidental modification, not malicious tampering. Runtime schemas and domain invariants remain necessary. Invalid candidates never replace the active session. The desktop queue finishes old saves before switching, and every mutation includes package ID and expected revision. Invalid UI edits must be resolved or deliberately abandoned. This is a single-writer local store, not a shared concurrent database.
+
+## Progression and correction
+
+Immutable UUIDs identify all entities. Confirmed phases snapshot names, strength and rules. Nodes follow source dependencies independently within each branch, never timestamps or incidental IDs. A final is one phase with internal rounds.
+
+Knockout slots reference registered teams or upstream winner/loser outcomes. Topological recalculation derives participants and exemptions. Corrections identify affected results/phases, require explicit consent, archive the prior situation and invalidate dependencies. Group corrections conservatively invalidate all descendants and relevant split; restoration creates a distinct package.
+
+## Distribution and verification
+
+The portable Windows x64 executable bundles the runtime and original volleyball icon. Operators do not install Node.js. macOS/Linux packages are not validated. Tests use only temporary data. PDF tests parse actual page counts/A4 sizes; representative pages are also rasterized and visually reviewed. Native directory selections are stubbed in repeatable GUI tests, and physical printing is a manual hardware check.
