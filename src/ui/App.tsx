@@ -60,6 +60,7 @@ export function App() {
       "create",
       "open",
       "print-document",
+      "print-phase",
       "registration-sheet",
     ].includes(method);
     if (slow) setBusy((n) => n + 1);

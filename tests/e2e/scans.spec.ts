@@ -250,7 +250,7 @@ test("Offline scanned scores: real handwritten digits, rotation, review, duplica
     expect(labels.samples[0].suggested).toBe(
       state.value.tournament.scanPages[0].values[`${first.id}:0`].value,
     );
-    expect(labels.samples[0].reader).toBe("contrast-v2");
+      expect(labels.samples[0].reader).toBe("style-cnn-v3");
     expect(JSON.stringify(labels)).not.toContain(t.name);
     const crop = await sharp(
       path.join(parent, exported, labels.samples[0].file),

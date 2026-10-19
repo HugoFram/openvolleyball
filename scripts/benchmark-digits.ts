@@ -13,8 +13,11 @@ const labels = gunzipSync(
 );
 const count = Number(process.argv[4] || 1000),
   offset = 100;
+const manifest = JSON.parse(
+  await fs.readFile("assets/models/manifest.json", "utf8"),
+);
 const runtime = await InferenceSession.create(
-  new Uint8Array(await fs.readFile("assets/models/mnist-12.onnx")),
+  new Uint8Array(await fs.readFile(`assets/models/${manifest.file}`)),
   { executionProviders: ["wasm"] },
 );
 const predict = async (input: Float32Array) =>
@@ -24,6 +27,22 @@ const predict = async (input: Float32Array) =>
         [runtime.inputNames[0]]: new Tensor("float32", input, [1, 1, 28, 28]),
       })
     )[runtime.outputNames[0]].data as Float32Array,
+  );
+const legacyRuntime = await InferenceSession.create(
+  new Uint8Array(await fs.readFile("assets/models/mnist-12.onnx")),
+  { executionProviders: ["wasm"] },
+);
+const legacyPredict = async (input: Float32Array) =>
+  Array.from(
+    (
+      await legacyRuntime.run({
+        [legacyRuntime.inputNames[0]]: new Tensor(
+          "float32",
+          input,
+          [1, 1, 28, 28],
+        ),
+      })
+    )[legacyRuntime.outputNames[0]].data as Float32Array,
   );
 const results = [];
 for (const mode of ["clean", "faint", "slanted", "compact"] as const) {
@@ -79,7 +98,7 @@ for (const mode of ["clean", "faint", "slanted", "compact"] as const) {
       legacy = digitTensor(im, rect);
     if (legacy) {
       baselineSuggested++;
-      const logits = await predict(legacy);
+      const logits = await legacyPredict(legacy);
       if (String(logits.indexOf(Math.max(...logits))) === expected)
         baselineCorrect++;
     }

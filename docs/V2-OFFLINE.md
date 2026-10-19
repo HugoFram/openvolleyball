@@ -1,9 +1,37 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.2`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.3`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
+
+## Nouveautés alpha.3
+
+Dans une phase ouverte, **Imprimer toutes les feuilles** envoie tous ses documents
+à l’imprimante choisie, en un seul travail et un seul dialogue. Les groupes suivent
+l’ordre affiché ; toutes les pages des groupes à deux terrains sont incluses. Dans
+un tableau final, les matchs suivent les tours, avec finale et Petite finale. Les
+pages conservent leurs QR codes et identifiants. Une feuille absente ou invalide
+interrompt la préparation avant impression ; utiliser la réparation dans Exports.
+
+Le nouveau modèle local a été adapté aux « 1 » avec amorce et aux « 9 » bouclés,
+avec répétition de chiffres publics pour conserver les autres écritures. Sur un
+lot de 102 scores relus, 4 images vides et 4 différences entre l’écriture et le
+résultat sportif validé ont été exclues. Sur les **94 scores exploitables**, alpha.2
+donne 79 propositions correctes, 1 incorrecte et 14 à relire ; alpha.3 donne
+**91 correctes, 0 incorrecte observée et 3 à relire**. Ce total comprend les données
+d’adaptation : il ne mesure pas la précision sur des écritures nouvelles.
+
+Une source de scan complète a été gardée hors entraînement : ses 31 scores donnent
+27 lectures correctes et 4 à relire auparavant, contre **29 correctes et 2 à relire**
+maintenant, sans erreur numérique observée. Les pages peuvent partager la même
+écriture ; il faut encore des auteurs indépendants. [Mesures détaillées](reports/digits-alpha3-reviewed-summary.json)
+et [fiche du modèle](../assets/models/model-card.md).
+
+Le lecteur s’applique aux nouveaux imports et ne réécrit aucun résultat déjà relu.
+Les anciens tirages restent utilisables. Conserver une copie avant de passer à une
+nouvelle alpha. La relecture humaine reste nécessaire : « aucune erreur observée »
+sur ce petit lot ne garantit pas l’absence d’erreurs futures.
 
 ## Scores et place pour le comptage
 
@@ -108,8 +136,11 @@ Un modèle local plus riche ou un lecteur de nombres entiers sera ensuite compar
 au lecteur actuel sur ces mêmes cas, en mesurant aussi les erreurs non signalées
 et le temps de relecture.
 
-Les développeurs peuvent comparer les deux lecteurs sur cet export avec
-`npx tsx scripts/evaluate-reviewed.ts <dossier-scores-relus>`.
+Les développeurs peuvent comparer alpha.1, alpha.2 et le lecteur livré avec
+`npx tsx scripts/evaluate-reviewed.ts <dossier-scores-relus>`. L’option
+`--exclude <fichier.json>` accepte une liste auditée `{ "score-00008.png": "motif" }`.
+Les valeurs sportives corrigées ne sont pas toujours des étiquettes de lecture :
+exclure toute image qui ne correspond pas à sa valeur dans l’export.
 
 ### Mesure contrôlée, distincte d’un essai réel
 
@@ -150,8 +181,10 @@ et `t10k-labels-idx1-ubyte.gz` depuis le miroir PyTorch
 écritures sont réutilisées dans les quatre simulations. Il faut mesurer les
 scores complets et les erreurs non signalées sur un ensemble réel indépendant.
 
-Le lecteur utilise le modèle CNN MNIST-12, embarqué avec son empreinte SHA-256 et
-sa licence MIT, et ONNX Runtime Web en WebAssembly sur le processeur. QR codes,
+Le lecteur alpha.3 utilise un CNN indépendant, préentraîné sur MNIST puis adapté
+aux exemples relus, embarqué avec son empreinte SHA-256 et sa licence MIT, et
+ONNX Runtime Web en WebAssembly sur le processeur. Le modèle MNIST-12 est conservé
+comme référence de comparaison. QR codes,
 redressement par quatre repères, découpage des cases, préparation des chiffres
 et lecture des cases cochées restent locaux. Aucun GPU n’est requis.
 
@@ -189,6 +222,11 @@ téléphones ne sont pas encore intégrés.
 - [ ] Essayer les scores 21–0, 21–19, 26–24 et un score à corriger manuellement.
 - [ ] Vérifier qu’aucun classement ne change avant validation.
 - [ ] Importer un groupe de cinq sur deux terrains : deux pages, bons matchs.
+- [ ] Imprimer toutes les feuilles d’une phase de groupes : un seul dialogue,
+      tous les groupes, y compris les deux pages d’un groupe à deux terrains.
+- [ ] Imprimer toutes les feuilles d’un tableau final, finale/Petite finale comprises.
+- [ ] Essayer des « 1 » avec amorce, « 7 » barrés et « 9 » bouclés ; vérifier les
+      propositions et corriger les lectures encore signalées.
 - [ ] Importer deux inscriptions sur une A4 ; vérifier les cases N/R/D/U et créer
       une équipe à trois joueurs, puis une à quatre.
 - [ ] Enregistrer un brouillon, fermer et rouvrir le tournoi.

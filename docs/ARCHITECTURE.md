@@ -97,10 +97,24 @@ New knockout phases snapshot the source group phase’s general ranks, independe
 
 ## Reliable printing
 
+Phase-wide printing resolves one current document per group/match in sporting
+order, validates all sources and copies every PDF page into an in-memory PDF with
+pdf-lib. It reuses the same print renderer and a single hardware job. No tournament
+revision, source file or QR identity changes. Missing/corrupt sources fail before
+printing. Both renderer and merger enforce a 200-page maximum. The selected printer
+and the normal pending-edit guard apply to the phase action.
+
 The Electron PDF viewer is no longer used as the print target. A second Vite entry point bundles PDF.js and its worker offline. A sandboxed window receives only the selected PDF through a sender-scoped preload channel, renders pages sequentially at 200 DPI, waits for image decoding/fonts/layout, and reports readiness. The main process then prints A4 HTML pages with explicit zero page margins. Preparation has a timeout, and failure/cancellation closes its window and releases the operation. The source PDF stays vector-based for Afficher. Tests intercept only the hardware print call, capture actual Chromium printToPDF output, and verify nonblank decoded images and PDF content resources on every page.
 
 The print renderer has a restrictive CSP and no tournament command bridge. Window IDs bind transient PDF jobs; job data is removed as soon as preparation settles.
 
 ## Distribution and verification
+
+Alpha.3 replaces the runtime MNIST-12 model with the independent digit CNN described
+in `assets/models/model-card.md`. Preprocessing/consensus thresholds are retained;
+the model adapts to reviewed writing through an offline developer tool with public
+rehearsal and source-page separation. The application never learns from live reviews.
+Reader identifiers distinguish historical contrast-v2 predictions from style-cnn-v3.
+Raw private training/evaluation crops are absent from Git and the distribution.
 
 The portable Windows x64 executable bundles the runtime and user-supplied volleyball icon. Operators do not install Node.js. macOS/Linux packages are not validated. Tests use only temporary data. PDF tests parse actual page counts/A4 sizes; representative pages are also rasterized and visually reviewed. Native directory selections are stubbed in repeatable GUI tests, and physical printing is a manual hardware check.

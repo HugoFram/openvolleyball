@@ -20,7 +20,7 @@ import {
 import { useApp, Hint, Status, phaseName } from "./shared";
 import { Bracket, MatchPopup } from "./Bracket";
 export function PhaseView({ phase: p }: { phase: Phase }) {
-  const { session, command, busy, confirm, notify, guard } = useApp();
+  const { session, command, native, busy, confirm, notify, guard } = useApp();
   const [tab, setTab] = useState("matches"),
     [printer, setPrinter] = useState(localStorage.getItem("printer") || ""),
     [printers, setPrinters] = useState<{ name: string; displayName: string }[]>(
@@ -50,6 +50,21 @@ export function PhaseView({ phase: p }: { phase: Phase }) {
         {p.status !== "Préparation" && (
           <div className="actions">
             <span className="target-chip">Victoire en {p.target} points</span>
+            <button
+              disabled={busy}
+              onClick={() =>
+                void guard(async () => {
+                  await native("print-phase", {
+                    packageId: session.tournament.id,
+                    phaseId: p.id,
+                    printer,
+                  });
+                })
+              }
+            >
+              <Printer size={16} />
+              Imprimer toutes les feuilles
+            </button>
             <button
               disabled={busy || p.status === "Terminée"}
               onClick={async () => {

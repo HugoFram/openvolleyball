@@ -56,7 +56,7 @@ env.wasm.proxy = false;
 let model: Promise<InferenceSession> | undefined;
 const session = () =>
   (model ??= InferenceSession.create(
-    new URL("./assets/models/mnist-12.onnx", self.location.origin + "/").href,
+    new URL("./assets/models/digits-v3.onnx", self.location.origin + "/").href,
     { executionProviders: ["wasm"] },
   ));
 const blobUrl = async (im: Raster) => {

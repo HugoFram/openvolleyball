@@ -4,11 +4,13 @@ import path from "node:path";
 import os from "node:os";
 import { PDFDocument, PDFDict, PDFName } from "pdf-lib";
 import sharp from "sharp";
+import jsQR from "jsqr";
 import { encode } from "../../electron/store";
-import { registered } from "../helpers";
+import { registered, playPhase, splitTournament, finals } from "../helpers";
 import { applyCommand } from "../../src/domain/engine";
-for (const courts of [1, 2])
-  test(`Imprimer renders nonblank content through the real print path: five teams, ${courts} court(s)`, async () => {
+import { qrPayload } from "../../src/domain/scans";
+for (const courts of [1, 2, 3, 4])
+  test(`Imprimer renders nonblank content through the real print path: ${courts === 4 ? "whole knockout phase" : courts === 3 ? "whole phase with two groups" : `five teams, ${courts} court(s)`}`, async () => {
     const parent = await fs.mkdtemp(
       path.join(os.tmpdir(), "OV-print-content-"),
     );
@@ -27,7 +29,7 @@ for (const courts of [1, 2])
       env,
     });
     try {
-      let t = registered(5);
+      let t = registered(courts >= 3 ? 8 : 5);
       t.name = "Épreuve impression — cinq équipes";
       t.branding = {
         website: "https://volley.example/impression",
@@ -39,11 +41,11 @@ for (const courts of [1, 2])
         type: "draft",
         category: "Hommes",
         lane: "Commun",
-        structure: [5],
+        structure: courts === 4 ? [4, 4] : courts === 3 ? [5, 3] : [5],
         target: 21,
       });
-      const phase = t.phases[0];
-      if (courts === 2) {
+      let phase = t.phases[0];
+      if (courts === 2 || courts === 3) {
         const groups = structuredClone(phase.groups);
         groups[0].courts.push("B");
         t = applyCommand(t, {
@@ -54,6 +56,12 @@ for (const courts of [1, 2])
         });
       }
       t = applyCommand(t, { type: "confirm", phaseId: phase.id });
+      if (courts === 4) {
+        t = playPhase(t, phase.id);
+        t = splitTournament(t, 4);
+        t = finals(t, "Principale", 4);
+        phase = t.phases.at(-1)!;
+      }
       const folder = path.join(parent, "Épreuve.openvolley");
       await fs.mkdir(folder);
       await fs.mkdir(path.join(folder, "history"));
@@ -61,9 +69,11 @@ for (const courts of [1, 2])
       await fs.writeFile(path.join(folder, "tournament.json"), encode(t));
       await app.evaluate(({ app }) => {
         (globalThis as any).capture = undefined;
+        (globalThis as any).printCalls = 0;
         (globalThis as any).printFailure = undefined;
         app.on("browser-window-created", (_event, w) => {
           w.webContents.print = (options, callback) => {
+            (globalThis as any).printCalls++;
             void (async () => {
               try {
                 const content = await w.webContents.executeJavaScript(
@@ -97,11 +107,36 @@ for (const courts of [1, 2])
       );
       expect(opened.ok).toBe(true);
       await page.reload();
-      await page.locator(".phase-node").click();
-      await page
-        .locator(".score-panel")
-        .getByRole("button", { name: "Imprimer", exact: true })
-        .click();
+      await page.locator(".phase-node").last().click();
+      const printerChoice = await page
+        .getByRole("combobox", { name: "Imprimante", exact: true })
+        .locator("option")
+        .evaluateAll(
+          (options) =>
+            (options[1] as HTMLOptionElement | undefined)?.value || "",
+        );
+      if (printerChoice)
+        await page
+          .getByRole("combobox", { name: "Imprimante", exact: true })
+          .selectOption(printerChoice);
+      if (courts >= 3) {
+        const stale = await page.evaluate(
+          ({ packageId, phaseId }) =>
+            window.volley.call("print-phase", { packageId, phaseId }),
+          { packageId: "wrong", phaseId: phase.id },
+        );
+        expect(stale.ok).toBe(false);
+        await page
+          .getByRole("button", {
+            name: "Imprimer toutes les feuilles",
+            exact: true,
+          })
+          .click();
+      } else
+        await page
+          .locator(".score-panel")
+          .getByRole("button", { name: "Imprimer", exact: true })
+          .click();
       await expect
         .poll(
           async () =>
@@ -118,10 +153,13 @@ for (const courts of [1, 2])
         failure: (globalThis as any).printFailure,
       }));
       expect(failure).toBeUndefined();
+      expect(await app.evaluate(() => (globalThis as any).printCalls)).toBe(1);
+      expect(capture.options.deviceName).toBe(printerChoice || "");
       expect(capture.content.ready).toBe("true");
       expect(capture.content.pages).toHaveLength(courts);
       expect(capture.options.pageSize).toBe("A4");
       expect(capture.options.margins.marginType).toBe("none");
+      const printedCodes: string[] = [];
       for (const image of capture.content.pages) {
         expect(image.complete).toBe(true);
         expect(image.width).toBeGreaterThan(1600);
@@ -130,7 +168,22 @@ for (const courts of [1, 2])
           Buffer.from(image.src.split(",")[1], "base64"),
         ).stats();
         expect(pixels.channels.some((c) => c.stdev > 8)).toBe(true);
+        const raw = await sharp(Buffer.from(image.src.split(",")[1], "base64"))
+          .ensureAlpha()
+          .raw()
+          .toBuffer({ resolveWithObject: true });
+        const code = jsQR(
+          new Uint8ClampedArray(raw.data),
+          raw.info.width,
+          raw.info.height,
+        );
+        expect(code).not.toBeNull();
+        printedCodes.push(code!.data);
       }
+      const expectedCodes = opened.value.tournament.documents
+        .filter((d: any) => d.phaseId === phase.id)
+        .flatMap((d: any) => d.forms.map(qrPayload));
+      expect(printedCodes.sort()).toEqual(expectedCodes.sort());
       const bytes = Buffer.from(capture.pdf, "base64");
       await fs.mkdir("test-results", { recursive: true });
       await fs.writeFile(`test-results/print-${courts}-court.pdf`, bytes);

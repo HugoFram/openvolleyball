@@ -1,3 +1,22 @@
+# Version 2.0.0-alpha.3
+
+- Bouton **Imprimer toutes les feuilles** dans chaque phase confirmée : impression
+  unique des groupes, des deux terrains éventuels ou des matchs du tableau final.
+  Ordre sportif stable, QR codes conservés, préparation complète avant le dialogue.
+- Nouveau CNN local adapté à 63 scores audités de trois sources de scan ; répétition
+  de chiffres publics pour conserver les autres écritures. Une quatrième source est
+  gardée hors adaptation. Les « 1 » avec amorce et « 9 » bouclés sont mieux lus ;
+  les divergences restent à confirmer. Pas de correction par les règles sportives.
+- Mesure sur 94 scores exploitables : 91 corrects, 0 erreur numérique observée,
+  3 à relire ; sous-ensemble hors adaptation de 31 scores : 29 corrects, 2 à relire.
+  Ces données de développement ne constituent pas une garantie de précision.
+- Conservation des provenances alpha.2 ; les résultats approuvés sont préservés.
+  Code d’entraînement, fiche du modèle et comparaison reproductible fournis ;
+  images et étiquettes privées non publiées.
+- Validation : 60 tests de domaine/stockage/PDF/modèle et 15 tests Electron,
+  également réussis sur l’application Windows empaquetée. Les essais d’impression
+  vérifient un travail unique, chaque page non vide et tous les QR codes décodés.
+
 # Version 2.0.0-alpha.2
 
 - Espace de comptage libre ; petites cases Final de 14 × 18 points dans le coin

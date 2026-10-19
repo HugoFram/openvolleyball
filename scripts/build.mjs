@@ -53,8 +53,8 @@ for (const file of [
     `dist/assets/ort/${file}`,
   );
 await fs.copyFile(
-  "assets/models/mnist-12.onnx",
-  "dist/assets/models/mnist-12.onnx",
+  `assets/models/${modelManifest.file}`,
+  `dist/assets/models/${modelManifest.file}`,
 );
 for (const [pkg, name, file] of [
   ["qrcode", "qrcode", "license"],

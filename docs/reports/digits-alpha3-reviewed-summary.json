@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0-alpha.3",
+  "unit": "whole scores",
+  "providedSamples": 102,
+  "excluded": {
+    "blank": 4,
+    "approvedLabelDiffersFromPaper": 4
+  },
+  "auditedSamples": 94,
+  "alpha2": {
+    "correct": 79,
+    "wrongNumeric": 1,
+    "unresolved": 14
+  },
+  "alpha3": {
+    "correct": 91,
+    "wrongNumeric": 0,
+    "unresolved": 3
+  },
+  "adaptation": {
+    "scores": 63,
+    "sourceGroups": 3,
+    "steps": 300,
+    "publicRehearsal": true
+  },
+  "reservedPage": {
+    "samples": 31,
+    "alpha2Correct": 27,
+    "alpha2WrongNumeric": 0,
+    "alpha2Unresolved": 4,
+    "alpha3Correct": 29,
+    "alpha3WrongNumeric": 0,
+    "alpha3Unresolved": 2
+  },
+  "previousBatchRegression": {
+    "samples": 52,
+    "alpha2Correct": 46,
+    "alpha3Correct": 49,
+    "alpha3WrongNumeric": 0,
+    "alpha3Unresolved": 3
+  },
+  "limitations": "Development comparison. Reserved page excluded from gradient training; not an independent writer trial. No claim of zero future recognition errors. Raw private images and labels are not published."
+}

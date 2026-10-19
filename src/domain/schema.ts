@@ -115,7 +115,7 @@ export const tournamentSchema = z.object({
             confidence: z.number().min(0).max(1).optional(),
             alternatives: z.array(z.string().max(3)).max(5).optional(),
             issue: text.optional(),
-            reader: z.literal("contrast-v2").optional(),
+            reader: z.enum(["contrast-v2", "style-cnn-v3"]).optional(),
           }),
         ),
         originalValues: z
@@ -126,7 +126,7 @@ export const tournamentSchema = z.object({
               confidence: z.number().min(0).max(1).optional(),
               alternatives: z.array(z.string().max(3)).max(5).optional(),
               issue: text.optional(),
-              reader: z.literal("contrast-v2").optional(),
+              reader: z.enum(["contrast-v2", "style-cnn-v3"]).optional(),
             }),
           )
           .optional(),

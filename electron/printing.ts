@@ -40,13 +40,14 @@ function registerPrintBridge() {
 /** The PDF plug-in is not a printable DOM. Render every page, including fonts
  * and images, before handing the prepared HTML document to Chromium printing. */
 export async function preparePrintWindow(
-  file: string,
+  file: string | Uint8Array,
   root: string,
   preload: string,
   parent?: BrowserWindow,
 ) {
   registerPrintBridge();
-  const data = new Uint8Array(await fs.readFile(file));
+  const data =
+    typeof file === "string" ? new Uint8Array(await fs.readFile(file)) : file;
   const preview = new BrowserWindow({
     show: false,
     width: 920,
@@ -97,7 +98,7 @@ export async function preparePrintWindow(
   }
 }
 export async function printDocument(
-  file: string,
+  file: string | Uint8Array,
   printer: string,
   root: string,
   preload: string,

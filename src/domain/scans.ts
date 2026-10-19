@@ -43,7 +43,7 @@ export interface ScanValue {
   confidence?: number;
   alternatives?: string[];
   issue?: string;
-  reader?: "contrast-v2";
+  reader?: "contrast-v2" | "style-cnn-v3";
 }
 export interface ScanPage {
   id: string;

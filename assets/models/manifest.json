@@ -1,10 +1,13 @@
 {
-  "name": "MNIST-12",
-  "file": "mnist-12.onnx",
-  "sha256": "5c688690f8bacf667d4c2074af5ad0646ca328d7ab03eccf944a65b320171bdd",
-  "source": "https://github.com/onnx/models/tree/main/validated/vision/classification/mnist",
-  "download": "https://media.githubusercontent.com/media/onnx/models/main/validated/vision/classification/mnist/model/mnist-12.onnx",
-  "license": "MIT",
-  "input": "Single handwritten digit, white foreground on black, float32 [1,1,28,28]",
-  "limitations": "MNIST digit model only. No names or emails. Its model scores are not calibrated confidence on tournament scans. All extracted values require review."
+  "name": "Open Volleyball digit CNN v3",
+  "file": "digits-v3.onnx",
+  "sha256": "d1531ddffc69cd16381ee88f0215ba8033ada41089e637d4c653909145d6548b",
+  "license": "MIT (independent model weights)",
+  "source": "scripts/train-digits.py; model-card.md",
+  "input": "White foreground on black, float32 [1,1,28,28]; output 10 logits",
+  "training": {
+    "public": "MNIST train: 55000 training, 5000 checkpoint validation",
+    "adaptation": "63 audited score crops from 3 scanned source groups; 300 fixed steps with equal public rehearsal; a fourth source group excluded"
+  },
+  "limitations": "Isolated digits only. Small local handwriting sample. Scores are not calibrated probabilities. Human review is mandatory."
 }

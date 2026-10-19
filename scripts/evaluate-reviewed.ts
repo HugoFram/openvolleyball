@@ -21,8 +21,18 @@ if (
 )
   throw new Error("Format d’export inconnu.");
 env.wasm.numThreads = 1;
+const modelArg = process.argv.indexOf("--model");
+const manifest = JSON.parse(
+  await fs.readFile("assets/models/manifest.json", "utf8"),
+);
 const runtime = await InferenceSession.create(
-  new Uint8Array(await fs.readFile("assets/models/mnist-12.onnx")),
+  new Uint8Array(
+    await fs.readFile(
+      modelArg >= 0
+        ? process.argv[modelArg + 1]
+        : `assets/models/${manifest.file}`,
+    ),
+  ),
   { executionProviders: ["wasm"] },
 );
 const predict = async (input: Float32Array) =>
@@ -33,19 +43,51 @@ const predict = async (input: Float32Array) =>
       })
     )[runtime.outputNames[0]].data as Float32Array,
   );
+const legacy = await InferenceSession.create(
+  new Uint8Array(await fs.readFile("assets/models/mnist-12.onnx")),
+  { executionProviders: ["wasm"] },
+);
+const legacyPredict = async (input: Float32Array) =>
+  Array.from(
+    (
+      await legacy.run({
+        [legacy.inputNames[0]]: new Tensor("float32", input, [1, 1, 28, 28]),
+      })
+    )[legacy.outputNames[0]].data as Float32Array,
+  );
 const canonical = (text: string) =>
   /^\d{1,3}$/.test(text) ? String(Number(text)) : null;
+const excludeArg = process.argv.indexOf("--exclude");
+const excluded: Record<string, string> =
+  excludeArg >= 0
+    ? JSON.parse(await fs.readFile(process.argv[excludeArg + 1], "utf8"))
+    : {};
 const stats = {
   samples: 0,
   baselineCorrect: 0,
   baselineWrongNumeric: 0,
+  alpha2Correct: 0,
+  alpha2WrongNumeric: 0,
+  alpha2Unresolved: 0,
   currentCorrect: 0,
   currentWrongNumeric: 0,
   currentUnresolved: 0,
   currentTopCandidateCorrect: 0,
 };
 const differences: unknown[] = [];
+const groups: Record<
+  string,
+  {
+    samples: number;
+    alpha2Correct: number;
+    alpha2WrongNumeric: number;
+    currentCorrect: number;
+    currentWrongNumeric: number;
+    currentUnresolved: number;
+  }
+> = {};
 for (const sample of data.samples) {
+  if (Object.hasOwn(excluded, sample.file)) continue;
   if (
     !/^score-\d+\.png$/.test(sample.file) ||
     !canonical(sample.score) ||
@@ -87,14 +129,18 @@ for (const sample of data.samples) {
       continue;
     }
     seen = true;
-    const logits = await predict(tensor);
+    const logits = await legacyPredict(tensor);
     previous += String(logits.indexOf(Math.max(...logits)));
   }
   const current = await readScore(im, rects, predict),
+    alpha2 = await readScore(im, rects, legacyPredict, 2, "contrast-v2"),
     truth = canonical(sample.score);
   stats.samples++;
   if (canonical(previous) === truth) stats.baselineCorrect++;
   else if (canonical(previous) !== null) stats.baselineWrongNumeric++;
+  if (canonical(alpha2.value) === truth) stats.alpha2Correct++;
+  else if (canonical(alpha2.value) !== null) stats.alpha2WrongNumeric++;
+  else stats.alpha2Unresolved++;
   if (canonical(current.value) === truth) stats.currentCorrect++;
   else if (canonical(current.value) !== null) stats.currentWrongNumeric++;
   else stats.currentUnresolved++;
@@ -111,12 +157,30 @@ for (const sample of data.samples) {
       baseline: previous,
       current,
     });
+  const group = (groups[sample.captureGroup || "unknown"] ??= {
+    samples: 0,
+    alpha2Correct: 0,
+    alpha2WrongNumeric: 0,
+    currentCorrect: 0,
+    currentWrongNumeric: 0,
+    currentUnresolved: 0,
+  });
+  group.samples++;
+  if (canonical(alpha2.value) === truth) group.alpha2Correct++;
+  else if (canonical(alpha2.value) !== null) group.alpha2WrongNumeric++;
+  if (canonical(current.value) === truth) group.currentCorrect++;
+  else if (canonical(current.value) !== null) group.currentWrongNumeric++;
+  else group.currentUnresolved++;
 }
 console.log(
   JSON.stringify(
     {
       note: "Reviewed labels need checking. These are whole-score counts; not per-digit accuracy. Do not reuse tuning writers as an independent validation set.",
       ...stats,
+      excludedSamples: data.samples.filter((s: { file: string }) =>
+        Object.hasOwn(excluded, s.file),
+      ).length,
+      groups,
       ...(process.argv.includes("--details") ? { differences } : {}),
     },
     null,

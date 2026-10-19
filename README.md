@@ -1,12 +1,17 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.2** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.3** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
 avec l’image. Aucun accès Internet requis. Les inscriptions sont identifiées et
 recopiées manuellement ; la reconnaissance du texte libre et les téléphones sont
 les prochaines étapes. [Guide et checklist v2](docs/V2-OFFLINE.md).
 
-Alpha.2 laisse la majorité de chaque cellule libre pour compter les points ; les
+Alpha.3 ajoute **Imprimer toutes les feuilles** dans chaque phase : tous les
+groupes/terrains ou matchs du tableau dans une seule impression. Le nouveau CNN
+local est adapté aux chiffres manuscrits relus, avec un lot séparé par scan pour
+vérifier le progrès. Les erreurs ambiguës restent signalées et à vérifier.
+
+La majorité de chaque cellule reste libre pour compter les points ; les
 petites cases Final servent au score terminé. Le lecteur adapte le contraste et
 signale ses divergences avec des propositions. L’export des scores relus permet
 de constituer un jeu réel pour améliorer et vérifier la reconnaissance.
@@ -18,7 +23,7 @@ Application de bureau en français pour préparer et conduire un tournoi local d
 
 ## Lancer
 
-**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.2-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
+**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.3-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
 
 Depuis les sources, avec Node.js **22.13 ou plus récent** :
 

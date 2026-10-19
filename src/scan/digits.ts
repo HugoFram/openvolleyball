@@ -250,6 +250,7 @@ export async function readScore(
   rects: Rect[],
   predict: DigitPredictor,
   scale = 2,
+  reader: ScanValue["reader"] = "style-cnn-v3",
 ): Promise<ScanValue> {
   const positions: {
     options: { value: string; weight: number }[];
@@ -292,7 +293,7 @@ export async function readScore(
       confidence: ranked[0].weight,
     });
   }
-  if (!positions.length) return { value: "", reader: "contrast-v2" };
+  if (!positions.length) return { value: "", reader };
   let candidates = [{ value: "", weight: 1 }];
   for (const position of positions)
     candidates = candidates
@@ -305,7 +306,7 @@ export async function readScore(
       .sort((a, b) => b.weight - a.weight)
       .slice(0, 5);
   return {
-    reader: "contrast-v2",
+    reader,
     value: issue ? "?" : candidates[0].value,
     confidence: Math.min(...positions.map((p) => p.confidence)),
     ...(issue ? { issue, alternatives: candidates.map((c) => c.value) } : {}),

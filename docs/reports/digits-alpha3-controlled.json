@@ -1,0 +1,50 @@
+{
+  "purpose": "Synthetic controlled comparison only; no inference about real scanner accuracy",
+  "offset": 100,
+  "results": [
+    {
+      "mode": "clean",
+      "count": 1000,
+      "baselineCorrect": 940,
+      "baselineSuggested": 1000,
+      "newCorrect": 950,
+      "newTopCorrect": 988,
+      "suggested": 951,
+      "wrongSuggested": 1,
+      "unresolved": 49
+    },
+    {
+      "mode": "faint",
+      "count": 1000,
+      "baselineCorrect": 0,
+      "baselineSuggested": 0,
+      "newCorrect": 950,
+      "newTopCorrect": 988,
+      "suggested": 951,
+      "wrongSuggested": 1,
+      "unresolved": 49
+    },
+    {
+      "mode": "slanted",
+      "count": 1000,
+      "baselineCorrect": 944,
+      "baselineSuggested": 1000,
+      "newCorrect": 945,
+      "newTopCorrect": 987,
+      "suggested": 947,
+      "wrongSuggested": 2,
+      "unresolved": 53
+    },
+    {
+      "mode": "compact",
+      "count": 1000,
+      "baselineCorrect": 895,
+      "baselineSuggested": 1000,
+      "newCorrect": 934,
+      "newTopCorrect": 976,
+      "suggested": 938,
+      "wrongSuggested": 4,
+      "unresolved": 62
+    }
+  ]
+}

@@ -28,6 +28,7 @@ import { atomicWrite, decode, PackageStore } from "./store";
 import { makeSheet, sheetFingerprint } from "./pdf";
 import { makeRegistrationSheet } from "./registration-pdf";
 import { printDocument } from "./printing";
+import { phaseDocuments, mergePhaseSheets } from "./phase-print";
 import { scanAction } from "./scans";
 import { currentForm, scoreFixtureKey } from "../src/domain/scans";
 let win: BrowserWindow;
@@ -298,6 +299,25 @@ async function handle(method: string, a: any) {
       const file = await documentFor(a.id);
       return printDocument(
         file,
+        a.printer || "",
+        root,
+        path.join(__dirname, "print-preload.cjs"),
+        win,
+      );
+    }
+    case "print-phase": {
+      const store = requireActive(a.packageId);
+      check(
+        typeof a.packageId === "string" && typeof a.phaseId === "string",
+        "Phase invalide.",
+      );
+      const documents = phaseDocuments(store.current, a.phaseId);
+      const bytes = await mergePhaseSheets(
+        documents,
+        async (d) => new Uint8Array(await fs.readFile(await documentFor(d.id))),
+      );
+      return printDocument(
+        bytes,
         a.printer || "",
         root,
         path.join(__dirname, "print-preload.cjs"),
