@@ -1,10 +1,16 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.5** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.6** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
 avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
 transcrites localement puis relues. Les téléphones restent une prochaine étape.
 [Guide et checklist v2](docs/V2-OFFLINE.md).
+
+Alpha.6 permet une adaptation locale du lecteur aux inscriptions relues, en
+séparant la lecture des e-mails de celle du texte ordinaire. Le modèle personnalisé
+reste local ; il n’est pas publié avec le dépôt. La compilation publique conserve
+le modèle générique, et la compilation Windows locale peut inclure l’adaptation.
+Les nouvelles fiches donnent aussi 17 % de largeur supplémentaire aux e-mails.
 
 Alpha.5 ajoute **Exporter les inscriptions relues** : extraits manuscrits,
 textes corrigés et propositions initiales, sans modifier les scans. Le lecteur
@@ -34,7 +40,7 @@ Application de bureau en français pour préparer et conduire un tournoi local d
 
 ## Lancer
 
-**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.5-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
+**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.6-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
 
 Depuis les sources, avec Node.js **22.13 ou plus récent** :
 

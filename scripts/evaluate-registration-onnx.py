@@ -32,7 +32,15 @@ def main():
         default=128,
         help="Fixed samples per corpus (never training/validation).",
     )
+    p.add_argument("--baseline", type=Path, default=Path("tmp/baseline-registration"))
+    p.add_argument("--experiment", type=Path, default=Path("tmp/registration-training"))
+    p.add_argument(
+        "--report",
+        type=Path,
+        default=Path("docs/reports/registration-alpha5-benchmark.json"),
+    )
     args = p.parse_args()
+    torch.set_num_threads(4)
     data = json.loads(
         Path("tmp/registration-data/prepared-samples.json").read_text(encoding="utf8")
     )
@@ -42,10 +50,8 @@ def main():
         subset = [r for r in data if r["corpus"] == corpus and r["split"] == "test"]
         rng.shuffle(subset)
         rows += subset[: args.count]
-    processor = TrOCRProcessor.from_pretrained("tmp/registration-training/best")
-    config = VisionEncoderDecoderConfig.from_pretrained(
-        "tmp/registration-training/best"
-    )
+    processor = TrOCRProcessor.from_pretrained(args.experiment / "best")
+    config = VisionEncoderDecoderConfig.from_pretrained(args.experiment / "best")
     output = {
         "format": "open-volleyball-registration-benchmark",
         "version": 1,
@@ -58,12 +64,12 @@ def main():
         "models": {},
     }
     for name, directory in [
-        ("baseline", "tmp/baseline-registration"),
+        ("baseline", args.baseline),
         ("adapted", "assets/models/registration/trocr-small-handwritten/onnx"),
     ]:
         # Optimum treats explicit decoder filenames as separate non-merged
         # graphs. Stage the unchanged q8 bytes with its standard merged names.
-        staging = Path("tmp/registration-training/benchmark-models") / name
+        staging = args.experiment / "benchmark-models" / name
         staging.mkdir(parents=True, exist_ok=True)
         config.save_pretrained(staging)
         for source, target in [
@@ -135,12 +141,12 @@ def main():
                     "exactRate": exact / max(1, len(selected)),
                 }
         output["models"][name] = summary
-        Path(f"tmp/registration-training/quantized-{name}-predictions.json").write_text(
+        (args.experiment / f"quantized-{name}-predictions.json").write_text(
             json.dumps(predictions, ensure_ascii=False), encoding="utf8"
         )
         del model
         print(name, json.dumps(summary), flush=True)
-    Path("docs/reports/registration-alpha5-benchmark.json").write_text(
+    args.report.write_text(
         json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf8"
     )
 

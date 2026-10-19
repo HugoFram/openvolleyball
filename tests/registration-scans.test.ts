@@ -66,6 +66,20 @@ it("blank cells, pale ruling and specks never invoke text recognition; faint pen
   im.data.fill(255);
   const rect: [number, number, number, number] = [0, 0, 60, 30];
   expect(textCrop(im, rect)).toBeNull();
+  for (let n = 0; n < 8; n++)
+    for (let dy = 0; dy < 2; dy++)
+      for (let dx = 0; dx < 2; dx++) {
+        const k = ((10 + (n % 3) * 8 + dy) * im.width + 9 + n * 8 + dx) * 4;
+        im.data[k] = im.data[k + 1] = im.data[k + 2] = 50;
+      }
+  expect(textCrop(im, rect)).toBeNull();
+  im.data.fill(255);
+  // A clipped dark printed border must not turn an empty cell into underscores.
+  for (let x = 0; x < 120; x++) {
+    const k = x * 4;
+    im.data[k] = im.data[k + 1] = im.data[k + 2] = 35;
+  }
+  expect(textCrop(im, rect)).toBeNull();
   for (let x = 0; x < 120; x++) {
     const k = (52 * im.width + x) * 4;
     im.data[k] = im.data[k + 1] = im.data[k + 2] = 135;

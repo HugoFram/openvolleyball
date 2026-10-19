@@ -1,5 +1,6 @@
 import { build } from "esbuild";
 import fs from "node:fs/promises";
+import path from "node:path";
 import { createHash } from "node:crypto";
 const modelManifest = JSON.parse(
   await fs.readFile("assets/models/manifest.json", "utf8"),
@@ -56,11 +57,21 @@ await fs.copyFile(
   `assets/models/${modelManifest.file}`,
   `dist/assets/models/${modelManifest.file}`,
 );
+const customRegistration = process.env.OV_REGISTRATION_MODEL_MANIFEST;
 const registration = JSON.parse(
-  await fs.readFile("assets/models/registration-manifest.json", "utf8"),
+  await fs.readFile(
+    customRegistration || "assets/models/registration-manifest.json",
+    "utf8",
+  ),
 );
+if (customRegistration && !registration.adaptation?.personalizedLocalOnly)
+  throw Error(
+    "Custom registration models require an explicit local-only provenance flag",
+  );
 for (const entry of registration.files) {
-  const source = `assets/models/${registration.directory}/${entry.file}`;
+  const source = customRegistration
+    ? path.join(path.dirname(customRegistration), "files", entry.file)
+    : `assets/models/${registration.directory}/${entry.file}`;
   const bytes = await fs.readFile(source).catch(() => {
     throw new Error(
       "Run npm run models:fetch to prepare the bundled registration model.",
@@ -77,6 +88,26 @@ for (const entry of registration.files) {
   });
   await fs.writeFile(target, bytes);
 }
+await fs.writeFile(
+  "dist/assets/models/registration/reader.json",
+  JSON.stringify({
+    version: 1,
+    taskPrefixes: registration.adaptation?.taskPrefixes === true,
+    personalizedLocalOnly:
+      registration.adaptation?.personalizedLocalOnly === true,
+    privateTrainingFields:
+      registration.adaptation?.privateSamplesUsedForTraining || 0,
+    weights: Object.fromEntries(
+      registration.files
+        .filter((f) => f.file.endsWith(".onnx"))
+        .map((f) => [f.file, f.sha256]),
+    ),
+  }),
+);
+await fs.writeFile(
+  "dist/assets/models/registration/selected-manifest.json",
+  JSON.stringify(registration, null, 2),
+);
 await fs.copyFile(
   "node_modules/@huggingface/transformers/LICENSE",
   "assets/licenses/Transformers.js.txt",

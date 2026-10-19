@@ -237,7 +237,7 @@ for (const format of ["pdf", "jpeg"] as const)
         );
         expect(result.aligned).toBe(true);
         expect(result.note).not.toContain("indisponible");
-        expect(result.values.teamName.reader).toBe("trocr-fr-v2");
+        expect(result.values.teamName.reader).toBe("trocr-fr-v3");
         expect(result.values.teamName.value).toMatch(i ? /Red/i : /Blue/i);
         expect(result.values["player0:name"].value).toMatch(/Anna/i);
         expect(result.values["player0:email"].value.length).toBeGreaterThan(3);

@@ -2,6 +2,35 @@
 
 The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
 
+## V2 registration personalization: 2.0.0-alpha.6
+
+- **67 domain/storage/PDF/model tests**, **six training/privacy-policy tests** and
+  **17 Electron workflows** pass. All 17 also pass against the final packaged app;
+  both rotated/cut registration workflows use its real local personalized reader.
+  The generic public build's 17 workflows pass as well.
+- The portable Windows launcher opens a disposable example, shows progression
+  and bracket, and closes normally. Its eight selected registration model files
+  match their manifests inside app.asar; task prefixes and the 61-field local model
+  are verified. No raw private samples, source model chunks or native ONNX library
+  are packaged. Runtime dependency audit: zero findings.
+- A prior six-sheet adaptation is evaluated on two reserved sheets: exact fields
+  7/23 → 12/23, emails 1/7 → 3/7 and email character errors 32 → 8. This limited
+  cross-sheet transfer does not prove independent-writer accuracy. Complete
+  conditions and limits are in [the aggregate report](reports/registration-alpha6-transfer.json).
+- The final local model then fits 61 usable fields from all eight sheets. Replaying
+  that same batch matches all 61 usable fields and all 39 blanks; this is training
+  fit, explicitly separated from the reserved-sheet comparison. Four inconsistent
+  or clipped fields remain counted as errors in the complete-batch report.
+- Personalized weights and corrected private strings remain outside the public
+  source repository. Explicit local-build configuration selects a private model;
+  the normal public source build retains the generic model. Export-policy tests
+  reject attempts to write private weights into public model assets.
+- Revised branded two-per-page registration forms were rendered with Poppler and
+  visually reviewed. Both halves match, and email columns gain 17% width while old
+  saved forms retain their own geometry. App/Python preprocessing matches exactly
+  on all 104 supplied crops. Original 106 registration-export files, 104 reviewed
+  score-export files, 34 example files and the accepted digit weights retain hashes.
+
 ## V2 recognition and referee layout: 2.0.0-alpha.2
 
 - **56 domain/storage/PDF tests** pass. New checks cover faint ink normalization,

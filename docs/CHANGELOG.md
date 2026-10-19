@@ -1,3 +1,24 @@
+# Version 2.0.0-alpha.6
+
+- Lecture locale conditionnée par le type de champ : e-mail ou texte ordinaire,
+  sans affichage du préfixe technique ni correction automatique par dictionnaire.
+- Adaptation personnalisée Windows, conservée localement. Comparaison préalable
+  sur deux fiches exclues des six fiches d’apprentissage : e-mails exacts 1/7 →
+  3/7, erreurs de caractères des e-mails 32 → 8 ; noms exacts 2/7 → 3/7.
+  Échantillon limité, une seule capture, auteurs inconnus : relecture nécessaire.
+- Modèle local final ajusté sur 61 champs exploitables des huit fiches après
+  enregistrement de cette comparaison. Sa relecture du même lot mesure uniquement
+  l’ajustement aux exemples, pas la précision sur de nouvelles écritures.
+- Modèle personnalisé et données privées exclus du dépôt public. La compilation
+  publique garde le lecteur générique ; recettes, rapports agrégés et garde-fous
+  de compilation/export sont fournis dans les sources.
+- Cellules d’e-mail 17 % plus larges sur les nouvelles fiches ; anciennes fiches
+  reconnues avec leurs coordonnées enregistrées. Filtres supplémentaires contre
+  les bordures et poussières dans les champs vides. Lecteur des scores inchangé.
+- Validation : 67 tests de domaine/stockage/PDF/modèle, six tests d’entraînement
+  et de protection des poids privés, 17 parcours Electron. Lecture réelle hors
+  ligne, PDF/JPEG découpés et tournés, export et anciennes données conservés.
+
 # Version 2.0.0-alpha.5
 
 - **Exporter les inscriptions relues** dans Feuilles scannées : images brutes des

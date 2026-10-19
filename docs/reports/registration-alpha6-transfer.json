@@ -1,0 +1,196 @@
+{
+  "format": "open-volleyball-registration-personalization-check",
+  "version": 1,
+  "exportSha256": "f2743cca84f01a7b28ce213b4d79a0ae6d2310ce6d6b14ffc1cb944e0d9404a0",
+  "training": {
+    "sheets": 6,
+    "fields": 39,
+    "excludedFields": 3,
+    "taskPrefixes": true,
+    "weights": {
+      "encoder_model_quantized.onnx": "4d3e27b4252abd8a44613f2daeb8e8e4ab93125ff625e38e4dde66e197297f0b",
+      "decoder_model_merged_quantized.onnx": "353a2745a783a16d48f873e1b2bc4db35bca2577aa4abc77f626a2732272ab67"
+    },
+    "checkpointSha256": "3c1bccb8cf9cd2f799ecb9ac7c121b72990627eb70b31ea002eddefd21f206ca"
+  },
+  "heldOut": {
+    "sheets": 2,
+    "nonblankFields": 23,
+    "recordedAlpha5": {
+      "all": {
+        "samples": 23,
+        "exact": 7,
+        "characters": 353,
+        "characterErrors": 52,
+        "cer": 0.14730878186968838
+      },
+      "team": {
+        "samples": 2,
+        "exact": 0,
+        "characters": 49,
+        "characterErrors": 11,
+        "cer": 0.22448979591836735
+      },
+      "name": {
+        "samples": 7,
+        "exact": 2,
+        "characters": 94,
+        "characterErrors": 6,
+        "cer": 0.06382978723404255
+      },
+      "email": {
+        "samples": 7,
+        "exact": 1,
+        "characters": 130,
+        "characterErrors": 32,
+        "cer": 0.24615384615384617
+      },
+      "club": {
+        "samples": 7,
+        "exact": 4,
+        "characters": 80,
+        "characterErrors": 3,
+        "cer": 0.0375
+      },
+      "blank": {
+        "samples": 3,
+        "exact": 3
+      }
+    },
+    "personalizedWasm": {
+      "all": {
+        "samples": 23,
+        "exact": 12,
+        "characters": 353,
+        "characterErrors": 21,
+        "cer": 0.059490084985835696
+      },
+      "team": {
+        "samples": 2,
+        "exact": 0,
+        "characters": 49,
+        "characterErrors": 7,
+        "cer": 0.14285714285714285
+      },
+      "name": {
+        "samples": 7,
+        "exact": 3,
+        "characters": 94,
+        "characterErrors": 5,
+        "cer": 0.05319148936170213
+      },
+      "email": {
+        "samples": 7,
+        "exact": 3,
+        "characters": 130,
+        "characterErrors": 8,
+        "cer": 0.06153846153846154
+      },
+      "club": {
+        "samples": 7,
+        "exact": 6,
+        "characters": 80,
+        "characterErrors": 1,
+        "cer": 0.0125
+      },
+      "blank": {
+        "samples": 3,
+        "exact": 3
+      }
+    }
+  },
+  "wholeBatchDiagnosticOnly": {
+    "samples": 104,
+    "recordedAlpha5": {
+      "all": {
+        "samples": 65,
+        "exact": 27,
+        "characters": 911,
+        "characterErrors": 103,
+        "cer": 0.11306256860592755
+      },
+      "team": {
+        "samples": 8,
+        "exact": 0,
+        "characters": 163,
+        "characterErrors": 29,
+        "cer": 0.17791411042944785
+      },
+      "name": {
+        "samples": 26,
+        "exact": 17,
+        "characters": 342,
+        "characterErrors": 13,
+        "cer": 0.038011695906432746
+      },
+      "email": {
+        "samples": 14,
+        "exact": 3,
+        "characters": 248,
+        "characterErrors": 47,
+        "cer": 0.18951612903225806
+      },
+      "club": {
+        "samples": 17,
+        "exact": 7,
+        "characters": 158,
+        "characterErrors": 14,
+        "cer": 0.08860759493670886
+      },
+      "blank": {
+        "samples": 39,
+        "exact": 38
+      }
+    },
+    "personalizedWasm": {
+      "all": {
+        "samples": 65,
+        "exact": 51,
+        "characters": 911,
+        "characterErrors": 24,
+        "cer": 0.026344676180021953
+      },
+      "team": {
+        "samples": 8,
+        "exact": 6,
+        "characters": 163,
+        "characterErrors": 7,
+        "cer": 0.04294478527607362
+      },
+      "name": {
+        "samples": 26,
+        "exact": 20,
+        "characters": 342,
+        "characterErrors": 7,
+        "cer": 0.02046783625730994
+      },
+      "email": {
+        "samples": 14,
+        "exact": 9,
+        "characters": 248,
+        "characterErrors": 9,
+        "cer": 0.036290322580645164
+      },
+      "club": {
+        "samples": 17,
+        "exact": 16,
+        "characters": 158,
+        "characterErrors": 1,
+        "cer": 0.006329113924050633
+      },
+      "blank": {
+        "samples": 39,
+        "exact": 39
+      }
+    }
+  },
+  "runtime": "Electron Transformers.js 4.3.1 / ONNX Runtime Web 1.30.0 CPU WASM, offline",
+  "externalRequests": 0,
+  "limits": [
+    "All samples belong to one capture and writer identities are unknown; this is cross-sheet transfer, not independent-writer validation.",
+    "The batch was inspected during development. Reserved sheet labels were excluded from training and checkpoint selection, but this is not a pristine external test.",
+    "Strict matching includes case, accents, punctuation, label discrepancies and an address ending clipped by the original field.",
+    "The final local model is subsequently fitted to all usable sheets; same-batch rereading of that model is training-fit evidence only.",
+    "No images, private strings or personalized weights are included in the public repository."
+  ]
+}

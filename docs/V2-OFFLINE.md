@@ -1,6 +1,6 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.5`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.6`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
@@ -29,6 +29,8 @@ Couper sur la ligne médiane. Les identifiants QR des fiches restent distincts.
 1. Distribuer une demi-feuille à chaque équipe. Remplir le nom de l’équipe et
    trois ou quatre joueurs, une ligne par cellule. Cocher un seul niveau par joueur.
    E-mail et club sont facultatifs ; laisser les cellules inutiles vides.
+   Les nouveaux formulaires réservent 17 % de largeur supplémentaire aux e-mails.
+   Écrire l’adresse entière dans sa cellule, sans dépasser dans la colonne Club.
 2. Scanner les demi-feuilles à 200–300 ppp en PDF multipages, PNG ou JPEG. Le
    scanner peut détecter l’A5 ou utiliser une page A4 blanche autour de la fiche.
    Conserver le QR et les quatre repères de la demi-feuille, sans les rogner.
@@ -50,9 +52,17 @@ Le modèle est fourni dans l’exécutable : aucun téléchargement, cache préa
 GPU ou connexion réseau ne sont nécessaires. Le lecteur TrOCR a été adapté à des
 écritures françaises contemporaines (CREMMA-Wikipedia), à des mots manuscrits
 photographiés (GNHK) et à des champs courts synthétiques avec accents et e-mails.
-Une proposition plausible peut être incorrecte. Aucune précision
-chiffrée sur les vraies fiches n’est annoncée ; une relecture est nécessaire.
+La version alpha.6 sépare la lecture des e-mails de celle du texte ordinaire.
+La compilation Windows locale peut inclure un modèle personnalisé entraîné à partir
+d’inscriptions relues ; ce modèle et les textes restent hors du dépôt public.
+La compilation publique conserve le lecteur générique. Dans les deux cas,
+l’inférence reste entièrement locale et une relecture est nécessaire.
+Les fiches déjà validées conservent leurs corrections et propositions initiales ;
+le nouveau lecteur est utilisé pour les nouvelles analyses.
 [Fiche technique et limites](../assets/models/registration-model-card.md).
+
+Les fiches alpha.4/5 déjà imprimées restent reconnues avec leurs coordonnées
+enregistrées. La largeur supplémentaire des e-mails concerne les nouveaux PDF.
 
 Réimprimer les formulaires pour les découper : les anciennes fiches alpha.1–3
 à deux par A4 avaient des repères communs à toute la page. Elles restent utilisables
@@ -285,8 +295,12 @@ téléphones ne sont pas encore intégrés.
 - [ ] Imprimer deux fiches par A4 ; vérifier le même titre/logo/site sur les deux,
       couper au centre et scanner chaque moitié indépendamment, dont une tournée.
 - [ ] Tester une demi-feuille sur un fond A4 : bon recadrage, bon QR et bons niveaux.
+- [ ] Essayer plusieurs écritures, dont une personne absente de l’entraînement.
 - [ ] Vérifier noms, accents, clubs et e-mails ; laisser la quatrième ligne vide,
       corriger une proposition puis enregistrer une seule équipe.
+- [ ] Essayer une adresse longue et un domaine personnalisé, avec chiffres,
+      points, tirets ou soulignements ; comparer tous les caractères à l’image.
+- [ ] Vérifier qu’une cellule vide avec du texte visible au verso reste vide.
 - [ ] Interrompre puis reprendre un lot ; vérifier les brouillons et données déjà relues.
 - [ ] Valider des inscriptions, puis **Exporter les inscriptions relues**. Vérifier
       les images et accents dans `inscriptions.json`, y compris une quatrième ligne

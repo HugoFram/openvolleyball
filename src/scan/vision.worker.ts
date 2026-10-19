@@ -236,7 +236,11 @@ self.onmessage = async (
               });
               const { transcribe } = await import("./text-reader");
               values[field.key] = textSuggestion(
-                await transcribe(crop, field.key.endsWith(":email") ? 80 : 48),
+                await transcribe(
+                  crop,
+                  field.key.endsWith(":email") ? 80 : 48,
+                  field.key.endsWith(":email") ? "email" : "text",
+                ),
                 field.key,
               );
             }

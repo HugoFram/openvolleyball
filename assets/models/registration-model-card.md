@@ -1,10 +1,17 @@
-# Offline registration handwriting reader — alpha.5
+# Generic offline registration handwriting weights — alpha.5 / alpha.6 public build
 
 The reader is Microsoft TrOCR-small, further trained for this application using
 public handwriting and short synthetic registration fields. Inference remains
 entirely local, on CPU; the application never downloads a model or sends scans to
 a service. Original alpha.4 suggestions retain `trocr-v1`; new suggestions use
-`trocr-fr-v2`. Accepted scans are never automatically re-read after an upgrade.
+`trocr-fr-v2`. The alpha.6 reading workflow uses `trocr-fr-v3` to record its new
+preparation/decoding code, while this public weight manifest retains its original
+adaptation identity. Accepted scans are never automatically re-read after an upgrade.
+
+Alpha.6 also supports an explicitly **local personalized build** with separate
+email/text decoder prefixes. Those weights are not in this repository and are not
+fetched by `models:fetch`. See [the personalized model card](registration-personal-model-card.md).
+The public source build continues to use the generic weights documented below.
 
 ## Training data and rights
 

@@ -19,12 +19,15 @@ def handwriting_crop(image):
     paper, ink = percentile(0.9), percentile(0.015)
     threshold = paper - max(28, (paper - ink) * 0.4)
     for y in np.flatnonzero((gray < threshold).sum(axis=1) > gray.shape[1] * 0.8):
-        gray[y, gray[y] > 95] = paper
+        if y < 3 or y >= gray.shape[0] - 3:
+            gray[y, :] = paper
+        else:
+            gray[y, gray[y] > 95] = paper
     labels, _ = ndimage.label(gray < threshold, structure=np.ones((3, 3)))
     sizes = np.bincount(labels.ravel())
     sizes[0] = 0
     mask = sizes[labels] >= 3
-    if mask.sum() < 14:
+    if mask.sum() < 14 or sizes.max() < 12:
         return None
     yy, xx = np.where(mask)
     x0, x1, y0, y1 = xx.min(), xx.max(), yy.min(), yy.max()

@@ -1,7 +1,7 @@
 import type { PaperForm, Rect, ScanValue } from "../domain/scans";
 import type { Raster } from "./geometry";
 import { normalizedScale } from "./geometry";
-export const textReaderVersion = "trocr-fr-v2";
+export const textReaderVersion = "trocr-fr-v3";
 
 /** Paper metadata uses page coordinates; a cut form's normalized image is local. */
 export function localRect(form: PaperForm, rect: Rect): Rect {
@@ -61,10 +61,13 @@ export function textCrop(im: Raster, rect: Rect): Raster | null {
     for (let x = 0; x < width; x++) if (gray[y * width + x] < threshold) dark++;
     if (dark > width * 0.8)
       for (let x = 0; x < width; x++)
-        if (gray[y * width + x] > 95) gray[y * width + x] = paper;
+        // Dark cell borders at the crop edge are also print, not handwriting.
+        if (y < 3 || y >= height - 3 || gray[y * width + x] > 95)
+          gray[y * width + x] = paper;
   }
   const seen = new Uint8Array(gray.length),
     kept: number[] = [];
+  let largest = 0;
   for (let seed = 0; seed < gray.length; seed++) {
     if (seen[seed] || gray[seed] >= threshold) continue;
     const component = [seed];
@@ -91,9 +94,11 @@ export function textCrop(im: Raster, rect: Rect): Raster | null {
           component.push(n);
         }
     }
+    largest = Math.max(largest, component.length);
     if (component.length >= 3) kept.push(...component);
   }
-  if (kept.length < 14) return null;
+  // Scattered remnants of text showing through paper are not a pen stroke.
+  if (kept.length < 14 || largest < 12) return null;
   let x0 = width,
     y0 = height,
     x1 = 0,

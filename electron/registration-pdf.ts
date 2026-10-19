@@ -86,7 +86,7 @@ export async function makeRegistrationSheet(
         .fontSize(8)
         .text(levelLegend, 36, y + 60, { width: 523, lineBreak: false });
       const top = y + 82,
-        widths = [150, 44, 180, 149],
+        widths = [150, 44, 210, 119],
         xs = [36];
       widths.forEach((w) => xs.push(xs.at(-1)! + w));
       const row = Math.min(MAX_TABLE_ROW_HEIGHT, perPage === 2 ? 38 : 116),

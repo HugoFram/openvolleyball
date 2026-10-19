@@ -31,7 +31,13 @@ const valuesSchema = z.record(
     alternatives: z.array(z.string().max(3)).max(5).optional(),
     issue: z.string().max(2000).optional(),
     reader: z
-      .enum(["contrast-v2", "style-cnn-v3", "trocr-v1", "trocr-fr-v2"])
+      .enum([
+        "contrast-v2",
+        "style-cnn-v3",
+        "trocr-v1",
+        "trocr-fr-v2",
+        "trocr-fr-v3",
+      ])
       .optional(),
   }),
 );

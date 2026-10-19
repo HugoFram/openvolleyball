@@ -1,9 +1,26 @@
 import unittest
 import torch
 from registration_training_loss import aligned_loss
+from registration_model_policy import require_private_destination
+from pathlib import Path
 
 
 class AlignmentTest(unittest.TestCase):
+    def test_personalized_checkpoint_cannot_write_public_assets(self):
+        recipe = {"personalizedLocalOnly": True}
+        for destination in [None, Path("assets/models"), Path("tmp/../assets/models")]:
+            with self.assertRaises(ValueError):
+                require_private_destination(recipe, destination)
+
+    def test_personalized_output_stays_in_ignored_workspace(self):
+        require_private_destination(
+            {"personalizedLocalOnly": True}, Path("tmp/local-model")
+        )
+
+    def test_generic_checkpoint_cannot_be_mislabelled_as_personalized(self):
+        with self.assertRaises(ValueError):
+            require_private_destination({}, Path("tmp/local-model"))
+
     def test_position_zero_and_eos_are_supervised_without_a_second_shift(self):
         labels = torch.tensor([[0, 3, 2, -100], [0, 4, 2, -100]])
         logits = torch.full((2, 4, 5), -12.0, requires_grad=True)

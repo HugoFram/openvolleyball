@@ -128,7 +128,13 @@ export const tournamentSchema = z.object({
             alternatives: z.array(z.string().max(3)).max(5).optional(),
             issue: text.optional(),
             reader: z
-              .enum(["contrast-v2", "style-cnn-v3", "trocr-v1", "trocr-fr-v2"])
+              .enum([
+                "contrast-v2",
+                "style-cnn-v3",
+                "trocr-v1",
+                "trocr-fr-v2",
+                "trocr-fr-v3",
+              ])
               .optional(),
           }),
         ),
@@ -146,6 +152,7 @@ export const tournamentSchema = z.object({
                   "style-cnn-v3",
                   "trocr-v1",
                   "trocr-fr-v2",
+                  "trocr-fr-v3",
                 ])
                 .optional(),
             }),

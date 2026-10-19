@@ -1,0 +1,86 @@
+{
+  "format": "open-volleyball-registration-training-fit",
+  "version": 1,
+  "evidenceType": "Training fit only; not unseen handwriting accuracy",
+  "trainingFields": 61,
+  "trainingSheets": 8,
+  "excludedFields": 4,
+  "sameBatchSummary": {
+    "team": {
+      "samples": 8,
+      "exact": 8,
+      "caseInsensitiveExact": 8
+    },
+    "name": {
+      "samples": 26,
+      "exact": 24,
+      "caseInsensitiveExact": 24
+    },
+    "email": {
+      "samples": 14,
+      "exact": 12,
+      "caseInsensitiveExact": 12
+    },
+    "club": {
+      "samples": 17,
+      "exact": 17,
+      "caseInsensitiveExact": 17
+    },
+    "blank": {
+      "samples": 39,
+      "exact": 39,
+      "caseInsensitiveExact": 39
+    }
+  },
+  "runtime": "Electron Transformers.js 4.3.1 / ONNX Runtime Web 1.30.0 CPU WASM, offline",
+  "weights": {
+    "encoder_model_quantized.onnx": "127581ea49e2abb0195fc4bbea963f379319a8d6c3946d4a6a2f9333534dfd87",
+    "decoder_model_merged_quantized.onnx": "bf7fec4e5762c24083e43309459f8bfecce5385bda9019dc8b46f8dfb37cdfad"
+  },
+  "checkpointSha256": "b1b760d9ec71f2fcc95a36373c1fe202d56bd9a42f3802f0f7532411b40f489d",
+  "selection": {
+    "epoch": 2,
+    "validationCER": 0.1086574886815116,
+    "objective": "aligned-cross-entropy-v1"
+  },
+  "externalRequests": 0,
+  "publicTestGpu": {
+    "cremma": {
+      "lines": 251,
+      "characters": 14926,
+      "characterErrors": 2464,
+      "cer": 0.165081066595203,
+      "exactLines": 8,
+      "exactRate": 0.03187250996015936
+    },
+    "cremma_accented": {
+      "lines": 197,
+      "characters": 12219,
+      "characterErrors": 2024,
+      "cer": 0.1656436696947377,
+      "exactLines": 5,
+      "exactRate": 0.025380710659898477
+    },
+    "gnhk": {
+      "lines": 1032,
+      "characters": 5271,
+      "characterErrors": 1294,
+      "cer": 0.24549421362170365,
+      "exactLines": 542,
+      "exactRate": 0.5251937984496124
+    },
+    "gnhk_accented": {
+      "lines": 0,
+      "characters": 0,
+      "characterErrors": 0,
+      "cer": 0.0,
+      "exactLines": 0,
+      "exactRate": 0.0
+    }
+  },
+  "limits": [
+    "Final local model has seen all usable fields in this batch. Do not report these numbers as generalization accuracy.",
+    "See registration-alpha6-transfer.json for the separate six-sheet/two-sheet experiment.",
+    "Private images, corrected strings and weights remain local and are excluded from public source."
+  ]
+}

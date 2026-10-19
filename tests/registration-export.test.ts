@@ -36,7 +36,7 @@ it("exports only approved, identified and aligned registration scans", () => {
   expect(reviewedRegistrations(t).map((s) => s.id)).toEqual(["reviewed"]);
 });
 
-it("upgrading preserves alpha.4 suggestions alongside new-reader corrections", () => {
+it("upgrading preserves both older readers alongside new-reader corrections", () => {
   const t = createTournament("Anciennes inscriptions");
   t.schema = 2;
   t.scanPages = [
@@ -62,6 +62,15 @@ it("upgrading preserves alpha.4 suggestions alongside new-reader corrections", (
       aligned: true,
       values: { teamName: { value: "Chêne", reader: "trocr-fr-v2" } },
     },
+    {
+      id: "latest-scan",
+      sourceId: "latest-source",
+      page: 1,
+      image: "scans/three.png",
+      status: "pending",
+      aligned: true,
+      values: { teamName: { value: "Genève", reader: "trocr-fr-v3" } },
+    },
   ];
   const saved = tournamentSchema.parse(JSON.parse(JSON.stringify(t)));
   expect(saved.scanPages![0].originalValues!.teamName).toEqual({
@@ -70,4 +79,5 @@ it("upgrading preserves alpha.4 suggestions alongside new-reader corrections", (
   });
   expect(saved.scanPages![0].accepted!.teamName).toBe("Les Étoiles");
   expect(saved.scanPages![1].values.teamName.reader).toBe("trocr-fr-v2");
+  expect(saved.scanPages![2].values.teamName.reader).toBe("trocr-fr-v3");
 });
