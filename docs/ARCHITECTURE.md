@@ -1,6 +1,6 @@
 # Implementation notes
 
-This is an independent implementation. No previous application source, orchestration framework, database layout or assets were reused.
+This is an independent implementation. No previous application source, orchestration framework or database layout was reused. Version 1.2 uses the icon explicitly supplied by the project owner.
 
 ## Stack and tradeoffs
 
@@ -37,6 +37,12 @@ Optional additive schema fields retain schema 1 readability: embedded normalized
 
 Opening a tournament refreshes outdated/missing phase sheets before adopting the session. Creating a final prepares all sheets, including unresolved fixtures. Advancing or correcting participants refreshes their fingerprints and PDF associations in the same tournament revision. Unchanged sheets are reused. The logo is embedded in JSON rather than linked to the source file.
 
+## Reliable printing
+
+The Electron PDF viewer is no longer used as the print target. A second Vite entry point bundles PDF.js and its worker offline. A sandboxed window receives only the selected PDF through a sender-scoped preload channel, renders pages sequentially at 200 DPI, waits for image decoding/fonts/layout, and reports readiness. The main process then prints A4 HTML pages with explicit zero page margins. Preparation has a timeout, and failure/cancellation closes its window and releases the operation. The source PDF stays vector-based for Afficher. Tests intercept only the hardware print call, capture actual Chromium printToPDF output, and verify nonblank decoded images and PDF content resources on every page.
+
+The print renderer has a restrictive CSP and no tournament command bridge. Window IDs bind transient PDF jobs; job data is removed as soon as preparation settles.
+
 ## Distribution and verification
 
-The portable Windows x64 executable bundles the runtime and original volleyball icon. Operators do not install Node.js. macOS/Linux packages are not validated. Tests use only temporary data. PDF tests parse actual page counts/A4 sizes; representative pages are also rasterized and visually reviewed. Native directory selections are stubbed in repeatable GUI tests, and physical printing is a manual hardware check.
+The portable Windows x64 executable bundles the runtime and user-supplied volleyball icon. Operators do not install Node.js. macOS/Linux packages are not validated. Tests use only temporary data. PDF tests parse actual page counts/A4 sizes; representative pages are also rasterized and visually reviewed. Native directory selections are stubbed in repeatable GUI tests, and physical printing is a manual hardware check.

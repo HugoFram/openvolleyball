@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' blob:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'"
+    />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Open Volleyball — Imprimer</title>
+  </head>
+  <body>
+    <header>
+      <strong>Aperçu avant impression</strong
+      ><span id="print-status" role="status">Préparation des pages…</span>
+    </header>
+    <main id="pages" aria-label="Pages à imprimer"></main>
+    <script type="module" src="/src/print.ts"></script>
+  </body>
+</html>

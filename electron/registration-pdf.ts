@@ -1,6 +1,6 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { pdfDocument, printHeader } from "./pdf-base";
+import { pdfDocument, printHeader, printFooter } from "./pdf-base";
 import { atomicWrite } from "./store";
 import { check, id } from "../src/domain/engine";
 import { levelLetter, levelLegend } from "../src/domain/levels";
@@ -34,7 +34,7 @@ export async function makeRegistrationSheet(
       doc
         .font("Bold")
         .fontSize(13)
-        .fillColor("#172b25")
+        .fillColor("#172f4b")
         .text(`Fiche d’inscription - ${category}`, 36, y, { lineBreak: false });
       doc
         .font("Regular")
@@ -45,7 +45,7 @@ export async function makeRegistrationSheet(
         });
       if (!team)
         doc
-          .strokeColor("#76867e")
+          .strokeColor("#788aa1")
           .moveTo(88, y + 47)
           .lineTo(559, y + 47)
           .stroke();
@@ -65,7 +65,7 @@ export async function makeRegistrationSheet(
           lineBreak: false,
         }),
       );
-      doc.strokeColor("#76867e").lineWidth(0.6);
+      doc.strokeColor("#788aa1").lineWidth(0.6);
       xs.forEach((x) => doc.moveTo(x, top).lineTo(x, bottom).stroke());
       doc.moveTo(36, top).lineTo(559, top).stroke();
       for (let i = 0; i <= 4; i++)
@@ -91,15 +91,7 @@ export async function makeRegistrationSheet(
         );
       }
     }
-    doc
-      .font("Regular")
-      .fontSize(8)
-      .fillColor("#52665a")
-      .text(`${page + 1}/${pages}`, 36, 806, {
-        width: 523,
-        align: "right",
-        lineBreak: false,
-      });
+    printFooter(doc, t, page + 1, pages);
   }
   doc.end();
   const file = `documents/inscription-${team?.id || category}-${perPage}-${pages}-r${t.revision}.pdf`;

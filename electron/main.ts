@@ -27,6 +27,7 @@ import type { Command, Recent, Session, Tournament } from "../src/domain/types";
 import { atomicWrite, decode, PackageStore } from "./store";
 import { makeSheet, sheetFingerprint } from "./pdf";
 import { makeRegistrationSheet } from "./registration-pdf";
+import { printDocument } from "./printing";
 let win: BrowserWindow;
 let active: PackageStore | undefined;
 let queue = Promise.resolve();
@@ -84,7 +85,7 @@ async function switchTo(next: PackageStore) {
         at: now(),
         revision: refreshed.revision,
         action: "documents-updated",
-        detail: { layout: 2 },
+        detail: { layout: 3 },
       });
       await next.save(refreshed);
     }
@@ -266,36 +267,13 @@ async function handle(method: string, a: any) {
     }
     case "print-document": {
       const file = await documentFor(a.id);
-      const preview = new BrowserWindow({
-        show: true,
-        width: 900,
-        height: 800,
-        title: "Imprimer la feuille",
-        webPreferences: {
-          nodeIntegration: false,
-          contextIsolation: true,
-          sandbox: true,
-        },
-      });
-      try {
-        await preview.loadURL(pathToFileURL(file).href);
-        await new Promise<void>((resolve, reject) =>
-          preview.webContents.print(
-            {
-              silent: false,
-              deviceName: a.printer || "",
-              printBackground: false,
-            },
-            (ok, reason) => {
-              if (ok || reason === "cancelled") resolve();
-              else reject(new Error(`Impression : ${reason}`));
-            },
-          ),
-        );
-      } finally {
-        if (!preview.isDestroyed()) preview.close();
-      }
-      return true;
+      return printDocument(
+        file,
+        a.printer || "",
+        root,
+        path.join(__dirname, "print-preload.cjs"),
+        win,
+      );
     }
     case "registration-sheet": {
       const store = requireActive(a.packageId),
@@ -521,7 +499,7 @@ else {
       minWidth: 900,
       minHeight: 650,
       title: "Open Volleyball",
-      backgroundColor: "#f5f5ef",
+      backgroundColor: "#f1f5fa",
       icon: path.join(root, "assets", "volleyball.png"),
       webPreferences: {
         preload: path.join(__dirname, "preload.cjs"),

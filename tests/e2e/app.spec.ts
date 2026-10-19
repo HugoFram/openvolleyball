@@ -301,8 +301,8 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
       .getByRole("button", { name: "Imprimer", exact: true }),
   ).toBeVisible();
   await expect(page.getByLabel("Arbitre", { exact: true })).toHaveValue("");
-  await page.getByLabel("Score A", { exact: true }).fill("21");
-  await page.getByLabel("Score B", { exact: true }).fill("9");
+  await page.getByLabel("Score 1", { exact: true }).fill("21");
+  await page.getByLabel("Score 2", { exact: true }).fill("9");
   await page
     .getByRole("button", { name: "Enregistrer la rencontre", exact: true })
     .click();
@@ -336,8 +336,8 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
   expect(printed.kind).toBe("team-registration");
   await page.getByRole("button", { name: "Tableau", exact: true }).click();
   await page.locator(".bracket-card").first().click();
-  await page.getByLabel("Score A", { exact: true }).fill("9");
-  await page.getByLabel("Score B", { exact: true }).fill("21");
+  await page.getByLabel("Score 1", { exact: true }).fill("9");
+  await page.getByLabel("Score 2", { exact: true }).fill("21");
   await page.getByRole("button", { name: "Appliquer la correction" }).click();
   await expect(
     page.getByRole("dialog", { name: "Confirmer la correction" }),

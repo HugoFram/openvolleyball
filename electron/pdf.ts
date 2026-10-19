@@ -1,7 +1,7 @@
 import path from "node:path";
 import fs from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { printHeader, pdfDocument } from "./pdf-base";
+import { printHeader, printFooter, pdfDocument } from "./pdf-base";
 import { atomicWrite } from "./store";
 import { id } from "../src/domain/engine";
 import type {
@@ -24,7 +24,7 @@ export function sheetFingerprint(
   return createHash("sha256")
     .update(
       JSON.stringify({
-        layout: 2,
+        layout: 3,
         branding: t.branding,
         name: t.name,
         category: p.category,
@@ -54,19 +54,22 @@ export function groupPages(p: Phase, g: Group): PdfPage[] {
   const matches = p.matches
     .filter((m) => m.groupId === g.id)
     .sort((a, b) => a.order - b.order);
-  if (g.courts.length === 2)
+  if (g.teamIds.length === 5 && g.courts.length === 2)
     return g.courts
       .map((court) => ({
         court,
         matches: matches.filter((m) => m.court === court),
       }))
       .filter((x) => x.matches.length);
-  if (matches.length <= 6) return [{ court: g.courts[0], matches }];
-  const out: PdfPage[] = [];
-  for (let i = 0; i < matches.length; i += 5)
-    out.push({ court: g.courts[0], matches: matches.slice(i, i + 5) });
-  return out;
+  return [{ court: g.courts.join(" / "), matches }];
 }
+export const sheetColumns = [
+  { label: "Équipe 1", width: 91 },
+  { label: "Équipe 2", width: 91 },
+  { label: "Score 1", width: 125 },
+  { label: "Score 2", width: 125 },
+  { label: "Arbitre", width: 91 },
+] as const;
 export async function makeSheet(
   t: Tournament,
   p: Phase,
@@ -88,7 +91,7 @@ export async function makeSheet(
     printHeader(doc, t);
     doc
       .font("Bold")
-      .fillColor("#172b25")
+      .fillColor("#172f4b")
       .fontSize(11)
       .text(
         `${p.category} - ${p.lane} - ${g ? `Phase de groupe ${p.number} - ${g.name}` : m?.bronze ? "Petite finale" : "Phase finale - Rencontre " + m!.order}`,
@@ -104,12 +107,12 @@ export async function makeSheet(
         36,
         137,
       );
-    doc.fontSize(9).fillColor("#45554f").text("Équipes", 36, 163);
+    doc.fontSize(9).fillColor("#465b73").text("Équipes", 36, 163);
     const teamIds = g ? g.teamIds : ([m?.a, m?.b].filter(Boolean) as string[]);
     let y = 180;
     for (const tid of teamIds) {
       doc
-        .fillColor("#172b25")
+        .fillColor("#172f4b")
         .fontSize(10)
         .text(`• ${name(tid)}`, 42, y, {
           width: 510,
@@ -119,10 +122,10 @@ export async function makeSheet(
       y += 24;
     }
     const top = Math.max(245, y + 15);
-    const widths = [108, 102, 102, 108, 103];
+    const widths = sheetColumns.map((column) => column.width);
     const xs = [36];
     widths.forEach((w) => xs.push(xs.at(-1)! + w));
-    const headers = ["Équipe A", "Score A", "Score B", "Équipe B", "Arbitre"];
+    const headers = sheetColumns.map((column) => column.label);
     doc.font("Bold").fontSize(10);
     headers.forEach((h, i) =>
       doc.text(h, xs[i] + 5, top + 10, {
@@ -133,7 +136,7 @@ export async function makeSheet(
     );
     const rowHeight = (770 - top - 32) / page.matches.length;
     const bottom = top + 32 + rowHeight * page.matches.length;
-    doc.strokeColor("#76867e").lineWidth(0.6);
+    doc.strokeColor("#788aa1").lineWidth(0.6);
     xs.forEach((x) => doc.moveTo(x, top).lineTo(x, bottom).stroke());
     doc.moveTo(36, top).lineTo(559, top).stroke();
     doc
@@ -142,15 +145,19 @@ export async function makeSheet(
       .stroke();
     page.matches.forEach((match, j) => {
       const ry = top + 32 + j * rowHeight;
-      doc.font("Regular").fontSize(10).fillColor("#172b25");
-      doc.text(name(match.a), xs[0] + 7, ry + 12, {
+      const padding = page.matches.length > 6 ? 7 : 12;
+      doc
+        .font("Regular")
+        .fontSize(page.matches.length > 6 ? 9 : 10)
+        .fillColor("#172f4b");
+      doc.text(name(match.a), xs[0] + 6, ry + padding, {
         width: widths[0] - 14,
-        height: rowHeight - 20,
+        height: rowHeight - padding - 4,
         ellipsis: true,
       });
-      doc.text(name(match.b), xs[3] + 7, ry + 12, {
-        width: widths[3] - 14,
-        height: rowHeight - 20,
+      doc.text(name(match.b), xs[1] + 6, ry + padding, {
+        width: widths[1] - 12,
+        height: rowHeight - padding - 4,
         ellipsis: true,
       });
       doc
@@ -161,10 +168,10 @@ export async function makeSheet(
             ? ""
             : names[match.referee] || match.referee,
           xs[4] + 7,
-          ry + 12,
+          ry + padding,
           {
             width: widths[4] - 14,
-            height: rowHeight - 20,
+            height: rowHeight - padding - 4,
             ellipsis: true,
           },
         );
@@ -176,18 +183,14 @@ export async function makeSheet(
     doc
       .font("Regular")
       .fontSize(8)
-      .fillColor("#52665a")
+      .fillColor("#465b73")
       .text(
         "Classement : victoires / matchs joués, puis différence de points / matchs joués.",
         36,
         790,
         { width: 523, lineBreak: false },
       );
-    doc.text(`Feuille de terrain · ${index + 1}/${pages.length}`, 36, 806, {
-      width: 523,
-      align: "right",
-      lineBreak: false,
-    });
+    printFooter(doc, t, index + 1, pages.length);
   });
   doc.end();
   const file = `documents/${p.id}-${g?.id || m!.id}-r${t.revision}.pdf`;

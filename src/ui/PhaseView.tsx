@@ -169,10 +169,10 @@ export function PhaseView({ phase: p }: { phase: Phase }) {
                         <tr>
                           <th>Ordre</th>
                           <th>Terrain / Arbitre</th>
-                          <th>Équipe A</th>
-                          <th className="score-th">Score A</th>
-                          <th className="score-th">Score B</th>
-                          <th>Équipe B</th>
+                          <th>Équipe 1</th>
+                          <th className="score-th">Score 1</th>
+                          <th className="score-th">Score 2</th>
+                          <th>Équipe 2</th>
                           <th />
                         </tr>
                       </thead>

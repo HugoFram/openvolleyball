@@ -20,33 +20,45 @@ export function pdfDocument(t: Tournament, fontDir: string, title: string) {
 }
 export function printHeader(doc: PDFKit.PDFDocument, t: Tournament) {
   doc
-    .fillColor("#145b4b")
     .font("Bold")
-    .fontSize(10)
-    .text("OPEN VOLLEYBALL", 36, 30, { lineBreak: false });
-  doc
-    .fillColor("#172b25")
-    .fontSize(19)
-    .text(t.name, 36, 50, {
-      width: t.branding?.logo ? 435 : 523,
-      height: 40,
+    .fillColor("#172f4b")
+    .fontSize(21)
+    .text(t.name, 36, 35, {
+      width: t.branding?.logo ? 415 : 523,
+      height: 54,
       ellipsis: true,
     });
   if (t.branding?.logo)
-    doc.image(Buffer.from(t.branding.logo.split(",")[1], "base64"), 489, 28, {
-      fit: [70, 58],
+    doc.image(Buffer.from(t.branding.logo.split(",")[1], "base64"), 465, 24, {
+      fit: [94, 76],
       align: "right",
       valign: "center",
     });
+}
+export function printFooter(
+  doc: PDFKit.PDFDocument,
+  t: Tournament,
+  page: number,
+  pages: number,
+) {
   if (t.branding?.website)
     doc
       .font("Regular")
       .fontSize(9)
-      .fillColor("#45554f")
-      .text(t.branding.website, 36, 90, {
-        width: 523,
+      .fillColor("#465b73")
+      .text(t.branding.website, 36, 806, {
+        width: 450,
         height: 12,
         ellipsis: true,
         link: t.branding.website,
       });
+  doc
+    .font("Regular")
+    .fontSize(8)
+    .fillColor("#465b73")
+    .text(`${page}/${pages}`, 500, 806, {
+      width: 59,
+      align: "right",
+      lineBreak: false,
+    });
 }

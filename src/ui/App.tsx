@@ -159,7 +159,7 @@ export function App() {
       <div className="app-shell">
         <aside className="sidebar">
           <a className="brand" href="#" onClick={(e) => e.preventDefault()}>
-            <img src="./assets/volleyball.svg" alt="" />
+            <img src="./assets/volleyball.png" alt="" />
             <span>
               open<span className="brand-light">volleyball</span>
             </span>
@@ -203,7 +203,7 @@ export function App() {
           ) : (
             <div className="start-side">
               <div className="ball-art">
-                <img src="./assets/volleyball.svg" alt="Ballon de volleyball" />
+                <img src="./assets/volleyball.png" alt="Ballon de volleyball" />
               </div>
             </div>
           )}

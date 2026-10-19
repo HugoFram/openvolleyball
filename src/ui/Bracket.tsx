@@ -336,7 +336,7 @@ export function MatchPopup({
         )}
         <div className="popup-scores">
           <label>
-            Score A
+            Score 1
             <input
               type="number"
               min={0}
@@ -351,7 +351,7 @@ export function MatchPopup({
           </label>
           <span>–</span>
           <label>
-            Score B
+            Score 2
             <input
               type="number"
               min={0}

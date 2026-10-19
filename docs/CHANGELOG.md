@@ -1,3 +1,12 @@
+# Version 1.2.0
+
+- Icône fournie intégrée à l’exécutable, à la fenêtre et à l’interface ; palette bleue. La construction ne régénère plus l’ancienne icône verte.
+- Impression corrigée : préparation des pages PDF dans une vue dédiée, attente du rendu complet à 200 ppp, puis impression HTML A4. Afficher conserve le PDF original. L’aperçu natif de Windows peut rester indisponible selon sa boîte de dialogue ; la feuille préparée contient son contenu.
+- Tous les groupes sur une page, sauf cinq équipes avec Deux terrains : deux pages de cinq matchs.
+- Colonnes Équipe 1, Équipe 2, Score 1, Score 2, Arbitre ; scores environ 37 % plus larges que les autres colonnes. Noms 1/2 harmonisés dans l’interface.
+- En-tête limité au nom du tournoi et au logo agrandi ; URL déplacée dans le pied de page, y compris les fiches d’inscription. Les feuilles de groupes/finales sont actualisées à l’ouverture des anciens tournois.
+- Validation : 37 tests moteur/stockage/PDF et 9 tests Electron, dont deux qui vérifient le contenu réel de la sortie d’impression (une/deux pages). Exemples d’origine inchangés.
+
 # Version 1.1.0
 
 - Création d’un tournoi avec logo PNG/JPEG facultatif et site web, intégrés dans les feuilles de groupes et de matchs. Le logo est embarqué pour les copies/sauvegardes.

@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { PackageStore, decode, encode } from "../electron/store";
-import { groupPages, makeSheet } from "../electron/pdf";
+import { groupPages, makeSheet, sheetColumns } from "../electron/pdf";
 import { PDFDocument as PDFReader } from "pdf-lib";
 import { applyCommand } from "../src/domain/engine";
 import { registered, groupPhase, playPhase, splitTournament } from "./helpers";
@@ -90,6 +90,7 @@ it("A06/A08: actual A4 PDFs, five-team/two-court 2×5 pages, all other schedules
         expect(pages.flatMap((p) => p.matches)).toHaveLength((n * (n - 1)) / 2);
         if (n === 5 && courts === 2)
           expect(pages.map((p) => p.matches.length)).toEqual([5, 5]);
+        else expect(pages).toHaveLength(1);
         const d = await makeSheet(
           t,
           phase,
@@ -108,6 +109,20 @@ it("A06/A08: actual A4 PDFs, five-team/two-court 2×5 pages, all other schedules
   } finally {
     await fs.rm(folder, { recursive: true, force: true });
   }
+});
+it("Printed score columns are at least one third wider and paired teams come first", () => {
+  expect(sheetColumns.map((c) => c.label)).toEqual([
+    "Équipe 1",
+    "Équipe 2",
+    "Score 1",
+    "Score 2",
+    "Arbitre",
+  ]);
+  const scores = sheetColumns.filter((c) => c.label.startsWith("Score"));
+  const others = sheetColumns.filter((c) => !c.label.startsWith("Score"));
+  for (const score of scores)
+    for (const column of others)
+      expect(score.width / column.width).toBeGreaterThanOrEqual(4 / 3);
 });
 it("A19: serialize/reopen complete hierarchy and all results without a transient UI state", () => {
   let t = groupPhase(registered(17), "Commun", [5, 4, 4, 4]);
