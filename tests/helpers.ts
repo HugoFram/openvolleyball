@@ -3,6 +3,7 @@ import {
   createTournament,
   getPhase,
   rankingPlan,
+  laneCandidates,
   structures,
 } from "../src/domain/engine";
 import type { Category, Lane, Phase, Tournament } from "../src/domain/types";
@@ -10,11 +11,12 @@ export const decisionsFor = (
   t: Tournament,
   p: Phase,
   count: number,
-  purpose: "split" | "seeds",
+  purpose: "split" | "seeds" | "groups",
   ids?: string[],
+  sizes?: number[],
 ) =>
   Object.fromEntries(
-    rankingPlan(t, p, count, purpose, ids).ties.map((tie) => [
+    rankingPlan(t, p, count, purpose, ids, sizes).ties.map((tie) => [
       tie.key,
       tie.rows.map((r) => r.teamId),
     ]),
@@ -39,11 +41,16 @@ export function groupPhase(
       : t.splits.find((x) => x.category === category)![
           lane === "Principale" ? "principale" : "consolante"
         ].length;
+  const structure = sizes || structures(count)[0];
+  const { source, ids } = laneCandidates(t, category, lane);
   t = applyCommand(t, {
     type: "draft",
     category,
     lane,
-    structure: sizes || structures(count)[0],
+    structure,
+    decisions: source
+      ? decisionsFor(t, source, ids.length, "groups", ids, structure)
+      : {},
     target: 21,
   });
   const p = t.phases.at(-1)!;

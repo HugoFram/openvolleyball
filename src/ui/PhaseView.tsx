@@ -10,8 +10,13 @@ import {
   Trash2,
   Layers,
 } from "lucide-react";
-import type { Group, Match, Phase } from "../domain/types";
-import { standings, validateScore } from "../domain/engine";
+import type { Group, Match, Phase, Tournament } from "../domain/types";
+import {
+  standings,
+  overallStandings,
+  validateScore,
+  defaultRules,
+} from "../domain/engine";
 import { useApp, Hint, Status, phaseName } from "./shared";
 import { Bracket, MatchPopup } from "./Bracket";
 export function PhaseView({ phase: p }: { phase: Phase }) {
@@ -117,11 +122,14 @@ export function PhaseView({ phase: p }: { phase: Phase }) {
           {p.kind === "knockout" ? (
             <Bracket phase={p} onMatch={setPopup} ranking={tab === "ranking"} />
           ) : tab === "ranking" ? (
-            <div className="standings-grid">
-              {p.groups.map((g) => (
-                <Standings key={g.id} phase={p} group={g} />
-              ))}
-            </div>
+            <>
+              <Standings phase={p} general />
+              <div className="standings-grid">
+                {p.groups.map((g) => (
+                  <Standings key={g.id} phase={p} group={g} />
+                ))}
+              </div>
+            </>
           ) : tab === "groups" ? (
             <div className="group-grid">
               {p.groups.map((g) => (
@@ -132,7 +140,7 @@ export function PhaseView({ phase: p }: { phase: Phase }) {
                       <li key={id}>
                         <span>{p.teamNames[id]}</span>
                         <span className="level-badge">
-                          {p.levels[id].toFixed(2)}
+                          {teamMetric(p, id, session.tournament)}
                         </span>
                       </li>
                     ))}
@@ -206,15 +214,21 @@ function GroupHeader({ phase: p, group: g }: { phase: Phase; group: Group }) {
       <div>
         <h3>{g.name}</h3>
         <span>
-          Niveau moyen{" "}
-          {(
-            g.teamIds.reduce((s, x) => s + p.levels[x], 0) / g.teamIds.length
-          ).toFixed(2)}
+          {p.sourceId ? "Classement précédent" : "Niveau moyen"}{" "}
+          {!p.sourceId &&
+            (
+              g.teamIds.reduce((s, x) => s + p.levels[x], 0) / g.teamIds.length
+            ).toFixed(2)}
         </span>
       </div>
       <span className="small-chip">Terrain : {g.courts.join(" / ")}</span>
     </div>
   );
+}
+function teamMetric(p: Phase, teamId: string, t: Tournament) {
+  if (!p.sourceId) return p.levels[teamId].toFixed(2);
+  const source = t.phases.find((x) => x.id === p.sourceId);
+  return `#${p.previousRanks?.[teamId] || (source ? overallStandings(source).find((r) => r.teamId === teamId)?.overallPlace : "—")}`;
 }
 export function DocumentButtons({
   documentId,
@@ -252,13 +266,24 @@ export function DocumentButtons({
   );
 }
 function Draft({ phase: p }: { phase: Phase }) {
-  const { command, busy, dirty, confirm, notify } = useApp();
-  const [groups, setGroups] = useState<Group[]>(structuredClone(p.groups)),
+  const { session, command, busy, dirty, confirm, notify } = useApp();
+  const legacyCourts = p.groups.some(
+    (g) => g.teamIds.length !== 5 && g.courts.length > 1,
+  );
+  const [groups, setGroups] = useState<Group[]>(
+      p.groups.map((g) => ({
+        ...structuredClone(g),
+        courts: g.teamIds.length === 5 ? [...g.courts] : [g.courts[0]],
+      })),
+    ),
     [selected, setSelected] = useState<string | null>(null),
     [target, setTarget] = useState<21 | 25>(p.target),
-    [changed, setChanged] = useState(false),
+    [changed, setChanged] = useState(legacyCourts),
     [error, setError] = useState("");
-  useEffect(() => () => dirty("draft", false), []);
+  useEffect(() => {
+    if (legacyCourts) dirty("draft", true);
+    return () => dirty("draft", false);
+  }, []);
   const update = (next: Group[]) => {
     setGroups(next);
     setChanged(true);
@@ -303,7 +328,7 @@ function Draft({ phase: p }: { phase: Phase }) {
       <div className="draft-banner">
         <Layers size={22} />
         <div>
-          <strong>Votre répartition, avant le coup d’envoi</strong>
+          <strong>Répartition des groupes</strong>
           <p>
             Cliquez sur deux équipes de groupes différents pour les échanger.
             Les terrains acceptent des noms complets.
@@ -370,34 +395,37 @@ function Draft({ phase: p }: { phase: Phase }) {
               <div>
                 <h3>{g.name}</h3>
                 <small>
-                  Niveau moyen{" "}
-                  {(
-                    g.teamIds.reduce((s, x) => s + p.levels[x], 0) /
-                    g.teamIds.length
-                  ).toFixed(2)}
+                  {p.sourceId ? "Classement précédent" : "Niveau moyen"}{" "}
+                  {!p.sourceId &&
+                    (
+                      g.teamIds.reduce((s, x) => s + p.levels[x], 0) /
+                      g.teamIds.length
+                    ).toFixed(2)}
                 </small>
               </div>
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={g.courts.length === 2}
-                  onChange={(e) =>
-                    update(
-                      groups.map((x) =>
-                        x.id === g.id
-                          ? {
-                              ...x,
-                              courts: e.target.checked
-                                ? [x.courts[0], `${x.courts[0]}B`]
-                                : [x.courts[0]],
-                            }
-                          : x,
-                      ),
-                    )
-                  }
-                />
-                Deux terrains
-              </label>
+              {g.teamIds.length === 5 && (
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={g.courts.length === 2}
+                    onChange={(e) =>
+                      update(
+                        groups.map((x) =>
+                          x.id === g.id
+                            ? {
+                                ...x,
+                                courts: e.target.checked
+                                  ? [x.courts[0], `${x.courts[0]}B`]
+                                  : [x.courts[0]],
+                              }
+                            : x,
+                        ),
+                      )
+                    }
+                  />
+                  Deux terrains
+                </label>
+              )}
             </div>
             <div className="court-fields">
               <span>Terrain :</span>
@@ -436,7 +464,7 @@ function Draft({ phase: p }: { phase: Phase }) {
                   </span>
                   <span>{p.teamNames[tid]}</span>
                   <span className="level-badge">
-                    {p.levels[tid].toFixed(2)}
+                    {teamMetric(p, tid, session.tournament)}
                   </span>
                   <ArrowLeftRight size={14} />
                 </button>
@@ -451,13 +479,6 @@ function Draft({ phase: p }: { phase: Phase }) {
       </div>
       {error && <Hint error>{error}</Hint>}
       <div className="page-bottom">
-        <div>
-          <strong>Prêt à lancer cette phase ?</strong>
-          <p className="muted">
-            La confirmation fige les groupes et prépare automatiquement les
-            feuilles PDF.
-          </p>
-        </div>
         <button
           className="primary"
           disabled={busy}
@@ -514,7 +535,7 @@ function ScoreRow({
     }
     const score: [number, number] = [Number(a), Number(b)];
     try {
-      validateScore(score, m.target, p.rules);
+      validateScore(score, m.target, defaultRules);
       saving.current = true;
       await command({ type: "score", phaseId: p.id, matchId: m.id, score });
       dirty(m.id, false);
@@ -606,17 +627,19 @@ export function Standings({
   phase: p,
   group: g,
   compact = false,
+  general = false,
 }: {
   phase: Phase;
-  group: Group;
+  group?: Group;
   compact?: boolean;
+  general?: boolean;
 }) {
-  const rows = standings(p, g);
+  const rows = general ? overallStandings(p) : standings(p, g!);
   return (
     <div className={compact ? "standings compact" : "panel standings"}>
-      {!compact && <h3>{g.name}</h3>}
+      {!compact && <h3>{general ? "Classement général" : g!.name}</h3>}
       <div className="ranking-label">
-        CLASSEMENT · 2 PTS / VICTOIRE, 1 PT / DÉFAITE, PUIS DIFFÉRENCE
+        VICTOIRES / MATCHS JOUÉS, PUIS DIFFÉRENCE / MATCHS JOUÉS
       </div>
       <div className="table-wrap">
         <table>
@@ -624,6 +647,7 @@ export function Standings({
             <tr>
               <th>Rang</th>
               <th>Équipe</th>
+              {general && <th>Groupe</th>}
               <th title="Matchs joués">MJ</th>
               <th>V</th>
               <th>D</th>
@@ -631,6 +655,8 @@ export function Standings({
               <th>Pour</th>
               <th>Contre</th>
               <th>Diff.</th>
+              <th>V / MJ</th>
+              <th>Diff. / MJ</th>
             </tr>
           </thead>
           <tbody>
@@ -638,12 +664,15 @@ export function Standings({
               <tr key={r.teamId}>
                 <td>
                   <span className={`rank ${i === 0 ? "first" : ""}`}>
-                    {r.place}
+                    {general ? r.overallPlace : r.place}
                   </span>
                 </td>
                 <td>
                   <strong>{p.teamNames[r.teamId]}</strong>
                 </td>
+                {general && (
+                  <td>{p.groups.find((g) => g.id === r.groupId)?.name}</td>
+                )}
                 <td>{r.played}</td>
                 <td>{r.wins}</td>
                 <td>{r.losses}</td>
@@ -656,6 +685,8 @@ export function Standings({
                   {r.diff > 0 ? "+" : ""}
                   {r.diff}
                 </td>
+                <td>{(r.wins / Math.max(1, r.played)).toFixed(3)}</td>
+                <td>{(r.diff / Math.max(1, r.played)).toFixed(3)}</td>
               </tr>
             ))}
           </tbody>

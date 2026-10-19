@@ -156,7 +156,7 @@ it("Changing group arbitration invalidates its PDF association and disallows cou
   });
   expect(t.documents).toHaveLength(0);
 });
-it("Rules confirmed before a draft is confirmed become its actual scoring rules", () => {
+it("New scoring always requires two points and rejects configurable ranking rules", () => {
   let t = registered(4);
   t = applyCommand(t, {
     type: "draft",
@@ -165,18 +165,28 @@ it("Rules confirmed before a draft is confirmed become its actual scoring rules"
     structure: [4],
     target: 21,
   });
-  t = applyCommand(t, {
-    type: "rules",
-    rules: { ...t.rules, margin: 1, confirmed: true },
-  });
+  expect(() =>
+    applyCommand(t, {
+      type: "rules",
+      rules: { ...t.rules, margin: 1, confirmed: true },
+    }),
+  ).toThrow();
+  expect(() =>
+    applyCommand(t, {
+      type: "rules",
+      rules: { ...t.rules, crossGroup: "place-first" },
+    }),
+  ).toThrow();
   t = applyCommand(t, { type: "confirm", phaseId: t.phases[0].id });
-  expect(t.phases[0].rules.margin).toBe(1);
-  t = applyCommand(t, {
-    type: "score",
-    phaseId: t.phases[0].id,
-    matchId: t.phases[0].matches[0].id,
-    score: [21, 20],
-  });
+  expect(t.phases[0].rules.margin).toBe(2);
+  expect(() =>
+    applyCommand(t, {
+      type: "score",
+      phaseId: t.phases[0].id,
+      matchId: t.phases[0].matches[0].id,
+      score: [21, 20],
+    }),
+  ).toThrow("écart");
   assertInvariants(t);
 });
 it("Withdrawn teams stay in history but are excluded even from a new branch root", () => {

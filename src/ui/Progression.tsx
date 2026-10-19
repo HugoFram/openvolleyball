@@ -17,16 +17,15 @@ import {
   structures,
 } from "../domain/engine";
 import { useApp, Status, Modal, Hint, phaseName, Empty } from "./shared";
+import { RankingChoices, choicesComplete } from "./RankingChoices";
 import { PhaseView } from "./PhaseView";
 
 export function Progression({
   category,
   onRegister,
-  onRules,
 }: {
   category: Category;
   onRegister: () => void;
-  onRules: () => void;
 }) {
   const { session, command, busy, guard } = useApp(),
     t = session.tournament;
@@ -106,7 +105,6 @@ export function Progression({
     }
     return (
       <div className="next-options">
-        <span>LA SUITE DU PARCOURS</span>
         <button
           disabled={busy || !!error || ids.length < 3}
           onClick={() => setCreator(lane)}
@@ -168,26 +166,13 @@ export function Progression({
               <GitFork size={20} />
               Progression
             </h2>
-            <p>Les résultats restent accessibles à chaque étape.</p>
           </div>
           <span className="small-chip">{category}</span>
         </div>
         {!initial ? (
           <div className="initial-empty">
-            <div className="step-orb">1</div>
-            <h3>Tout commence par les groupes initiaux</h3>
-            <p>
-              {!t.rules.confirmed
-                ? "Confirmez le règlement, puis répartissez vos équipes."
-                : `${teams.length} équipes prêtes à entrer en jeu.`}
-            </p>
             <div className="actions">
-              {!t.rules.confirmed ? (
-                <button className="primary" onClick={onRules}>
-                  Confirmer le règlement
-                  <ArrowRight size={16} />
-                </button>
-              ) : teams.length < 3 ? (
+              {teams.length < 3 ? (
                 <button className="primary" onClick={onRegister}>
                   <Users size={17} />
                   Inscrire des équipes
@@ -249,7 +234,6 @@ export function Progression({
                 <div className="split-prompt">
                   <ArrowRight size={24} />
                   <div>
-                    <h3>Deux parcours, un même tournoi</h3>
                     <p>
                       {initial.status === "Terminée"
                         ? "Les groupes sont terminés. Répartissez maintenant les équipes."
@@ -328,9 +312,24 @@ function GroupCreator({
   const [eligible] = useState(() => laneCandidates(t, category, lane));
   const [preferred, setPreferred] = useState(t.preferredSize),
     [target, setTarget] = useState<21 | 25>(21),
-    [selected, setSelected] = useState(""),
-    [error, setError] = useState("");
+    [selected, setSelected] = useState(
+      () =>
+        structures(eligible.ids.length, t.preferredSize)[0]?.join("+") || "",
+    ),
+    [error, setError] = useState(""),
+    [decisions, setDecisions] = useState<Record<string, string[]>>({});
   const options = structures(eligible.ids.length, preferred);
+  const plan =
+    eligible.source && selected
+      ? rankingPlan(
+          t,
+          eligible.source,
+          eligible.ids.length,
+          "groups",
+          eligible.ids,
+          selected.split("+").map(Number),
+        )
+      : null;
   useEffect(() => {
     setSelected(structures(eligible.ids.length, preferred)[0]?.join("+") || "");
   }, [preferred, eligible.ids.length]);
@@ -397,13 +396,21 @@ function GroupCreator({
             {eligible.ids.length} équipes.
           </Hint>
         )}
+        {plan && (
+          <RankingChoices
+            plan={plan}
+            names={eligible.source!.teamNames}
+            decisions={decisions}
+            onChange={setDecisions}
+          />
+        )}
         {error && <Hint error>{error}</Hint>}
       </div>
       <footer className="modal-footer">
         <button onClick={onClose}>Annuler</button>
         <button
           className="primary"
-          disabled={busy || !selected}
+          disabled={busy || !selected || !choicesComplete(plan, decisions)}
           onClick={async () => {
             try {
               await command({
@@ -413,6 +420,7 @@ function GroupCreator({
                 structure: selected.split("+").map(Number),
                 target,
                 preferredSize: preferred,
+                decisions,
               });
               const r = await window.volley.call<Session>("session");
               const p = r.value?.tournament.phases.find(
@@ -523,11 +531,8 @@ function Qualification({
           </div>
         </div>
         <Hint>
-          Source : {phaseName(source)} · {source.lane}.{" "}
-          {source.rules.crossGroup === "place-first"
-            ? "Rang de groupe, puis points de classement par match et différence par match."
-            : "Points de classement par match, puis différence par match."}{" "}
-          Victoire : 2 pts ; défaite : 1 pt.
+          Source : {phaseName(source)} · {source.lane}. Victoires / matchs
+          joués, puis différence de points / matchs joués.
         </Hint>
         {purpose === "seeds" && (
           <div className="final-config">
@@ -561,46 +566,12 @@ function Qualification({
             </label>
           </div>
         )}
-        {plan.ties.map((tie) => (
-          <section className="tie-panel" key={tie.key}>
-            <h3>Un choix sportif est nécessaire</h3>
-            <p>{tie.reason}</p>
-            <p className="muted">
-              {tie.rows
-                .map(
-                  (r) =>
-                    `${source.teamNames[r.teamId]} : rang ${r.place}, ${r.points}/${r.played} pts, ${r.diff > 0 ? "+" : ""}${r.diff}/${r.played} diff.`,
-                )
-                .join(" · ")}
-            </p>
-            <div className="tie-selectors">
-              {tie.rows.map((_, i) => (
-                <label key={i}>
-                  Priorité {i + 1}
-                  <select
-                    aria-label={`Égalité priorité ${i + 1}`}
-                    value={decisions[tie.key]?.[i] || ""}
-                    onChange={(e) => {
-                      const order = [
-                        ...(decisions[tie.key] ||
-                          Array(tie.rows.length).fill("")),
-                      ];
-                      order[i] = e.target.value;
-                      setDecisions({ ...decisions, [tie.key]: order });
-                    }}
-                  >
-                    <option value="">Choisir une équipe</option>
-                    {tie.rows.map((r) => (
-                      <option value={r.teamId} key={r.teamId}>
-                        {source.teamNames[r.teamId]}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              ))}
-            </div>
-          </section>
-        ))}
+        <RankingChoices
+          plan={plan}
+          names={source.teamNames}
+          decisions={decisions}
+          onChange={setDecisions}
+        />
         <div className="ranking-preview">
           <div className="table-wrap">
             <table>
@@ -609,7 +580,7 @@ function Qualification({
                   <th>Position indicative</th>
                   <th>Équipe</th>
                   <th>Rang de groupe</th>
-                  <th>Pts / match</th>
+                  <th>V / MJ</th>
                   <th>Diff. / match</th>
                   <th>{purpose === "split" ? "Parcours" : "Sélection"}</th>
                 </tr>
@@ -622,7 +593,7 @@ function Qualification({
                       <strong>{source.teamNames[r.teamId]}</strong>
                     </td>
                     <td>{r.place}</td>
-                    <td>{(r.points / r.played).toFixed(3)}</td>
+                    <td>{(r.wins / Math.max(1, r.played)).toFixed(3)}</td>
                     <td>{(r.diff / r.played).toFixed(3)}</td>
                     <td>
                       <span className="small-chip">

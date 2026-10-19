@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Trophy, FileText, Check, ArrowRight } from "lucide-react";
 import type { Match, Phase } from "../domain/types";
-import { finalPlacements, outcome, validateScore } from "../domain/engine";
+import { PrintTeamSheet } from "./RegistrationSheets";
+import {
+  finalPlacements,
+  outcome,
+  validateScore,
+  defaultRules,
+} from "../domain/engine";
 import { useApp, Modal, Hint } from "./shared";
 import { DocumentButtons } from "./PhaseView";
 const W = 222,
@@ -55,6 +61,7 @@ export function Bracket({
                 <span className={`podium-number p${r.place}`}>{r.place}</span>
                 <strong>{name(r.teamId)}</strong>
                 {r.place === 1 && <Trophy size={19} />}
+                <PrintTeamSheet teamId={r.teamId} />
               </div>
             ))}
           </div>
@@ -77,10 +84,6 @@ export function Bracket({
             ou afficher sa feuille.
           </p>
         </div>
-        <span className="small-chip">
-          <ArrowRight size={14} />
-          Le jeu avance vers la droite
-        </span>
       </div>
       <div className="bracket-scroll">
         <div className="bracket-canvas" style={{ width, height }}>
@@ -209,7 +212,11 @@ export function MatchPopup({
   const [a, setA] = useState(m.score?.[0].toString() ?? ""),
     [b, setB] = useState(m.score?.[1].toString() ?? ""),
     [court, setCourt] = useState(m.court),
-    [referee, setReferee] = useState(p.teamNames[m.referee] || m.referee),
+    [referee, setReferee] = useState(
+      p.kind === "knockout" && m.referee === "Arbitre externe à désigner"
+        ? ""
+        : p.teamNames[m.referee] || m.referee,
+    ),
     [error, setError] = useState(""),
     [changed, setChanged] = useState(false),
     [saving, setSaving] = useState(false);
@@ -238,7 +245,7 @@ export function MatchPopup({
       if (a !== "" || b !== "") {
         if (a === "" || b === "") throw new Error("Complétez les deux scores.");
         score = [Number(a), Number(b)];
-        validateScore(score, m.target, p.rules);
+        validateScore(score, m.target, defaultRules);
       }
       if (score && m.score && score.some((x, i) => x !== m.score![i])) {
         const impact = await native<{
@@ -250,7 +257,7 @@ export function MatchPopup({
           phaseId: p.id,
           matchId: m.id,
         });
-        const description = `Ancien score : ${m.score.join(" – ")}. Nouveau score : ${score.join(" – ")}. ${impact.phases.length ? `Les phases suivantes seront retirées du parcours et archivées : ${impact.phases.join(", ")}. ` : ""}${impact.splits ? "La répartition Principale / Consolante sera à refaire. " : ""}${impact.matches ? `${impact.matches} résultat(s) dépendant(s) seront annulés. ` : ""}L’ancienne situation restera dans l’historique. Les documents des rencontres dépendantes seront à régénérer.`;
+        const description = `Ancien score : ${m.score.join(" – ")}. Nouveau score : ${score.join(" – ")}. ${impact.phases.length ? `Les phases suivantes seront retirées du parcours et archivées : ${impact.phases.join(", ")}. ` : ""}${impact.splits ? "La répartition Principale / Consolante sera à refaire. " : ""}${impact.matches ? `${impact.matches} résultat(s) dépendant(s) seront annulés. ` : ""}L’ancienne situation restera dans l’historique. Les feuilles des rencontres dépendantes seront actualisées automatiquement.`;
         if (
           !(await confirm(
             "Confirmer la correction",
@@ -318,7 +325,7 @@ export function MatchPopup({
                   : "En attente des tours précédents"}
           </span>
           <span>
-            Victoire en {m.target} points · écart {p.rules.margin}
+            Victoire en {m.target} points · écart {2}
           </span>
         </div>
         {m.score && (
@@ -402,31 +409,8 @@ export function MatchPopup({
           </label>
         </div>
         <div className="sheet-section">
-          <button
-            disabled={busy || changed || saving || !playable}
-            onClick={async () => {
-              try {
-                await native("sheet", {
-                  packageId: session.tournament.id,
-                  phaseId: p.id,
-                  matchId: m.id,
-                });
-                notify("Feuille PDF créée.");
-              } catch (e) {
-                notify((e as Error).message, true);
-              }
-            }}
-          >
-            <FileText size={16} />
-            Générer la feuille
-          </button>
-          {doc && <DocumentButtons documentId={doc.id} printer={printer} />}
+          <DocumentButtons documentId={doc?.id} printer={printer} />
         </div>
-        {changed && (
-          <small className="muted">
-            Enregistrez les modifications avant de générer la feuille.
-          </small>
-        )}
         {error && <Hint error>{error}</Hint>}
       </div>
       <footer className="modal-footer">

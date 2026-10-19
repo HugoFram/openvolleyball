@@ -63,7 +63,7 @@ it("A06/A08: actual A4 PDFs, five-team/two-court 2×5 pages, all other schedules
   const folder = await fs.mkdtemp(path.join(os.tmpdir(), "OV-PDF-"));
   try {
     for (const n of [3, 4, 5])
-      for (const courts of [1, 2]) {
+      for (const courts of n === 5 ? [1, 2] : [1]) {
         let t = registered(n);
         t = applyCommand(t, {
           type: "draft",

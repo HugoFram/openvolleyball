@@ -12,10 +12,10 @@ A browser-only implementation would make portable packages, native directory sel
 
 - `src/domain`: types, runtime package schemas, pure command transitions, ranking, scheduling, qualification, bracket dependencies and invariants.
 - `electron/store.ts`: validated packages, session locks, SHA-256 envelopes, revision snapshots and atomic writes.
-- `electron/pdf.ts`: actual A4 page layout from the stored ordered schedule.
+- `electron/pdf.ts`: A4 match/group layout and a source fingerprint excluding scores; `pdf-base.ts` shares branding and fonts; `registration-pdf.ts` renders blank/filled rosters.
 - `electron/main.ts`: serialized commands, ID/revision checks, native dialogs, document-before-confirmation commit, printing and restoration.
 - `electron/preload.ts`: narrow message bridge. Renderer Node integration is off, context isolation and sandboxing are enabled, content is bundled and loaded through a restricted protocol, and IPC senders are checked. See [Electron security guidance](https://www.electronjs.org/docs/latest/tutorial/security).
-- `src/ui`: registration, progression, phase preparation/scoring, bracket, rules, documents and audit. Sporting policy lives in the domain rather than the widgets.
+- `src/ui`: registration, progression, phase preparation/scoring, bracket, documents and audit. Sporting policy lives in the domain rather than the widgets.
 
 ## Durable packages
 
@@ -30,6 +30,12 @@ SHA-256 detects accidental modification, not malicious tampering. Runtime schema
 Immutable UUIDs identify all entities. Confirmed phases snapshot names, strength and rules. Nodes follow source dependencies independently within each branch, never timestamps or incidental IDs. A final is one phase with internal rounds.
 
 Knockout slots reference registered teams or upstream winner/loser outcomes. Topological recalculation derives participants and exemptions. Corrections identify affected results/phases, require explicit consent, archive the prior situation and invalidate dependencies. Group corrections conservatively invalidate all descendants and relevant split; restoration creates a distinct package.
+
+## Version 1.1 compatibility
+
+Optional additive schema fields retain schema 1 readability: embedded normalized PNG branding, website, previous-rank snapshots, document kinds/fingerprints and a per-result scored margin. Historical phase rules remain available to validate existing scores. Every new result records a two-point margin, including a correction inside a former one-point phase. Ranking always compares exact wins/played and difference/played products. Subsequent groups allocate ranked teams in alternating snake bands and request named decisions only when a tie spans different group destinations.
+
+Opening a tournament refreshes outdated/missing phase sheets before adopting the session. Creating a final prepares all sheets, including unresolved fixtures. Advancing or correcting participants refreshes their fingerprints and PDF associations in the same tournament revision. Unchanged sheets are reused. The logo is embedded in JSON rather than linked to the source file.
 
 ## Distribution and verification
 

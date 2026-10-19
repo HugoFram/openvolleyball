@@ -27,14 +27,14 @@ export function decode(raw: string): Tournament {
   }
   check(
     v && typeof v === "object" && v.format === "open-volleyball",
-    "Ancien format ou package non reconnu. La source n’a pas été modifiée.",
+    "Ancien format ou tournoi non reconnu. La source n’a pas été modifiée.",
   );
   check(
     v.checksum === digest(JSON.stringify(v.data)),
-    "Le contrôle d’intégrité du package a échoué. Utilisez une sauvegarde.",
+    "Le contrôle d’intégrité du tournoi a échoué. Utilisez une sauvegarde.",
   );
   const result = tournamentSchema.safeParse(v.data);
-  check(result.success, "Le contenu du package est incomplet ou incompatible.");
+  check(result.success, "Le contenu du tournoi est incomplet ou incompatible.");
   const t = result.data as Tournament;
   assertInvariants(t);
   return t;
@@ -59,8 +59,12 @@ export class PackageStore {
     public folder: string,
     public current: Tournament,
   ) {}
-  static async create(parent: string, name: string) {
-    const t = createTournament(name);
+  static async create(
+    parent: string,
+    name: string,
+    branding?: Tournament["branding"],
+  ) {
+    const t = createTournament(name, branding);
     const stat = await fs.stat(parent).catch(() => null);
     check(
       stat?.isDirectory(),
@@ -79,8 +83,8 @@ export class PackageStore {
     await fs.mkdir(folder).catch((e: NodeJS.ErrnoException) => {
       throw new Error(
         e.code === "EEXIST"
-          ? "Un package de ce nom existe déjà. Choisissez un autre nom ou ouvrez-le."
-          : "Impossible de créer le package dans ce dossier.",
+          ? "Un tournoi de ce nom existe déjà. Choisissez un autre nom ou ouvrez-le."
+          : "Impossible de créer le tournoi dans ce dossier.",
       );
     });
     try {
@@ -106,7 +110,7 @@ export class PackageStore {
       raw = await fs.readFile(path.join(folder, "tournament.json"), "utf8");
     } catch {
       throw new Error(
-        "Aucun tournament.json lisible. Sélectionnez le dossier .openvolley complet. Les anciens packages doivent être convertis séparément.",
+        "Aucun tournament.json lisible. Sélectionnez le dossier .openvolley complet. Les anciens tournois doivent être convertis séparément.",
       );
     }
     const store = new PackageStore(folder, decode(raw));
@@ -124,7 +128,7 @@ export class PackageStore {
       } catch {}
       check(
         !alive,
-        "Ce package est déjà ouvert dans une autre session. Fermez-la avant de continuer.",
+        "Ce tournoi est déjà ouvert dans une autre session. Fermez-la avant de continuer.",
       );
       await fs.rm(lockFile, { force: true });
     } catch (e) {

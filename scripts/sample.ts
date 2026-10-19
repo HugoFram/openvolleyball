@@ -5,6 +5,7 @@ import {
   getPhase,
   now,
   rankingPlan,
+  laneCandidates,
   structures,
 } from "../src/domain/engine";
 import type { Lane, Phase, Tournament } from "../src/domain/types";
@@ -16,11 +17,12 @@ const decisions = (
   t: Tournament,
   p: Phase,
   n: number,
-  purpose: "split" | "seeds",
+  purpose: "split" | "seeds" | "groups",
   ids?: string[],
+  sizes?: number[],
 ) =>
   Object.fromEntries(
-    rankingPlan(t, p, n, purpose, ids).ties.map((tie) => [
+    rankingPlan(t, p, n, purpose, ids, sizes).ties.map((tie) => [
       tie.key,
       tie.rows.map((r) => r.teamId),
     ]),
@@ -44,11 +46,15 @@ async function save(name: string, t: Tournament) {
   );
 }
 function groups(t: Tournament, lane: Lane, sizes: number[]) {
+  const { source, ids } = laneCandidates(t, "Hommes", lane);
   t = applyCommand(t, {
     type: "draft",
     category: "Hommes",
     lane,
     structure: sizes,
+    decisions: source
+      ? decisions(t, source, ids.length, "groups", ids, sizes)
+      : {},
     target: 21,
   });
   const p = t.phases.at(-1)!;

@@ -8,6 +8,7 @@ import {
   protocol,
   session,
   shell,
+  nativeImage,
 } from "electron";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -20,10 +21,12 @@ import {
   getPhase,
   id,
   now,
+  normalizeWebsite,
 } from "../src/domain/engine";
 import type { Command, Recent, Session, Tournament } from "../src/domain/types";
 import { atomicWrite, decode, PackageStore } from "./store";
-import { makeSheet } from "./pdf";
+import { makeSheet, sheetFingerprint } from "./pdf";
+import { makeRegistrationSheet } from "./registration-pdf";
 let win: BrowserWindow;
 let active: PackageStore | undefined;
 let queue = Promise.resolve();
@@ -68,6 +71,27 @@ function requireActive(packageId?: string) {
   return active;
 }
 async function switchTo(next: PackageStore) {
+  try {
+    const refreshed = await generateDocuments(next.current, next);
+    if (
+      JSON.stringify(refreshed.documents) !==
+      JSON.stringify(next.current.documents)
+    ) {
+      refreshed.revision++;
+      refreshed.modifiedAt = now();
+      refreshed.audit.push({
+        id: id(),
+        at: now(),
+        revision: refreshed.revision,
+        action: "documents-updated",
+        detail: { layout: 2 },
+      });
+      await next.save(refreshed);
+    }
+  } catch (error) {
+    await next.close();
+    throw error;
+  }
   const old = active;
   try {
     await old?.close();
@@ -103,22 +127,48 @@ async function generateDocuments(
   store: PackageStore,
 ): Promise<Tournament> {
   const next = structuredClone(t);
-  for (const p of next.phases.filter(
-    (p) => p.status !== "Préparation" && p.kind === "groups",
-  ))
-    for (const g of p.groups) {
-      const d = next.documents.find((x) => x.groupId === g.id);
-      if (d) {
+  for (const p of next.phases.filter((p) => p.status !== "Préparation"))
+    for (const item of p.kind === "groups" ? p.groups : p.matches) {
+      const g =
+        p.kind === "groups"
+          ? (item as import("../src/domain/types").Group)
+          : undefined;
+      const m =
+        p.kind === "knockout"
+          ? (item as import("../src/domain/types").Match)
+          : undefined;
+      const d = next.documents.find((x) =>
+        g ? x.groupId === g.id : x.matchId === m!.id,
+      );
+      if (d && d.sourceHash === sheetFingerprint(next, p, g, m)) {
         try {
           await fs.access(store.documentPath(d.file));
           continue;
-        } catch {
-          next.documents = next.documents.filter((x) => x.id !== d.id);
-        }
+        } catch {}
       }
-      next.documents.push(await makeSheet(next, p, store.folder, fonts, g));
+      if (d) next.documents = next.documents.filter((x) => x.id !== d.id);
+      next.documents.push(await makeSheet(next, p, store.folder, fonts, g, m));
     }
   return next;
+}
+async function logoData(file: string): Promise<string> {
+  const raw = await fs.readFile(file);
+  check(raw.length <= 8 * 1024 * 1024, "Le logo doit faire moins de 8 Mo.");
+  const image = nativeImage.createFromBuffer(raw);
+  check(!image.isEmpty(), "Choisissez un logo PNG ou JPEG valide.");
+  const { width, height } = image.getSize();
+  const scale = Math.min(1, 512 / Math.max(width, height));
+  const png = image
+    .resize({
+      width: Math.max(1, Math.round(width * scale)),
+      height: Math.max(1, Math.round(height * scale)),
+    })
+    .toPNG();
+  check(
+    png.length <= 1000000,
+    "Le logo est trop volumineux. Choisissez une image plus simple.",
+  );
+  return `data:image/png;base64,${png.toString("base64")}`;
 }
 async function handle(method: string, a: any) {
   switch (method) {
@@ -134,18 +184,41 @@ async function handle(method: string, a: any) {
       return recents();
     case "choose-destination": {
       const r = await dialog.showOpenDialog(win, {
-        title: "Destination du nouveau package",
+        title: "Destination du nouveau tournoi",
         properties: ["openDirectory", "createDirectory"],
       });
       return r.canceled ? null : r.filePaths[0];
     }
-    case "create":
-      return switchTo(await PackageStore.create(a.parent, a.name));
+    case "choose-logo": {
+      const r = await dialog.showOpenDialog(win, {
+        title: "Choisir le logo du tournoi",
+        properties: ["openFile"],
+        filters: [
+          { name: "Images PNG ou JPEG", extensions: ["png", "jpg", "jpeg"] },
+        ],
+      });
+      if (r.canceled) return null;
+      await logoData(r.filePaths[0]);
+      return r.filePaths[0];
+    }
+    case "create": {
+      const branding = {
+        website: normalizeWebsite(a.website),
+        logo: a.logoPath ? await logoData(a.logoPath) : undefined,
+      };
+      return switchTo(
+        await PackageStore.create(
+          a.parent,
+          a.name,
+          branding.website || branding.logo ? branding : undefined,
+        ),
+      );
+    }
     case "open": {
       let folder = a?.path;
       if (!folder) {
         const r = await dialog.showOpenDialog(win, {
-          title: "Ouvrir un package .openvolley existant",
+          title: "Ouvrir un tournoi .openvolley existant",
           properties: ["openDirectory"],
         });
         if (r.canceled) return null;
@@ -163,7 +236,11 @@ async function handle(method: string, a: any) {
       );
       let next = applyCommand(store.current, a.command as Command);
       if (next === store.current) return sessionValue();
-      if (a.command.type === "confirm" || a.command.type === "match-details")
+      if (
+        ["confirm", "knockout", "score", "random", "match-details"].includes(
+          a.command.type,
+        )
+      )
         next = await generateDocuments(next, store);
       await store.save(next);
       return sessionValue();
@@ -200,22 +277,62 @@ async function handle(method: string, a: any) {
           sandbox: true,
         },
       });
-      await preview.loadURL(pathToFileURL(file).href);
-      await new Promise<void>((resolve, reject) =>
-        preview.webContents.print(
-          {
-            silent: false,
-            deviceName: a.printer || "",
-            printBackground: false,
-          },
-          (ok, reason) => {
-            if (ok || reason === "cancelled") resolve();
-            else reject(new Error(`Impression : ${reason}`));
-          },
-        ),
-      );
-      preview.close();
+      try {
+        await preview.loadURL(pathToFileURL(file).href);
+        await new Promise<void>((resolve, reject) =>
+          preview.webContents.print(
+            {
+              silent: false,
+              deviceName: a.printer || "",
+              printBackground: false,
+            },
+            (ok, reason) => {
+              if (ok || reason === "cancelled") resolve();
+              else reject(new Error(`Impression : ${reason}`));
+            },
+          ),
+        );
+      } finally {
+        if (!preview.isDestroyed()) preview.close();
+      }
       return true;
+    }
+    case "registration-sheet": {
+      const store = requireActive(a.packageId),
+        t = structuredClone(store.current);
+      const team = a.teamId
+        ? t.teams.find((x) => x.id === a.teamId)
+        : undefined;
+      check(!a.teamId || team, "Équipe introuvable.");
+      check(
+        ["Hommes", "Femmes"].includes(a.category || team?.category),
+        "Catégorie invalide.",
+      );
+      t.revision++;
+      t.modifiedAt = now();
+      const d = await makeRegistrationSheet(
+        t,
+        store.folder,
+        fonts,
+        team?.category || a.category,
+        a.perPage || 1,
+        a.pages || 1,
+        team,
+      );
+      t.documents.push(d);
+      t.audit.push({
+        id: id(),
+        at: now(),
+        revision: t.revision,
+        action: "registration-sheet",
+        detail: {
+          teamId: team?.id,
+          perPage: a.perPage || 1,
+          pages: a.pages || 1,
+        },
+      });
+      await store.save(t);
+      return sessionValue();
     }
     case "sheet": {
       const store = requireActive(a.packageId),
@@ -266,7 +383,7 @@ async function handle(method: string, a: any) {
         JSON.stringify(
           {
             app: app.getVersion(),
-            package: store.folder,
+            tournoi: store.folder,
             revision: store.current.revision,
             teams: store.current.teams.length,
             phases: store.current.phases.map((p) => ({
@@ -287,7 +404,7 @@ async function handle(method: string, a: any) {
     }
     case "restore-copy": {
       const r = await dialog.showOpenDialog(win, {
-        title: "Restaurer une sauvegarde dans un nouveau package",
+        title: "Restaurer une sauvegarde dans un nouveau tournoi",
         properties: ["openFile"],
         filters: [{ name: "Sauvegarde Open Volleyball", extensions: ["json"] }],
       });
@@ -326,7 +443,7 @@ async function handle(method: string, a: any) {
     }
     case "legacy-inspect": {
       const r = await dialog.showOpenDialog(win, {
-        title: "Inspecter un ancien package sans le modifier",
+        title: "Inspecter un ancien tournoi sans le modifier",
         properties: ["openDirectory"],
       });
       if (r.canceled) return null;
@@ -452,10 +569,14 @@ else {
       win.close();
     });
     await win.loadURL("volley://app/index.html");
-    const launch = process.argv.find((x) => x.startsWith("--package="));
+    const launch = process.argv.find(
+      (x) => x.startsWith("--package=") || x.startsWith("--tournoi="),
+    );
     if (launch) {
       try {
-        await switchTo(await PackageStore.open(launch.slice(10)));
+        await switchTo(
+          await PackageStore.open(launch.slice(launch.indexOf("=") + 1)),
+        );
         win.webContents.reload();
       } catch (e) {
         dialog.showErrorBox("Ouverture du tournoi", String(e));

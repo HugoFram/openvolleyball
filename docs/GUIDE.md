@@ -2,38 +2,37 @@
 
 ## Créer et inscrire
 
-1. Lancez **Open Volleyball**. Saisissez un nom, utilisez **Parcourir** pour choisir le dossier parent, puis **Créer le package**. Le dossier `.openvolley` créé contient tout le tournoi. Un package existant n’est jamais écrasé.
-2. Choisissez **Hommes** ou **Femmes**. Dans **Inscriptions**, ajoutez les équipes et leurs joueurs. Niveaux : 0–3 ; e-mail et club facultatifs ; effectifs variables, dont trois/quatre joueurs. **Générer des équipes** ajoute uniquement des données de démonstration à votre demande.
-3. Dans **Règlement**, examinez et confirmez les règles. Elles sont figées dès la confirmation d’une phase compétitive.
+1. Lancez **Open Volleyball**. Saisissez le nom du tournoi et choisissez le dossier parent avec **Parcourir**. Ajoutez éventuellement un **logo PNG/JPEG** et un **site web**, puis **Créer le tournoi**. Le logo est intégré au tournoi : son fichier d’origine n’est plus nécessaire. Le dossier `.openvolley` contient les données et les documents ; une destination existante n’est jamais écrasée.
+2. Choisissez **Hommes** ou **Femmes**, puis ajoutez les équipes dans **Inscriptions**. Une équipe doit compter **3 ou 4 joueurs**. Chaque joueur a un nom et un niveau : **N** = National, **R** = Régional, **D** = Départemental, **U** = Non licencié. Tapez directement la lettre dans la liste. E-mail et club sont facultatifs.
+3. **Fiches d’inscription vierges** prépare des formulaires à remplir au stylo : choisissez **1 ou 2 fiches par page A4**, le nombre de pages et l’imprimante, puis **Afficher** ou **Imprimer**. **Générer des équipes** ajoute des données de démonstration uniquement à votre demande.
 
 ## Préparer et jouer
 
-1. Dans **Progression**, cliquez sur **Préparer les groupes initiaux**. **Équipes par groupe** recalcule les structures. Choisissez la cible 21/25, puis **Générer les groupes** : c’est encore un brouillon.
-2. Cliquez sur deux équipes de groupes différents pour les échanger. Réglez les terrains ; **Deux terrains** affiche un second champ. Sauvegardez le brouillon ou confirmez directement ses derniers réglages.
-3. **Confirmer les groupes** prépare et associe tous les PDF sans imprimer. **Groupes et feuilles** permet **Afficher** et **Imprimer** avec une seule sélection d’imprimante pour la vue.
-4. Dans **Rencontres et scores**, saisissez les scores dans l’ordre A/B, puis quittez le champ. Une paire complète valide est sauvegardée. Zéro est accepté. Une saisie partielle ou invalide ne remplace aucun résultat enregistré.
-5. Le classement se recalcule et la phase devient **Terminée** lorsque tous les matchs sont joués. Les scores aléatoires, après confirmation, remplissent seulement les rencontres vierges.
+1. Dans **Progression**, cliquez sur **Préparer les groupes initiaux**. Choisissez des groupes de 3/4/5, la structure proposée et une cible de 21 ou 25 points. **Générer les groupes** enregistre un brouillon équilibré d’après les niveaux des joueurs.
+2. Cliquez sur deux équipes de groupes différents pour les échanger. Nommez les terrains. **Deux terrains** est disponible uniquement pour un groupe de cinq équipes. Sauvegardez le brouillon ou confirmez directement ses derniers réglages.
+3. **Confirmer les groupes** prépare les feuilles sans imprimer. **Rencontres et scores** et **Groupes et feuilles** proposent **Afficher** et **Imprimer**. Le logo, le site web et le nom complet de la phase figurent sur les feuilles. Les cases des scores sont laissées vierges pour l’écriture.
+4. Saisissez les deux scores puis quittez le champ. Une paire complète valide est sauvegardée. Zéro est accepté. L’écart minimal est toujours de **2 points**, sans plafond en prolongation : 21–19 et 24–22 sont valides ; 21–20 et 24–19 sont invalides.
+5. **Classements** montre le **classement général entre groupes** et le détail de chaque groupe. L’ordre est fixé : **victoires / matchs joués**, puis **différence de points / matchs joués**. Une égalité restante partage le rang jusqu’à un choix humain nécessaire pour poursuivre.
 
 ## Deux branches et phases suivantes
 
-1. Une fois les groupes initiaux terminés, utilisez **Créer Principale / Consolante** et **Nombre en Principale**.
-2. Une égalité qui affecte la limite de qualification demande un ordre par listes d’équipes nommées. Les statistiques et la raison sont affichées. Les égalités sans effet ne bloquent pas.
-3. Les deux branches restent visibles ensemble. À droite de leur dernière étape, **Groupes** crée une nouvelle phase ; **Phase finale** prépare un tableau. Répétez pour les groupes 2, 3, 4, etc.
-4. Chaque nœud historique ouvre ses propres groupes, scores et classements. Si une action est impossible, la vue explique le prérequis.
+1. Une fois les groupes initiaux terminés, utilisez **Créer Principale / Consolante** et choisissez le nombre d’équipes en Principale.
+2. Une égalité qui traverse la limite de qualification demande un ordre par listes d’équipes nommées, numérotées **1, 2, 3…**. Les égalités sans effet ne bloquent pas.
+3. À droite de la dernière étape d’une branche, **Groupes** crée sa phase suivante. Les équipes sont désormais réparties d’après le **classement général de la phase précédente**, en serpent : avec deux groupes, les rangs 1/4/5/8 vont dans le premier et 2/3/6/7 dans le second. Les niveaux des joueurs ne sont plus utilisés. Une égalité qui change la destination d’un groupe demande une décision avant génération.
+4. Le nombre à droite de chaque équipe est son **rang de la phase précédente**. Les échanges manuels restent possibles en préparation. Répétez les phases de groupes aussi souvent que nécessaire ; chaque nœud historique conserve ses scores et classements.
 
 ## Tableau final
 
-1. Choisissez le nombre de participants, les cibles des tours et la présence d’une Petite finale. Les têtes de série proviennent de la dernière phase de cette branche. Un effectif non puissance de deux crée les exemptions correspondantes.
-2. Cliquez n’importe où dans une carte, ou utilisez Tab puis Entrée. La fenêtre séparée contient scores, terrain, arbitre et feuille de match. Les rencontres dont les participants restent inconnus ne peuvent pas être jouées.
-3. Les vainqueurs avancent ; les perdants de demi-finale rejoignent la Petite finale. **Classement final** présente les places connues. Les éliminés d’un même tour partagent une place.
+1. **Phase finale** propose le nombre de participants, les cibles des tours et une Petite finale facultative. Les têtes de série proviennent des derniers résultats ; les exemptions complètent le tableau.
+2. Cliquez sur une rencontre ou utilisez Tab puis Entrée. La feuille est **déjà préparée**, avec **Afficher** et **Imprimer**. L’**arbitre est facultatif**. Les rencontres sans participants connus restent en attente ; leurs feuilles sont actualisées automatiquement à mesure que les équipes avancent.
+3. Les vainqueurs avancent ; les perdants des demi-finales rejoignent la Petite finale. Dans **Classement final**, **Imprimer la fiche** prépare la fiche d’inscription de l’équipe avec les noms, niveaux, e-mails et clubs des joueurs.
 
 ## Corriger et reprendre
 
-- Le crayon d’une rencontre ouvre une correction explicite. Les dépendances invalidées sont annoncées avant confirmation. L’ancienne situation reste archivée et sauvegardée.
-- Une correction éliminatoire annule les résultats dépendants et recalcule leurs participants. Une correction de groupes ayant des descendants retire ceux-ci du parcours actif et les archive ; leur recréation est volontaire.
-- **Ouvrir un autre package** conserve le tournoi actif si le choix est annulé/invalide. Une saisie incomplète exige une décision avant changement ; la fermeture applique le même contrôle.
-- **Exports et diagnostic** ouvre les documents, répare les feuilles de groupes manquantes, exporte un diagnostic et restaure une sauvegarde dans une nouvelle copie.
-- Fermez le tournoi avant de copier/déplacer son dossier complet. Pour l’ouvrir, sélectionnez le dossier `.openvolley`, pas seulement `tournament.json`.
-- L’inspection des anciens packages est en lecture seule ; aucune conversion historique inconnue n’est automatique.
+- Le crayon d’une rencontre ouvre une correction explicite et annonce ses conséquences. Les résultats dépendants sont annulés ; leurs feuilles sont actualisées. Les descendants d’une phase de groupes corrigée sont archivés et retirés du parcours actif pour être recréés volontairement.
+- **Ouvrir un autre tournoi** conserve le tournoi actif si le choix est annulé ou invalide. Une saisie incomplète doit être corrigée ou abandonnée avant changement/fermeture.
+- **Exports et diagnostic** ouvre les documents, répare les feuilles de groupes et de finales, exporte un diagnostic et restaure une sauvegarde dans une copie distincte.
+- Fermez le tournoi avant de copier/déplacer tout son dossier `.openvolley`. Sélectionnez ce dossier pour le rouvrir, pas seulement `tournament.json`.
+- Les tournois de la version 1.0 restent lisibles. Les résultats et répartitions existants sont conservés. Le nouveau classement fixe s’applique aux vues et aux prochaines décisions. Les feuilles sont actualisées à l’ouverture ; les anciens scores joués avec un écart d’un point restent historiques, mais toute nouvelle saisie ou correction exige deux points.
 
-Avant le jour du tournoi : vérifiez les règles avec les organisateurs et imprimez une feuille sur le matériel du site. Les sauvegardes locales ne remplacent pas une copie externe du package fermé.
+Avant le tournoi, imprimez une feuille sur le matériel du site et gardez une copie externe du tournoi fermé.

@@ -8,6 +8,7 @@ import {
 import fs from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
+import { PDFDocument, PDFDict, PDFName } from "pdf-lib";
 import { encode } from "../../electron/store";
 import { applyCommand, getPhase } from "../../src/domain/engine";
 import {
@@ -47,6 +48,22 @@ test.beforeEach(async () => {
       filePaths: [folder],
     });
   }, parent);
+  await app.evaluate(({ app, shell }) => {
+    (globalThis as any).printed = [];
+    (globalThis as any).viewed = [];
+    shell.openPath = async (file) => {
+      (globalThis as any).viewed.push(file);
+      return "";
+    };
+    app.on("browser-window-created", (_event, w) => {
+      w.webContents.print = (options, callback) => {
+        (globalThis as any).printed.push(options);
+        const failure = (globalThis as any).failPrint;
+        (globalThis as any).failPrint = false;
+        callback?.(!failure, failure ? "Test printer unavailable" : "");
+      };
+    });
+  });
 });
 test.afterEach(async () => {
   await app?.evaluate(({ app }) => app.exit(0)).catch(() => {});
@@ -73,20 +90,17 @@ async function create(n = 17) {
     .getByLabel("Nom du tournoi", { exact: true })
     .fill("Tournoi des Alpes – Démo");
   await page
-    .getByRole("button", { name: "Créer le package", exact: true })
+    .getByRole("button", { name: "Créer le tournoi", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Les équipes entrent en jeu" }),
+    page.getByRole("heading", { name: "Inscriptions" }),
   ).toBeVisible();
   await page.getByLabel("Nombre", { exact: true }).fill(String(n));
   await page
     .getByRole("button", { name: "Générer des équipes", exact: true })
     .click();
   await expect(page.locator(".team-card")).toHaveCount(n);
-  await page.getByRole("button", { name: "Règlement", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Confirmer ce règlement", exact: true })
-    .click();
+
   await dismiss();
   await page.getByRole("button", { name: "Progression", exact: true }).click();
   await page
@@ -101,6 +115,7 @@ async function create(n = 17) {
       .selectOption(size);
     await expect(page.getByLabel("Structure des groupes")).not.toHaveValue("");
   }
+  await resolveTies();
   await page
     .getByRole("button", { name: "Générer les groupes", exact: true })
     .click();
@@ -118,6 +133,9 @@ async function random() {
   await dismiss();
 }
 async function resolveTies() {
+  await expect(page.getByRole("dialog")).toBeVisible();
+  const structure = page.getByLabel("Structure des groupes");
+  if (await structure.count()) await expect(structure).toHaveValue(/\d/);
   const panels = page.locator(".tie-panel");
   for (let k = 0; k < (await panels.count()); k++) {
     const selects = panels.nth(k).locator("select");
@@ -136,6 +154,9 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
   await create();
   const first = page.locator(".draft-card").first();
   await expect(first.locator(".court-fields input")).toHaveCount(1);
+  await expect(
+    page.locator(".draft-card").nth(1).getByLabel("Deux terrains"),
+  ).toHaveCount(0);
   await first.getByLabel("Deux terrains").check();
   await expect(first.locator(".court-fields input")).toHaveCount(2);
   await first.getByLabel("Groupe 1 terrain 2").fill("Terrain Érable 12");
@@ -177,6 +198,13 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
   const after = await page.evaluate(() => window.volley.call<any>("session"));
   expect(after.value.tournament.phases[0].matches).toHaveLength(28);
   expect(after.value.tournament.documents).toHaveLength(4);
+  await page.getByRole("button", { name: "Classements", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Classement général", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.locator(".standings").first().locator("tbody tr"),
+  ).toHaveCount(17);
   await page
     .getByRole("button", { name: "Créer Principale / Consolante", exact: true })
     .click();
@@ -189,9 +217,16 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
       .locator(`.lane.${lane}`)
       .getByRole("button", { name: "Groupes", exact: true })
       .click();
+    await resolveTies();
     await page
       .getByRole("button", { name: "Générer les groupes", exact: true })
       .click();
+    await expect(page.locator(".draft-card").first()).toContainText(
+      "Classement précédent",
+    );
+    await expect(page.locator(".draft-card .level-badge").first()).toHaveText(
+      /^#\d+/,
+    );
     await page
       .getByRole("button", { name: "Confirmer les groupes", exact: true })
       .click();
@@ -201,6 +236,7 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
     .locator(".lane.principale")
     .getByRole("button", { name: "Groupes", exact: true })
     .click();
+  await resolveTies();
   await page
     .getByRole("button", { name: "Générer les groupes", exact: true })
     .click();
@@ -233,11 +269,38 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
   await resolveTies();
   await page.getByRole("button", { name: "Confirmer le tableau" }).click();
   await expect(page.locator(".bracket-card")).toHaveCount(8);
+  const initialFinals = (
+    await page.evaluate(() => window.volley.call<any>("session"))
+  ).value.tournament;
+  const ko = initialFinals.phases.at(-1);
+  expect(
+    initialFinals.documents.filter((d: any) => d.phaseId === ko.id),
+  ).toHaveLength(8);
+  const oldFinalDoc = initialFinals.documents.find(
+    (d: any) =>
+      d.matchId === ko.matches.find((m: any) => m.round === 2 && !m.bronze).id,
+  );
   await page
     .locator(".bracket-card")
     .first()
     .click({ position: { x: 8, y: 8 } });
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(
+    page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Générer la feuille" }),
+  ).toHaveCount(0);
+  await expect(
+    page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Afficher", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Imprimer", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Arbitre", { exact: true })).toHaveValue("");
   await page.getByLabel("Score A", { exact: true }).fill("21");
   await page.getByLabel("Score B", { exact: true }).fill("9");
   await page
@@ -245,11 +308,32 @@ test("A01–A12: desktop creation, courts, blur scores, exact 28 results, split,
     .click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await random();
+  const playedFinals = (
+    await page.evaluate(() => window.volley.call<any>("session"))
+  ).value.tournament;
+  expect(
+    playedFinals.documents.find((d: any) => d.matchId === oldFinalDoc.matchId)
+      .sourceHash,
+  ).not.toBe(oldFinalDoc.sourceHash);
   await page.screenshot({ path: "test-results/bracket-8.png", fullPage: true });
   await page
     .getByRole("button", { name: "Classement final", exact: true })
     .click();
   await expect(page.locator(".final-ranking>div")).toHaveCount(8);
+  await page
+    .locator(".final-ranking")
+    .getByRole("button", { name: "Imprimer la fiche", exact: true })
+    .first()
+    .click();
+  await expect
+    .poll(
+      async () => await app.evaluate(() => (globalThis as any).printed.length),
+    )
+    .toBe(1);
+  const printed = (
+    await page.evaluate(() => window.volley.call<any>("session"))
+  ).value.tournament.documents.at(-1);
+  expect(printed.kind).toBe("team-registration");
   await page.getByRole("button", { name: "Tableau", exact: true }).click();
   await page.locator(".bracket-card").first().click();
   await page.getByLabel("Score A", { exact: true }).fill("9");
@@ -276,14 +360,18 @@ test("A02/A07/A09/A19: field focus, incomplete edits, canceled and invalid packa
     .getByPlaceholder("Choisir un dossier sur votre ordinateur")
     .fill(parent);
   await page
-    .getByRole("button", { name: "Créer le package", exact: true })
+    .getByRole("button", { name: "Créer le tournoi", exact: true })
     .click();
   await page
     .getByRole("button", { name: "Ajouter une équipe", exact: true })
     .click();
   await page.getByLabel("Nom de l’équipe", { exact: true }).fill("Les Étoiles");
   await page.getByLabel("Nom joueur 1", { exact: true }).fill("Éloïse");
-  await page.getByLabel("Niveau joueur 1", { exact: true }).fill("3");
+  await page.getByLabel("Niveau joueur 1", { exact: true }).focus();
+  await page.keyboard.press("N");
+  await expect(page.getByLabel("Niveau joueur 1", { exact: true })).toHaveValue(
+    "3",
+  );
   await expect(
     page.getByLabel("Niveau joueur 1", { exact: true }),
   ).toBeFocused();
@@ -298,7 +386,7 @@ test("A02/A07/A09/A19: field focus, incomplete edits, canceled and invalid packa
     dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
   });
   await page
-    .getByRole("button", { name: "Ouvrir un autre package", exact: true })
+    .getByRole("button", { name: "Ouvrir un autre tournoi", exact: true })
     .click();
   expect(
     (await page.evaluate(() => window.volley.call<any>("session"))).value
@@ -311,7 +399,7 @@ test("A02/A07/A09/A19: field focus, incomplete edits, canceled and invalid packa
     });
   }, parent);
   await page
-    .getByRole("button", { name: "Ouvrir un autre package", exact: true })
+    .getByRole("button", { name: "Ouvrir un autre tournoi", exact: true })
     .click();
   await expect(page.locator(".toast.error")).toContainText("tournament.json");
   expect(
@@ -331,7 +419,7 @@ test("A01/A09/A19: invalid edits block switching, A→B→A restores full state,
   await expect(page.locator(".row-error")).toContainText("écart");
   const before = await page.evaluate(() => window.volley.call<any>("session"));
   await page
-    .getByRole("button", { name: "Ouvrir un autre package", exact: true })
+    .getByRole("button", { name: "Ouvrir un autre tournoi", exact: true })
     .click();
   await expect(
     page.getByRole("dialog", { name: "Modifications non enregistrées" }),
@@ -353,7 +441,7 @@ test("A01/A09/A19: invalid edits block switching, A→B→A restores full state,
     .getByPlaceholder("Choisir un dossier sur votre ordinateur")
     .fill(parent);
   await page
-    .getByRole("button", { name: "Créer le package", exact: true })
+    .getByRole("button", { name: "Créer le tournoi", exact: true })
     .click();
   await expect(page.locator(".team-card")).toHaveCount(0);
   const bid = (await page.evaluate(() => window.volley.call<any>("session")))
@@ -379,7 +467,7 @@ test("A01/A09/A19: invalid edits block switching, A→B→A restores full state,
     });
   }, valid.value.path);
   await page
-    .getByRole("button", { name: "Ouvrir un autre package", exact: true })
+    .getByRole("button", { name: "Ouvrir un autre tournoi", exact: true })
     .click();
   const reopened = (
     await page.evaluate(() => window.volley.call<any>("session"))
@@ -426,7 +514,7 @@ test("A14: named selectors appear for decisive ties and disappear for irrelevant
     });
   }, folder);
   await page
-    .getByRole("button", { name: "Ouvrir un package existant", exact: true })
+    .getByRole("button", { name: "Ouvrir un tournoi existant", exact: true })
     .click();
   await page
     .getByRole("button", { name: "Créer Principale / Consolante", exact: true })
@@ -439,6 +527,7 @@ test("A14: named selectors appear for decisive ties and disappear for irrelevant
   await expect(page.locator(".tie-panel")).toHaveCount(0);
   await page.getByRole("button", { name: "Confirmer la répartition" }).click();
   await expect(page.locator(".lane")).toHaveCount(2);
+  await expect(page.locator(".tie-panel label")).toHaveCount(0);
   await page
     .locator(".lane.principale")
     .getByRole("button", { name: "Phase finale", exact: true })
@@ -466,7 +555,7 @@ for (const count of [4, 16])
       });
     }, folder);
     await page
-      .getByRole("button", { name: "Ouvrir un package existant", exact: true })
+      .getByRole("button", { name: "Ouvrir un tournoi existant", exact: true })
       .click();
     await page.locator(".lane.principale .phase-node").click();
     await expect(page.locator(".bracket-card")).toHaveCount(count);
@@ -502,3 +591,150 @@ for (const count of [4, 16])
       .locator(".bracket-panel")
       .screenshot({ path: `test-results/bracket-${count}-zoom125.png` });
   });
+
+test("Branding, letter-only levels, 3–4-player limits and one/two-per-page registration printing", async () => {
+  const logo = path.resolve("assets/volleyball.png");
+  await page
+    .getByLabel("Nom du tournoi", { exact: true })
+    .fill("Tournoi avec logo");
+  await page
+    .getByPlaceholder("Choisir un dossier sur votre ordinateur")
+    .fill(parent);
+  await app.evaluate(({ dialog }, file) => {
+    dialog.showOpenDialog = async () => ({
+      canceled: false,
+      filePaths: [file],
+    });
+  }, logo);
+  await page
+    .getByRole("button", { name: "Parcourir le logo", exact: true })
+    .click();
+  await expect(page.getByLabel("Fichier du logo")).toHaveValue(logo);
+  await page
+    .getByLabel("Site web", { exact: true })
+    .fill("volley.example/club");
+  await page
+    .getByRole("button", { name: "Créer le tournoi", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Inscriptions", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Règlement", exact: true }),
+  ).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(
+    /Package|package|LE TOURNOI EN TOUTE/,
+  );
+  await page
+    .getByRole("button", { name: "Ajouter une équipe", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toContainText("N : National");
+  await expect(
+    page.getByRole("button", { name: "Retirer joueur 1" }),
+  ).toBeDisabled();
+  await page.getByLabel("Nom de l’équipe", { exact: true }).fill("Les Étoiles");
+  for (let i = 1; i <= 3; i++)
+    await page
+      .getByLabel(`Nom joueur ${i}`, { exact: true })
+      .fill(`Éloïse ${i}`);
+  for (const [letter, value] of [
+    ["U", "0"],
+    ["N", "3"],
+    ["R", "2"],
+    ["D", "1"],
+  ]) {
+    await page.getByLabel("Niveau joueur 1", { exact: true }).focus();
+    await page.keyboard.press(letter);
+    await expect(
+      page.getByLabel("Niveau joueur 1", { exact: true }),
+    ).toHaveValue(value);
+  }
+  await page
+    .getByLabel("E-mail joueur 1", { exact: true })
+    .fill("eloise@example.org");
+  await page.getByLabel("Club joueur 1", { exact: true }).fill("Les Alpes");
+  await page
+    .getByRole("button", { name: "Ajouter un joueur", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Ajouter un joueur", exact: true }),
+  ).toBeDisabled();
+  await page
+    .getByRole("button", { name: "Retirer joueur 4", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Enregistrer l’équipe", exact: true })
+    .click();
+  const stored = (await page.evaluate(() => window.volley.call<any>("session")))
+    .value;
+  expect(stored.tournament.teams[0].players).toHaveLength(3);
+  expect(stored.tournament.branding.website).toBe(
+    "https://volley.example/club",
+  );
+  expect(stored.tournament.branding.logo).toMatch(/^data:image\/png;base64,/);
+  await dismiss();
+  await page.screenshot({ path: "docs/screenshots/registration.png" });
+  await page
+    .getByRole("button", { name: "Fiches d’inscription vierges", exact: true })
+    .click();
+  await page.getByLabel("Fiches par page", { exact: true }).selectOption("2");
+  await page.getByLabel("Nombre de pages", { exact: true }).fill("2");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Afficher", exact: true })
+    .click();
+  await expect
+    .poll(
+      async () => await app.evaluate(() => (globalThis as any).viewed.length),
+    )
+    .toBe(1);
+  const saved = (await page.evaluate(() => window.volley.call<any>("session")))
+    .value;
+  const doc = saved.tournament.documents.at(-1);
+  expect(doc.kind).toBe("blank-registration");
+  const pdf = await PDFDocument.load(
+    await fs.readFile(path.join(saved.path, doc.file)),
+  );
+  expect(pdf.getPageCount()).toBe(2);
+  for (const pdfPage of pdf.getPages())
+    expect(
+      pdfPage.node.Resources()!.lookup(PDFName.of("XObject"), PDFDict).keys()
+        .length,
+    ).toBeGreaterThan(0);
+  await page.getByLabel("Fiches par page", { exact: true }).selectOption("1");
+  await app.evaluate(() => {
+    (globalThis as any).failPrint = true;
+  });
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Imprimer", exact: true })
+    .click();
+  await expect(page.locator(".toast.error")).toContainText(
+    "Test printer unavailable",
+  );
+  await expect
+    .poll(async () =>
+      app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length),
+    )
+    .toBe(1);
+  await dismiss();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Imprimer", exact: true })
+    .click();
+  await expect
+    .poll(
+      async () => await app.evaluate(() => (globalThis as any).printed.length),
+    )
+    .toBe(2);
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Fermer", exact: true })
+    .click();
+  await page.reload();
+  const reopened = (
+    await page.evaluate(() => window.volley.call<any>("session"))
+  ).value;
+  expect(reopened.tournament.branding).toEqual(stored.tournament.branding);
+  expect(reopened.tournament.documents).toHaveLength(3);
+});

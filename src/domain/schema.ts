@@ -7,7 +7,7 @@ const id = z.string().min(1).max(180),
 const rules = z.object({
   confirmed: z.boolean(),
   margin: z.union([z.literal(1), z.literal(2)]),
-  crossGroup: z.enum(["place-first", "performance"]),
+  crossGroup: z.enum(["place-first", "performance", "win-rate"]),
   referee: z.literal("resting-or-external"),
   bronze: z.boolean(),
 });
@@ -43,6 +43,7 @@ const match = z.object({
   bronze: z.boolean().optional(),
   target,
   score: z.tuple([z.number().int(), z.number().int()]).nullable(),
+  scoredMargin: z.union([z.literal(1), z.literal(2)]).optional(),
   bye: z.boolean().optional(),
   forfeit: text.optional(),
 });
@@ -52,6 +53,16 @@ export const tournamentSchema = z.object({
   id,
   name: text,
   createdAt: text,
+  branding: z
+    .object({
+      website: z.string().max(500).optional(),
+      logo: z
+        .string()
+        .max(1500000)
+        .regex(/^data:image\/png;base64,[A-Za-z0-9+/=]+$/)
+        .optional(),
+    })
+    .optional(),
   modifiedAt: text,
   revision: z.number().int().nonnegative(),
   rules,
@@ -79,6 +90,7 @@ export const tournamentSchema = z.object({
       teamIds: z.array(id),
       teamNames: z.record(z.string(), text),
       levels: z.record(z.string(), z.number()),
+      previousRanks: z.record(z.string(), z.number()).optional(),
       createdAt: text,
       rules,
       seeds: z.array(id).optional(),
@@ -99,7 +111,11 @@ export const tournamentSchema = z.object({
   documents: z.array(
     z.object({
       id,
-      phaseId: id,
+      phaseId: id.optional(),
+      kind: z.enum(["blank-registration", "team-registration"]).optional(),
+      teamId: id.optional(),
+      category: category.optional(),
+      sourceHash: z.string().optional(),
       groupId: id.optional(),
       matchId: id.optional(),
       file: text,

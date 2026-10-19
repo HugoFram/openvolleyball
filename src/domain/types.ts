@@ -18,7 +18,7 @@ export interface Team {
 export interface Rules {
   confirmed: boolean;
   margin: 1 | 2;
-  crossGroup: "place-first" | "performance";
+  crossGroup: "place-first" | "performance" | "win-rate";
   referee: "resting-or-external";
   bronze: boolean;
 }
@@ -47,6 +47,7 @@ export interface Match {
   bronze?: boolean;
   target: Target;
   score: [number, number] | null;
+  scoredMargin?: 1 | 2;
   bye?: boolean;
   forfeit?: string;
 }
@@ -64,6 +65,7 @@ export interface Phase {
   teamIds: string[];
   teamNames: Record<string, string>;
   levels: Record<string, number>;
+  previousRanks?: Record<string, number>;
   createdAt: string;
   rules: Rules;
   seeds?: string[];
@@ -87,7 +89,11 @@ export interface Audit {
 }
 export interface Document {
   id: string;
-  phaseId: string;
+  phaseId?: string;
+  kind?: "blank-registration" | "team-registration";
+  teamId?: string;
+  category?: Category;
+  sourceHash?: string;
   groupId?: string;
   matchId?: string;
   file: string;
@@ -98,6 +104,7 @@ export interface Tournament {
   schema: 1;
   id: string;
   name: string;
+  branding?: { website?: string; logo?: string };
   createdAt: string;
   modifiedAt: string;
   revision: number;
@@ -121,6 +128,7 @@ export interface Standing {
   diff: number;
   place: number;
   groupId: string;
+  overallPlace?: number;
 }
 export type Command =
   | { type: "rules"; rules: Rules }
@@ -134,6 +142,7 @@ export type Command =
       structure: number[];
       target: Target;
       preferredSize?: number;
+      decisions?: Record<string, string[]>;
     }
   | { type: "draft-update"; phaseId: string; groups: Group[]; target: Target }
   | { type: "draft-delete"; phaseId: string }

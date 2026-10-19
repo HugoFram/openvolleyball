@@ -15,9 +15,9 @@ import type {
 export const id = () => crypto.randomUUID();
 export const now = () => new Date().toISOString();
 export const defaultRules: Rules = {
-  confirmed: false,
+  confirmed: true,
   margin: 2,
-  crossGroup: "place-first",
+  crossGroup: "win-rate",
   referee: "resting-or-external",
   bronze: true,
 };
@@ -32,7 +32,10 @@ export const strength = (t: Team) =>
   t.players.length
     ? t.players.reduce((s, p) => s + p.level, 0) / t.players.length
     : 0;
-export function createTournament(name: string): Tournament {
+export function createTournament(
+  name: string,
+  branding?: Tournament["branding"],
+): Tournament {
   check(
     name.trim().length > 0 && name.trim().length <= 120,
     "Donnez au tournoi un nom de 1 à 120 caractères.",
@@ -41,6 +44,14 @@ export function createTournament(name: string): Tournament {
     schema: 1,
     id: id(),
     name: name.trim(),
+    ...(branding
+      ? {
+          branding: {
+            ...branding,
+            website: normalizeWebsite(branding.website),
+          },
+        }
+      : {}),
     createdAt: now(),
     modifiedAt: now(),
     revision: 0,
@@ -210,23 +221,81 @@ export function standings(p: Phase, g: Group): Standing[] {
     loser.points++;
   }
   rows.forEach((r) => (r.diff = r.scored - r.conceded));
-  rows.sort((a, b) => b.points - a.points || b.diff - a.diff);
+  rows.sort(compareCross);
   rows.forEach(
     (r, i) =>
       (r.place =
-        i > 0 && r.points === rows[i - 1].points && r.diff === rows[i - 1].diff
+        i > 0 && compareCross(r, rows[i - 1]) === 0
           ? rows[i - 1].place
           : i + 1),
   );
   return rows;
 }
-export function compareCross(a: Standing, b: Standing, rules: Rules): number {
-  if (rules.crossGroup === "place-first" && a.place !== b.place)
-    return a.place - b.place;
+export function compareCross(a: Standing, b: Standing, _rules?: Rules): number {
   return (
-    b.points * Math.max(1, a.played) - a.points * Math.max(1, b.played) ||
+    b.wins * Math.max(1, a.played) - a.wins * Math.max(1, b.played) ||
     b.diff * Math.max(1, a.played) - a.diff * Math.max(1, b.played)
   );
+}
+export function overallStandings(p: Phase): Standing[] {
+  const rows = p.groups.flatMap((g) => standings(p, g)).sort(compareCross);
+  rows.forEach(
+    (r, i) =>
+      (r.overallPlace =
+        i && compareCross(r, rows[i - 1]) === 0
+          ? rows[i - 1].overallPlace
+          : i + 1),
+  );
+  return rows;
+}
+export function normalizeWebsite(value?: string): string | undefined {
+  if (!value?.trim()) return undefined;
+  const raw = value.trim();
+  check(raw.length <= 500, "L’adresse du site est trop longue.");
+  let url: URL;
+  try {
+    url = new URL(/^[a-z][a-z0-9+.-]*:/i.test(raw) ? raw : `https://${raw}`);
+  } catch {
+    throw new Error("Indiquez une adresse de site valide.");
+  }
+  check(
+    ["https:", "http:"].includes(url.protocol) &&
+      !url.username &&
+      !url.password,
+    "Le site doit utiliser HTTP ou HTTPS sans identifiants.",
+  );
+  return url.href;
+}
+export function groupSlots(sizes: number[]): number[] {
+  const counts = sizes.map(() => 0),
+    slots: number[] = [];
+  let forward = true;
+  while (slots.length < sizes.reduce((a, b) => a + b, 0)) {
+    const band = sizes.map((_, i) => i);
+    if (!forward) band.reverse();
+    for (const i of band)
+      if (counts[i] < sizes[i]) {
+        slots.push(i);
+        counts[i]++;
+      }
+    forward = !forward;
+  }
+  return slots;
+}
+export function rankedGroups(ids: string[], sizes: number[]): Group[] {
+  check(
+    sizes.every((n) => [3, 4, 5].includes(n)) &&
+      sizes.reduce((a, b) => a + b, 0) === ids.length,
+    "La structure doit répartir toutes les équipes.",
+  );
+  const groups = sizes.map((_, i) => ({
+    id: id(),
+    name: `Groupe ${i + 1}`,
+    teamIds: [] as string[],
+    courts: [`${i + 1}`],
+  }));
+  groupSlots(sizes).forEach((g, i) => groups[g].teamIds.push(ids[i]));
+  return groups;
 }
 export interface RankingPlan {
   rows: Standing[];
@@ -237,8 +306,9 @@ export function rankingPlan(
   t: Tournament,
   p: Phase,
   count: number,
-  purpose: "split" | "seeds",
+  purpose: "split" | "seeds" | "groups",
   candidateIds?: string[],
+  sizes?: number[],
 ): RankingPlan {
   const eligible = new Set(candidateIds || p.teamIds);
   const withdrawn = new Set(
@@ -249,7 +319,8 @@ export function rankingPlan(
     .filter((r) => eligible.has(r.teamId) && !withdrawn.has(r.teamId))
     .sort((a, b) => compareCross(a, b, p.rules));
   const ties: RankingPlan["ties"] = [];
-  const context = `${purpose}:${count}`;
+  const context = `${purpose}:${count}${purpose === "groups" ? ":" + sizes?.join("+") : ""}`;
+  const slots = sizes ? groupSlots(sizes) : [];
   for (let start = 0; start < rows.length;) {
     let end = start + 1;
     while (
@@ -260,7 +331,8 @@ export function rankingPlan(
     if (
       end - start > 1 &&
       ((purpose === "split" && start < count && end > count) ||
-        (purpose === "seeds" && start < count))
+        (purpose === "seeds" && start < count) ||
+        (purpose === "groups" && new Set(slots.slice(start, end)).size > 1))
     ) {
       const block = rows.slice(start, end);
       const key = `${context}:${block
@@ -273,7 +345,9 @@ export function rankingPlan(
         reason:
           purpose === "split"
             ? `Cette égalité traverse la limite des ${count} places en Principale.`
-            : `Cette égalité détermine les têtes de série ${start + 1} à ${Math.min(end, count)}.`,
+            : purpose === "groups"
+              ? `Cette égalité détermine la répartition dans les prochains groupes (rangs ${start + 1} à ${end}).`
+              : `Cette égalité détermine les têtes de série ${start + 1} à ${Math.min(end, count)}.`,
       });
     }
     start = end;
@@ -488,7 +562,7 @@ function makeBracket(
     teamIds: seeds,
     ...snapshot(t, seeds),
     createdAt: now(),
-    rules: { ...t.rules },
+    rules: { ...defaultRules },
     seeds,
     decisions: c.decisions,
   };
@@ -510,7 +584,7 @@ function makeBracket(
         order: p.matches.length + 1,
         slot: round,
         court: "1",
-        referee: "Arbitre externe à désigner",
+        referee: "",
         a: null,
         b: null,
         refs: [refs[i], refs[i + 1]],
@@ -533,7 +607,7 @@ function makeBracket(
       order: p.matches.length + 1,
       slot: round - 1,
       court: "2",
-      referee: "Arbitre externe à désigner",
+      referee: "",
       a: null,
       b: null,
       refs: semis.map((x) => ({ type: "loser", id: x.id })) as [Ref, Ref],
@@ -582,8 +656,7 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         "Le règlement est figé dès la confirmation des groupes.",
       );
       check(
-        [1, 2].includes(c.rules.margin) &&
-          ["place-first", "performance"].includes(c.rules.crossGroup),
+        c.rules.margin === 2 && c.rules.crossGroup === "win-rate",
         "Règlement invalide.",
       );
       t.rules = { ...c.rules };
@@ -614,8 +687,8 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         "Ce nom d’équipe existe déjà dans cette catégorie.",
       );
       check(
-        team.players.length >= 1 && team.players.length <= 20,
-        "Ajoutez de 1 à 20 joueurs. Les équipes de 3 ou 4 sont acceptées.",
+        team.players.length >= 3 && team.players.length <= 4,
+        "Une équipe doit compter 3 ou 4 joueurs.",
       );
       check(
         team.players.every(
@@ -626,7 +699,7 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
             x.level >= 0 &&
             x.level <= 3,
         ),
-        "Chaque joueur doit avoir un nom et un niveau entier de 0 à 3.",
+        "Chaque joueur doit avoir un nom et un niveau N, R, D ou U.",
       );
       const old = t.teams.findIndex((x) => x.id === team.id);
       check(
@@ -704,10 +777,6 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
       break;
     }
     case "draft": {
-      check(
-        t.rules.confirmed,
-        "Confirmez le règlement avant de préparer une phase.",
-      );
       const { source, ids, number } = laneCandidates(t, c.category, c.lane);
       const teams = ids.map((x) => t.teams.find((z) => z.id === x)!);
       check(
@@ -716,6 +785,26 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
       );
       if (c.preferredSize && [3, 4, 5].includes(c.preferredSize))
         t.preferredSize = c.preferredSize;
+      const plan = source
+        ? rankingPlan(t, source, ids.length, "groups", ids, c.structure)
+        : null;
+      const rankedIds = plan ? resolvePlan(plan, c.decisions || {}) : ids;
+      const previous = source ? overallStandings(source) : [];
+      const previousRanks = Object.fromEntries(
+        rankedIds.map((tid, i) => [
+          tid,
+          previous.find((r) => r.teamId === tid)?.overallPlace || i + 1,
+        ]),
+      );
+      if (plan)
+        for (const tie of plan.ties) {
+          const first = Math.min(
+            ...tie.rows.map((r) => previousRanks[r.teamId]),
+          );
+          c.decisions![tie.key].forEach(
+            (tid, i) => (previousRanks[tid] = first + i),
+          );
+        }
       const p: Phase = {
         id: id(),
         category: c.category,
@@ -725,13 +814,16 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         sourceId: source?.id || null,
         status: "Préparation",
         target: c.target,
-        groups: balancedGroups(teams, c.structure),
+        groups: source
+          ? rankedGroups(rankedIds, c.structure)
+          : balancedGroups(teams, c.structure),
+        ...(source ? { previousRanks } : {}),
         matches: [],
         teamIds: ids,
         ...snapshot(t, ids),
         createdAt: now(),
-        rules: { ...t.rules },
-        decisions: {},
+        rules: { ...defaultRules },
+        decisions: c.decisions || {},
       };
       t.phases.push(p);
       break;
@@ -759,11 +851,11 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         c.groups.every(
           (g) =>
             g.courts.length >= 1 &&
-            g.courts.length <= 2 &&
+            g.courts.length <= (g.teamIds.length === 5 ? 2 : 1) &&
             g.courts.every((x) => x.trim().length > 0 && x.length <= 40) &&
             new Set(g.courts.map(normalize)).size === g.courts.length,
         ),
-        "Indiquez un ou deux terrains distincts par groupe (40 caractères maximum).",
+        "Indiquez un terrain par groupe ; seuls les groupes de 5 peuvent en avoir deux (40 caractères maximum).",
       );
       p.groups = c.groups;
       p.target = c.target;
@@ -789,10 +881,12 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         "Renseignez tous les terrains.",
       );
       check(
-        t.rules.confirmed,
-        "Confirmez le règlement avant le début de la phase.",
+        p.groups.every(
+          (g) => g.courts.length <= (g.teamIds.length === 5 ? 2 : 1),
+        ),
+        "Seuls les groupes de 5 peuvent avoir deux terrains.",
       );
-      p.rules = { ...t.rules };
+      p.rules = { ...defaultRules };
       p.matches = p.groups.flatMap((g) => schedule(p.id, g, p.target));
       p.status = "En cours";
       break;
@@ -805,7 +899,7 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         "Confirmez les groupes avant de saisir un score.",
       );
       check(m.a && m.b && !m.bye, "Les deux participants doivent être connus.");
-      validateScore(c.score, m.target, p.rules);
+      validateScore(c.score, m.target, defaultRules);
       if (m.score?.every((x, i) => x === c.score[i])) {
         noChange = true;
         break;
@@ -861,6 +955,7 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
         };
       }
       m.score = c.score;
+      m.scoredMargin = 2;
       if (p.kind === "knockout") refreshBracket(p);
       else complete(p);
       break;
@@ -872,11 +967,10 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
       // Ordered traversal means a final can become eligible after its semifinal in the same explicit operation.
       for (const m of p.matches)
         if (!m.score && !m.bye && m.a && m.b) {
-          const low = Math.floor(
-            Math.random() * (m.target - p.rules.margin + 1),
-          );
+          const low = Math.floor(Math.random() * (m.target - 2 + 1));
           m.score = Math.random() > 0.5 ? [m.target, low] : [low, m.target];
-          validateScore(m.score, m.target, p.rules);
+          m.scoredMargin = 2;
+          validateScore(m.score, m.target, defaultRules);
           count++;
           if (p.kind === "knockout") refreshBracket(p);
         }
@@ -959,9 +1053,9 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
       check(
         c.court.trim() &&
           c.court.length <= 40 &&
-          c.referee.trim() &&
+          (p.kind === "knockout" || c.referee.trim()) &&
           c.referee.length <= 120,
-        "Indiquez un terrain et un arbitre.",
+        "Indiquez un terrain et, pour les groupes, un arbitre.",
       );
       if (m.groupId)
         check(
@@ -999,7 +1093,7 @@ export function assertInvariants(t: Tournament) {
       typeof t.id === "string" &&
       typeof t.name === "string" &&
       Number.isInteger(t.revision),
-    "Format de package non reconnu.",
+    "Format de tournoi non reconnu.",
   );
   check(
     Array.isArray(t.teams) &&
@@ -1008,7 +1102,7 @@ export function assertInvariants(t: Tournament) {
       Array.isArray(t.documents) &&
       Array.isArray(t.audit) &&
       Array.isArray(t.archives),
-    "Package incomplet.",
+    "Tournoi incomplet.",
   );
   const teamIds = new Set(t.teams.map((x) => x.id));
   check(teamIds.size === t.teams.length, "Identifiants d’équipe dupliqués.");
@@ -1123,7 +1217,11 @@ export function assertInvariants(t: Tournament) {
       );
       if (m.score) {
         check(m.a && m.b, "Résultat sans participants.");
-        if (!m.forfeit) validateScore(m.score, m.target, p.rules);
+        if (!m.forfeit)
+          validateScore(m.score, m.target, {
+            ...p.rules,
+            margin: m.scoredMargin ?? p.rules.margin,
+          });
       }
     }
     if (p.status !== "Préparation" && p.kind === "groups")
@@ -1172,9 +1270,18 @@ export function assertInvariants(t: Tournament) {
   }
   for (const d of t.documents) {
     check(
-      phaseIds.has(d.phaseId) && /^documents\/[a-zA-Z0-9-]+\.pdf$/.test(d.file),
+      (!d.phaseId || phaseIds.has(d.phaseId)) &&
+        /^documents\/[a-zA-Z0-9-]+\.pdf$/.test(d.file),
       "Association de document invalide.",
     );
+    if (!d.phaseId) {
+      check(
+        d.kind === "blank-registration" ||
+          (d.kind === "team-registration" && teamIds.has(d.teamId!)),
+        "Source de fiche introuvable.",
+      );
+      continue;
+    }
     const p = getPhase(t, d.phaseId);
     check(
       (!d.groupId || p.groups.some((g) => g.id === d.groupId)) &&

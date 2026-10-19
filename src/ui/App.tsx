@@ -18,7 +18,7 @@ import type { Category, Command, Recent, Session } from "../domain/types";
 import { Context, Busy, Modal, Hint } from "./shared";
 import { Registration } from "./Registration";
 import { Progression } from "./Progression";
-import { RulesView, DocumentsView, HistoryView } from "./Utilities";
+import { DocumentsView, HistoryView } from "./Utilities";
 
 export function App() {
   const [session, setSession] = useState<Session | null>(null),
@@ -58,6 +58,7 @@ export function App() {
       "create",
       "open",
       "print-document",
+      "registration-sheet",
     ].includes(method);
     if (slow) setBusy((n) => n + 1);
     try {
@@ -149,7 +150,6 @@ export function App() {
   const nav = [
     { id: "progression", label: "Progression", icon: GitFork },
     { id: "registration", label: "Inscriptions", icon: Users },
-    { id: "rules", label: "Règlement", icon: SlidersHorizontal },
     { id: "documents", label: "Exports et diagnostic", icon: Files },
     { id: "history", label: "Historique", icon: History },
   ];
@@ -162,7 +162,6 @@ export function App() {
             <img src="./assets/volleyball.svg" alt="" />
             <span>
               open<span className="brand-light">volleyball</span>
-              <small>L’ESPRIT DU JEU.</small>
             </span>
           </a>
           {session ? (
@@ -188,16 +187,9 @@ export function App() {
                 ))}
               </nav>
               <div className="sidebar-bottom">
-                <div className="local-note">
-                  <ShieldCheck size={18} />
-                  <div>
-                    <strong>Tout reste sur cet ordinateur</strong>
-                    <small>Sauvegarde locale automatique</small>
-                  </div>
-                </div>
                 <button className="switch-button" onClick={() => void open()}>
                   <FolderOpen size={18} />
-                  Ouvrir un autre package
+                  Ouvrir un autre tournoi
                 </button>
                 <button
                   className="subtle"
@@ -210,21 +202,9 @@ export function App() {
             </>
           ) : (
             <div className="start-side">
-              <span>01 / ORGANISEZ</span>
-              <h2>
-                Du premier service
-                <br />
-                au dernier point.
-              </h2>
-              <p>
-                Vos équipes. Vos terrains.
-                <br />
-                Un tournoi qui avance, simplement.
-              </p>
               <div className="ball-art">
                 <img src="./assets/volleyball.svg" alt="Ballon de volleyball" />
               </div>
-              <small>INDÉPENDANT · LOCAL · SANS CONNEXION</small>
             </div>
           )}
         </aside>
@@ -238,11 +218,6 @@ export function App() {
                   : "Bienvenue"}
               </span>
             </div>
-            <span className="saved">
-              <span className="offline-dot" />
-              {busyCount ? "Sauvegarde…" : "Disponible hors ligne"}
-              {session && <span className="revision"> · r{t!.revision}</span>}
-            </span>
           </header>
           {!session || view === "start" ? (
             <Start
@@ -273,19 +248,8 @@ export function App() {
             >
               <div className="content" key={`${t!.id}-${editEpoch}`}>
                 <div className="page-heading">
-                  <div className="eyebrow">LE TOURNOI, EN TOUTE SÉRÉNITÉ</div>
                   <div className="heading-line">
-                    <h1>
-                      {view === "progression"
-                        ? "Le fil du tournoi"
-                        : view === "registration"
-                          ? "Les équipes entrent en jeu"
-                          : view === "rules"
-                            ? "Un règlement clair"
-                            : view === "documents"
-                              ? "Tout à portée de main"
-                              : "La mémoire du tournoi"}
-                    </h1>
+                    <h1>{nav.find((n) => n.id === view)?.label}</h1>
                     {["progression", "registration"].includes(view) && (
                       <div
                         className="category-selector"
@@ -304,24 +268,12 @@ export function App() {
                       </div>
                     )}
                   </div>
-                  <p>
-                    {view === "progression"
-                      ? "Une vue commune. Deux parcours. Chaque étape à sa place."
-                      : view === "registration"
-                        ? "Composez les effectifs et préparez des groupes équilibrés."
-                        : view === "rules"
-                          ? "Les règles sont explicites et conservées avec chaque phase."
-                          : view === "documents"
-                            ? "Feuilles de terrain, sauvegardes et informations du package."
-                            : "Chaque modification enregistrée laisse une trace."}
-                  </p>
                 </div>
                 {view === "progression" ? (
                   <Progression
                     key={`${t!.id}-${category}`}
                     category={category}
                     onRegister={() => setView("registration")}
-                    onRules={() => setView("rules")}
                   />
                 ) : view === "registration" ? (
                   <Registration
@@ -329,8 +281,6 @@ export function App() {
                     category={category}
                     onProgress={() => setView("progression")}
                   />
-                ) : view === "rules" ? (
-                  <RulesView />
                 ) : view === "documents" ? (
                   <DocumentsView />
                 ) : (
@@ -403,6 +353,8 @@ function Start({
 }) {
   const [name, setName] = useState(""),
     [parent, setParent] = useState(""),
+    [logoPath, setLogoPath] = useState(""),
+    [website, setWebsite] = useState(""),
     [recents, setRecents] = useState<Recent[]>([]),
     [busy, setBusy] = useState(false);
   useEffect(() => {
@@ -420,17 +372,7 @@ function Start({
   };
   return (
     <div className="welcome">
-      <div className="eyebrow">BIENVENUE SUR LE TERRAIN</div>
-      <h1>
-        Un beau tournoi
-        <br />
-        commence ici.
-      </h1>
-      <p className="welcome-description">
-        Créez votre espace de compétition, ou reprenez
-        <br />
-        exactement là où vous en étiez.
-      </p>
+      <h1>Tournois</h1>
       <section className="panel create-panel">
         <div className="section-title">
           <span className="title-icon">
@@ -438,14 +380,20 @@ function Start({
           </span>
           <div>
             <h2>Créer ou ouvrir un tournoi</h2>
-            <p>Un package contient tout votre tournoi.</p>
           </div>
         </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             void run(async () =>
-              onCreated(await native<Session>("create", { name, parent })),
+              onCreated(
+                await native<Session>("create", {
+                  name,
+                  parent,
+                  logoPath,
+                  website,
+                }),
+              ),
             );
           }}
         >
@@ -460,7 +408,7 @@ function Start({
             />
           </label>
           <label>
-            Destination du nouveau package
+            Destination du nouveau tournoi
             <div className="input-button">
               <input
                 value={parent}
@@ -484,8 +432,40 @@ function Start({
               </button>
             </div>
           </label>
+          <label>
+            Logo (facultatif)
+            <div className="input-button">
+              <input
+                aria-label="Fichier du logo"
+                value={logoPath}
+                onChange={(e) => setLogoPath(e.target.value)}
+                placeholder="PNG ou JPEG"
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  void run(async () => {
+                    const file = await native<string | null>("choose-logo");
+                    if (file) setLogoPath(file);
+                  })
+                }
+              >
+                <FolderOpen size={17} />
+                Parcourir le logo
+              </button>
+            </div>
+          </label>
+          <label>
+            Site web (facultatif)
+            <input
+              aria-label="Site web"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              placeholder="https://exemple.ch"
+            />
+          </label>
           <button className="primary full" disabled={busy}>
-            Créer le package
+            Créer le tournoi
             <ArrowRight size={18} />
           </button>
         </form>
@@ -494,12 +474,12 @@ function Start({
         </div>
         <button className="full" disabled={busy} onClick={() => void open()}>
           <FolderOpen size={18} />
-          Ouvrir un package existant
+          Ouvrir un tournoi existant
         </button>
       </section>
       <section className="recent-section">
         <div className="section-title">
-          <h2>Packages récents</h2>
+          <h2>Tournois récents</h2>
           <span className="muted">{recents.length}</span>
         </div>
         {recents.length === 0 ? (

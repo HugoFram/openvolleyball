@@ -8,6 +8,8 @@ import {
   Trash2,
 } from "lucide-react";
 import type { Category, Team } from "../domain/types";
+import { levelLetter, levelLegend, playerLevels } from "../domain/levels";
+import { BlankRegistrationSheets } from "./RegistrationSheets";
 import { id, strength } from "../domain/engine";
 import { useApp, Modal, Hint } from "./shared";
 export function Registration({
@@ -28,7 +30,8 @@ export function Registration({
     );
   const [editing, setEditing] = useState<Team | null>(null),
     [count, setCount] = useState(16),
-    [search, setSearch] = useState("");
+    [search, setSearch] = useState(""),
+    [blankSheets, setBlankSheets] = useState(false);
   const player = () => ({ id: id(), name: "", level: 1, email: "", club: "" });
   const add = () =>
     setEditing({
@@ -40,7 +43,7 @@ export function Registration({
     });
   return (
     <>
-      <div className="stats-row">
+      <div className="stats-row registration-stats">
         <div className="stat">
           <span>ÉQUIPES INSCRITES</span>
           <strong>
@@ -51,16 +54,6 @@ export function Registration({
         <div className="stat">
           <span>JOUEURS SUR LE TERRAIN</span>
           <strong>{teams.reduce((s, t) => s + t.players.length, 0)}</strong>
-        </div>
-        <div className="stat">
-          <span>NIVEAU MOYEN</span>
-          <strong>
-            {(
-              teams.reduce((s, t) => s + strength(t), 0) /
-              Math.max(1, teams.length)
-            ).toFixed(2)}
-            <small> / 3</small>
-          </strong>
         </div>
       </div>
       {locked && (
@@ -81,6 +74,9 @@ export function Registration({
           Les effectifs <span className="count">{teams.length}</span>
         </h2>
         <div className="actions">
+          <button onClick={() => setBlankSheets(true)}>
+            Fiches d’inscription vierges
+          </button>
           <input
             className="search"
             aria-label="Rechercher une équipe"
@@ -124,14 +120,7 @@ export function Registration({
                   <div key={p.id}>
                     <UserRound size={14} />
                     <span>{p.name}</span>
-                    <span
-                      className="level-dots"
-                      aria-label={`Niveau ${p.level}`}
-                    >
-                      {[0, 1, 2].map((n) => (
-                        <i key={n} className={n < p.level ? "filled" : ""} />
-                      ))}
-                    </span>
+                    <span className="level-badge">{levelLetter(p.level)}</span>
                   </div>
                 ))}
               </div>
@@ -176,13 +165,6 @@ export function Registration({
       </div>
       {!locked && (
         <section className="demo-strip">
-          <div>
-            <WandSparkles size={23} />
-            <div>
-              <h3>Explorer avec des équipes de démonstration</h3>
-              <p>Ajout volontaire, noms uniques, effectifs de 3 à 4 joueurs.</p>
-            </div>
-          </div>
           <div className="actions">
             <label className="inline-label">
               Nombre
@@ -209,16 +191,17 @@ export function Registration({
         </section>
       )}
       <div className="page-bottom">
-        <span className="muted">
-          {teams.length >= 3
-            ? "Les équipes sont prêtes pour la préparation des groupes."
-            : "Ajoutez au moins 3 équipes pour commencer."}
-        </span>
         <button className="primary" onClick={onProgress}>
           Préparer le tournoi
           <ArrowRight size={17} />
         </button>
       </div>
+      {blankSheets && (
+        <BlankRegistrationSheets
+          category={category}
+          onClose={() => setBlankSheets(false)}
+        />
+      )}
       {editing && (
         <TeamEditor initial={editing} onClose={() => setEditing(null)} />
       )}
@@ -288,6 +271,7 @@ function TeamEditor({
             </h3>
             <button
               type="button"
+              disabled={team.players.length >= 4}
               onClick={() =>
                 change({
                   ...team,
@@ -302,9 +286,10 @@ function TeamEditor({
               Ajouter un joueur
             </button>
           </div>
+          <p className="level-legend">{levelLegend}</p>
           <div className="player-header">
             <span>Nom *</span>
-            <span>Niveau (0–3)</span>
+            <span>Niveau</span>
             <span>E-mail (facultatif)</span>
             <span>Club (facultatif)</span>
             <span />
@@ -324,30 +309,40 @@ function TeamEditor({
                   })
                 }
               />
-              <input
+              <select
                 aria-label={`Niveau joueur ${i + 1}`}
-                type="number"
-                min={0}
-                max={3}
-                value={Number.isNaN(p.level) ? "" : p.level}
-                required
+                value={p.level}
+                onKeyDown={(e) => {
+                  const level = playerLevels.find(
+                    (level) => level.letter === e.key.toUpperCase(),
+                  );
+                  if (level && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                    e.preventDefault();
+                    change({
+                      ...team,
+                      players: team.players.map((x) =>
+                        x.id === p.id ? { ...x, level: level.value } : x,
+                      ),
+                    });
+                  }
+                }}
                 onChange={(e) =>
                   change({
                     ...team,
                     players: team.players.map((x) =>
                       x.id === p.id
-                        ? {
-                            ...x,
-                            level:
-                              e.target.value === ""
-                                ? NaN
-                                : Number(e.target.value),
-                          }
+                        ? { ...x, level: Number(e.target.value) }
                         : x,
                     ),
                   })
                 }
-              />
+              >
+                {playerLevels.map((level) => (
+                  <option key={level.letter} value={level.value}>
+                    {level.letter}
+                  </option>
+                ))}
+              </select>
               <input
                 type="email"
                 aria-label={`E-mail joueur ${i + 1}`}
@@ -377,7 +372,7 @@ function TeamEditor({
                 type="button"
                 className="icon-button"
                 aria-label={`Retirer joueur ${i + 1}`}
-                disabled={team.players.length === 1}
+                disabled={team.players.length <= 3}
                 onClick={() =>
                   change({
                     ...team,
@@ -389,17 +384,19 @@ function TeamEditor({
               </button>
             </div>
           ))}
-          <p className="muted">
-            Le niveau moyen est calculé sur tous les joueurs. Les niveaux
-            restent éditables au clavier.
-          </p>
+
           {error && <Hint error>{error}</Hint>}
         </div>
         <footer className="modal-footer">
           <button type="button" onClick={() => void close()}>
             Annuler
           </button>
-          <button className="primary" disabled={busy}>
+          <button
+            className="primary"
+            disabled={
+              busy || team.players.length < 3 || team.players.length > 4
+            }
+          >
             Enregistrer l’équipe
           </button>
         </footer>
