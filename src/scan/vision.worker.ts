@@ -10,7 +10,12 @@ import {
   type Raster,
 } from "./geometry";
 import { readScore } from "./digits";
-import { localRect, textCrop, textSuggestion } from "./handwriting";
+import {
+  localRect,
+  textCrop,
+  textSuggestion,
+  textReaderVersion,
+} from "./handwriting";
 function locate(
   data: Uint8ClampedArray,
   width: number,
@@ -220,7 +225,7 @@ self.onmessage = async (
             )) {
               const crop = textCrop(image, localRect(form, field.rect));
               if (!crop) {
-                values[field.key] = { value: "", reader: "trocr-v1" };
+                values[field.key] = { value: "", reader: textReaderVersion };
                 continue;
               }
               self.postMessage({

@@ -124,14 +124,28 @@ inference dependency enters the package. Empty-ink checks precede generation.
 Progress messages renew a per-field inactivity deadline; cancellation terminates
 the worker, and completed-page transactions remain persisted. Partial model
 failure preserves checkbox results and any earlier text for manual review.
-`trocr-v1` identifies immutable original suggestions independently of edits.
+`trocr-v1` and `trocr-fr-v2` identify immutable original suggestions independently
+of edits. Both identifiers remain readable when an alpha.4 tournament is upgraded.
+
+Reviewed registration export uses the accepted scan snapshot and raw field crops,
+subtracting the physical half-sheet origin before cropping. It never consults a
+team's subsequently edited roster. Only approved aligned registration forms from
+the active tournament are eligible; pending/ignored/unidentified sheets stay out.
+Empty text cells are retained, checkbox levels omitted, and source/sheet group
+hashes plus original suggestions support later auditing. The export is read-only
+and local; no reviews are automatically uploaded or used for training.
 
 Registration model assets are pinned by revision/SHA-256 in their manifest,
 prepared by a developer-only downloader, verified at build and bundled only under
 `dist/assets` to avoid duplicate weights. Runtime model/remote cache loading is
 disabled; the local protocol and CSP prevent cloud access. The small manifest,
-licenses and model card remain tracked in Git; upstream weights are reproducible
-via `npm run models:fetch` and are included in the Windows executable.
+licenses and model card remain tracked in Git. The French adaptation's compressed
+weight chunks are tracked separately: `npm run models:fetch` reconstructs and
+checks them using Node's built-in Brotli support. Only unchanged tokenizer/config
+assets are downloaded from the pinned upstream revision. Builds verify every
+reconstructed file; the Windows executable includes all runtime files and never
+downloads anything. The source chunks are excluded from the executable to avoid
+duplicate model data. Python/CUDA are maintainer training tools only.
 
 Alpha.3 replaces the runtime MNIST-12 model with the independent digit CNN described
 in `assets/models/model-card.md`. Preprocessing/consensus thresholds are retained;

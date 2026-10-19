@@ -170,37 +170,61 @@ export function ScansView() {
               Reprendre l’analyse
             </button>
           )}
-          {pages.some((p) => p.status === "approved") && (
-            <button
-              disabled={working || busy || exporting}
-              onClick={() =>
-                void (async () => {
-                  setExporting(true);
-                  try {
-                    const current = live.current.tournament;
-                    const result = await native<{
-                      path: string;
-                      count: number;
-                      skipped: number;
-                    } | null>("scan-export-reviewed", {
-                      packageId: current.id,
-                      revision: current.revision,
-                    });
-                    if (result)
-                      notify(
-                        `${result.count} scores relus exportés dans ${result.path}${result.skipped ? ` · ${result.skipped} extraits ignorés` : ""}.`,
-                      );
-                  } catch (error) {
-                    notify((error as Error).message, true);
-                  } finally {
-                    setExporting(false);
+          {(["scores", "registration"] as const).map(
+            (kind) =>
+              pages.some(
+                (p) =>
+                  p.status === "approved" &&
+                  t.paperForms?.some(
+                    (f) => f.id === p.formId && f.kind === kind,
+                  ),
+              ) && (
+                <button
+                  key={kind}
+                  title={
+                    kind === "registration"
+                      ? "Images et textes corrigés, avec les noms et e-mails. Aucun envoi automatique."
+                      : undefined
                   }
-                })()
-              }
-            >
-              <Download size={17} />
-              {exporting ? "Export en cours…" : "Exporter les scores relus"}
-            </button>
+                  disabled={working || busy || exporting}
+                  onClick={() =>
+                    void (async () => {
+                      setExporting(true);
+                      try {
+                        const current = live.current.tournament;
+                        const result = await native<{
+                          path: string;
+                          count: number;
+                          skipped: number;
+                        } | null>(
+                          kind === "registration"
+                            ? "scan-export-registrations"
+                            : "scan-export-reviewed",
+                          {
+                            packageId: current.id,
+                            revision: current.revision,
+                          },
+                        );
+                        if (result)
+                          notify(
+                            `${result.count} ${kind === "registration" ? "champs d’inscription" : "scores relus"} exportés dans ${result.path}${result.skipped ? ` · ${result.skipped} extraits ignorés` : ""}.`,
+                          );
+                      } catch (error) {
+                        notify((error as Error).message, true);
+                      } finally {
+                        setExporting(false);
+                      }
+                    })()
+                  }
+                >
+                  <Download size={17} />
+                  {exporting
+                    ? "Export en cours…"
+                    : kind === "registration"
+                      ? "Exporter les inscriptions relues"
+                      : "Exporter les scores relus"}
+                </button>
+              ),
           )}
           <span className="muted">
             Lecture locale · aucune connexion Internet
@@ -516,7 +540,7 @@ function Review({
               </span>
             )}
           {f.kind === "registration" &&
-            values[field.key]?.reader === "trocr-v1" &&
+            values[field.key]?.reader?.startsWith("trocr-") &&
             value && (
               <small className="muted">
                 Texte proposé · à vérifier sur l’image

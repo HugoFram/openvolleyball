@@ -1,0 +1,34 @@
+Open Volleyball French registration handwriting adaptation, 2026
+
+The application's source code remains MIT licensed. The additional trained model
+adaptation is made available under Creative Commons Attribution 4.0 International
+(https://creativecommons.org/licenses/by/4.0/). Retain this notice and the supplied
+dataset attributions when redistributing it. The base Microsoft TrOCR model retains
+its MIT license, supplied in TrOCR-MIT.txt.
+
+Additional real handwriting used for this adaptation:
+
+CREMMA WIKIPEDIA — Alix Chagué, Thibault Clérice, Elsa Van Kote, Jennifer Carrow
+and the contributors listed in CREMMA-Wikipedia-CITATION.cff.
+https://github.com/HTR-United/cremma-wikipedia
+https://doi.org/10.5281/zenodo.7782065
+CC BY 4.0. License text: CREMMA-Wikipedia-CC-BY-4.0.txt.
+Changes: handwritten lines cropped from ALTO annotations, editorial deletion
+markup excluded, contrast/cropping adapted to registration fields, used to
+fine-tune TrOCR-small. No original document images are bundled.
+
+GNHK: A Dataset for English Handwriting in the Wild (ICDAR 2021)
+Alex W. C. Lee, Jonathan Chung and Marco Lee.
+https://github.com/GoodNotes/GNHK-dataset
+CC BY 4.0. License text: GNHK-CC-BY-4.0.txt.
+Changes: selected handwritten words cropped using their polygons, EXIF orientation
+applied, other regions masked, contrast/cropping adapted to registration fields,
+used to fine-tune TrOCR-small. No original document images are bundled.
+
+Supplementary synthetic short fields were created for this project. Windows font
+files are not redistributed. Model recipes, dataset revisions, checksums and
+evaluation limits are documented in assets/models/registration-model-card.md.
+
+RIMES was evaluated during development but excluded from the shipped adaptation:
+the original publisher's noncommercial license conflicts with a mirror's MIT tag.
+No RIMES-adapted checkpoint is shipped.

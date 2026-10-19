@@ -1,0 +1,89 @@
+{
+  "format": "open-volleyball-registration-benchmark",
+  "version": 1,
+  "samplesPerCorpus": 128,
+  "seed": 917,
+  "maxNewTokens": 48,
+  "runtime": "ONNX Runtime CPU q8",
+  "models": {
+    "baseline": {
+      "cremma": {
+        "samples": 128,
+        "characters": 7393,
+        "characterErrors": 3878,
+        "cer": 0.5245502502367104,
+        "exact": 1,
+        "exactRate": 0.0078125
+      },
+      "cremma_accented": {
+        "samples": 102,
+        "characters": 6220,
+        "characterErrors": 3359,
+        "cer": 0.5400321543408361,
+        "exact": 0,
+        "exactRate": 0.0
+      },
+      "gnhk": {
+        "samples": 128,
+        "characters": 637,
+        "characterErrors": 346,
+        "cer": 0.543171114599686,
+        "exact": 40,
+        "exactRate": 0.3125
+      },
+      "gnhk_accented": {
+        "samples": 0,
+        "characters": 0,
+        "characterErrors": 0,
+        "cer": 0.0,
+        "exact": 0,
+        "exactRate": 0.0
+      }
+    },
+    "adapted": {
+      "cremma": {
+        "samples": 128,
+        "characters": 7393,
+        "characterErrors": 1321,
+        "cer": 0.17868253753550656,
+        "exact": 5,
+        "exactRate": 0.0390625
+      },
+      "cremma_accented": {
+        "samples": 102,
+        "characters": 6220,
+        "characterErrors": 1176,
+        "cer": 0.18906752411575561,
+        "exact": 3,
+        "exactRate": 0.029411764705882353
+      },
+      "gnhk": {
+        "samples": 128,
+        "characters": 637,
+        "characterErrors": 138,
+        "cer": 0.21664050235478807,
+        "exact": 74,
+        "exactRate": 0.578125
+      },
+      "gnhk_accented": {
+        "samples": 0,
+        "characters": 0,
+        "characterErrors": 0,
+        "cer": 0.0,
+        "exact": 0,
+        "exactRate": 0.0
+      }
+    }
+  },
+  "onnxRuntimeVersion": "1.31.0",
+  "weights": {
+    "baseline": {
+      "encoder_model_quantized.onnx": "2f29edbd925f8a49c9c7d1349895f960cf09d2efdc76fe23f957048d476e0d03",
+      "decoder_model_merged_quantized.onnx": "51076aa396ab5939c4668db9de901ad51765094b4c05c4c8c1f8ae2012ba1e08"
+    },
+    "adapted": {
+      "encoder_model_quantized.onnx": "26cf4cc5363505b190fd643e68535853dfbe76d9ed74543dc27638be07e671e3",
+      "decoder_model_merged_quantized.onnx": "bf3577bedd81f7346b62c4e6a12de21dec14b497878c0651c0746ddce6473ee5"
+    }
+  }
+}

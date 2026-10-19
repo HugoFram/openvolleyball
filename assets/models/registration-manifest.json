@@ -1,5 +1,5 @@
 {
-  "name": "TrOCR small handwritten (quantized)",
+  "name": "Open Volleyball French TrOCR-small (public-data adaptation, q8)",
   "repository": "Xenova/trocr-small-handwritten",
   "revision": "2432e24d184b1d964d07ed04f5d9e21d31a59141",
   "directory": "registration/trocr-small-handwritten",
@@ -36,13 +36,281 @@
     },
     {
       "file": "onnx/encoder_model_quantized.onnx",
-      "bytes": 23082942,
-      "sha256": "2f29edbd925f8a49c9c7d1349895f960cf09d2efdc76fe23f957048d476e0d03"
+      "bytes": 24103505,
+      "sha256": "26cf4cc5363505b190fd643e68535853dfbe76d9ed74543dc27638be07e671e3",
+      "chunks": [
+        {
+          "file": "registration-fr/encoder_model-000.brpart",
+          "sha256": "17865f2c34448d366f61e446d8978e060c7b57eff47d99decc3a7a689aef676d",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-001.brpart",
+          "sha256": "f0bba954bc2b25cdd754a02338b40684d1784d9c08e0d0920c5cdb38f424a40e",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-002.brpart",
+          "sha256": "2bc92af82e7b0be5f5ef2dd86176ecca7710f65f9041d8911b320625dff61b3e",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-003.brpart",
+          "sha256": "e16541d56f3704208002f0479b5b51a56d527b388e457748ec5f80e740ff0013",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-004.brpart",
+          "sha256": "2f3878bbda4b882936dd18756fd9013fc47a82cb1d317bae391914ffd683072d",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-005.brpart",
+          "sha256": "9d51a083ec5487d9add09bc34a7d65ce91dba88c2181b8ff234e8e7c252d6a4f",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-006.brpart",
+          "sha256": "a852cf03bfafb12db37b22e9829042aa6abd4650f43e72b397e4a25af38ad559",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-007.brpart",
+          "sha256": "f081c664115d4263ee78d58be1849b0e02acf8d7a308fd7300e17525cbdc37f0",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-008.brpart",
+          "sha256": "bbe26a6e6c2b4139f0b1eccf8d1771bcabacb24b99c65f24e8811fd781edd168",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-009.brpart",
+          "sha256": "4f123f1a29ea8f016dc307e4a360723246a96ab05f56489a04f758f954a347a8",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-010.brpart",
+          "sha256": "01125898da6f761acba049d4cfcb164be135ba6b89b55431459d3340431f3251",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-011.brpart",
+          "sha256": "737bd44e491f6ee5ce86e098043122d4c50a8eebf08f26cab5c30b2557cea89d",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-012.brpart",
+          "sha256": "6ea5313baad3c8e768dba4bfd5943883f11440ac3be527cbe72464fb75203490",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-013.brpart",
+          "sha256": "f0aecc7183d93de1e4ad98c5b5723c3476f74b144388f1727900385805b26657",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-014.brpart",
+          "sha256": "852b72bffae8eebac440478c61034fe665adcb355b88fa18fff673a00fff8976",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-015.brpart",
+          "sha256": "34aeac8cc29e028a71f672413075b8a98bcedbc4bb6bccf8cf59885ab96b6a35",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-016.brpart",
+          "sha256": "e0f07ee7163ba2ed617886651d74e3dac0922a37cfb745f4ec5e7b298184069a",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-017.brpart",
+          "sha256": "ecb71f96a495192ce35ad3b2970b6db68a61ad5441ceb4ff0ded4f32817abe3c",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/encoder_model-018.brpart",
+          "sha256": "1d18fbe987d2be9dcfe69bd2a4b6e2907a6c8995256a2c92f49ed7166c1bbdfd",
+          "bytes": 9781
+        }
+      ],
+      "compression": "brotli"
     },
     {
       "file": "onnx/decoder_model_merged_quantized.onnx",
-      "bytes": 40527613,
-      "sha256": "51076aa396ab5939c4668db9de901ad51765094b4c05c4c8c1f8ae2012ba1e08"
+      "bytes": 40924156,
+      "sha256": "bf3577bedd81f7346b62c4e6a12de21dec14b497878c0651c0746ddce6473ee5",
+      "chunks": [
+        {
+          "file": "registration-fr/decoder_model_merged-000.brpart",
+          "sha256": "f0d6d2819e0856673c739c66cc08be881f9794612d12e2ad36e26ae679cd62ea",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-001.brpart",
+          "sha256": "3dd22f32b5a1e0b1552f9ca007e1e1ddea81d1391c570f02f1dd6ac7b122d8e2",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-002.brpart",
+          "sha256": "5cf5bea2a4f5c5fc30398729946c76c4023d0c74ae6729fc0ab63a15c4c590b1",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-003.brpart",
+          "sha256": "5bdcab7ef2640b86d7294dd7b2991cac167fed910b5995fb9a939b9f7998ca6c",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-004.brpart",
+          "sha256": "9be027a72128efab18e8c2900fd4fe57d6e3a2ae392a02d2c2b4847d9bf4b914",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-005.brpart",
+          "sha256": "43057943c53db27a13ec99e94083fed800893c8919e04c499ea60d5b8f654b82",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-006.brpart",
+          "sha256": "78dc3c4c562b20e21c9f801e1a63da73997f34631c6948db550589c27e2fcbcf",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-007.brpart",
+          "sha256": "859b8ce10051e81c8fe12c3c02dead6029f5ec4c8b022a6d01fd7a0fb7a6b732",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-008.brpart",
+          "sha256": "b74b0a149adb321918a4ac3f7071e759c6100d39cff66cafd305eb8c6841c591",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-009.brpart",
+          "sha256": "657ae2535b6198f8f8142accb94dc2f0dac292616f9c0e6e1f8c545fa0d46f31",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-010.brpart",
+          "sha256": "fe2b45624f95190d309594341fd5ea89097a30929fa34e316ef7cb174ed31727",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-011.brpart",
+          "sha256": "ff475ad1eaa0018e85de18a9f206f176d3a366b1b35b69a7746c8e5124985f1a",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-012.brpart",
+          "sha256": "2e9ea976ad973d5396ae1b520cde39f4015d80e48cc0e42ef1123dec70a09234",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-013.brpart",
+          "sha256": "cd5aeb363a0db76860bc7ffc75d16e386312bcf92fd1faa1f1bf341a2ac51d0c",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-014.brpart",
+          "sha256": "6e7f73d1822a5cbe2ce5264a7929dc23200161ea0255da314a1a7cc9ec125499",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-015.brpart",
+          "sha256": "3d76d61fde847406c9aedfa2c104ba59f1e741f333a975be879694634a138ef1",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-016.brpart",
+          "sha256": "022051bfbf53fdcebbab4b1329655d17dfaa8454bb6ebaf85bce20c7bc0fc557",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-017.brpart",
+          "sha256": "20c53ed01731aa3a9a0eae076c6b93a2ac5f316880d0aa13401e07d3278b9e92",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-018.brpart",
+          "sha256": "140f085d2bdbf46313e43092c6eb16fb0165956852308af9ba05a636dcc2ea57",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-019.brpart",
+          "sha256": "0bea493b126d2b078a3e7dc5a6c458792b44457d55a20633f1ed2eebfccee43e",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-020.brpart",
+          "sha256": "008cd958cd76447d4e49337e16f55cea8a8ef49fc4666f15229a54d28c3d8beb",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-021.brpart",
+          "sha256": "85c9ffed955be3672b5e1fd43a4f34773a196c42b0da4c2e3e194b04e9aad135",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-022.brpart",
+          "sha256": "63493e1d4e2c81e62085ad70fedee0e7b4c6d58fee3448bb1694e03e75820dcd",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-023.brpart",
+          "sha256": "901d1190700f4f6d9a8187c41c96876375b2ba689ab63791fd21207b87f464cb",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-024.brpart",
+          "sha256": "c95337c578a9c9dc5cfd021ca904186f58ad4beede87cbc111b0a6087adcd83e",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-025.brpart",
+          "sha256": "7178e7bc65cc843c8377d904f80ad9683f4bdb552eea11aabb0351a4f59842c4",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-026.brpart",
+          "sha256": "86f3c32d709424e61912751dcbb0dc8d60f37dc05b67a7deab9d18f4ed4a01b0",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-027.brpart",
+          "sha256": "48734890e05c44dc95e01c61b7348dc4fa7fd97eb3647256dc1f9439148a07bd",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-028.brpart",
+          "sha256": "a58cd84e8db8539951b843cef679c6e92e5bd97b4a3121767b61e75d4e34670e",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-029.brpart",
+          "sha256": "daedcc6c2e691ac2cc3614463ff56ed374f8f89c443250a16c2f2fbb6be133d3",
+          "bytes": 1048576
+        },
+        {
+          "file": "registration-fr/decoder_model_merged-030.brpart",
+          "sha256": "0a17327b05ad805d441edd8d54b89608ed5366525dceba41e2a3e47170ecce00",
+          "bytes": 150078
+        }
+      ],
+      "compression": "brotli"
     }
-  ]
+  ],
+  "adaptation": {
+    "recipe": "scripts/train-registration.py",
+    "baseRevision": "b4648cfa171985a6745f37ddd637e98c0da958ac",
+    "corpora": [
+      "GNHK",
+      "CREMMA-Wikipedia",
+      "synthetic short fields"
+    ],
+    "reader": "trocr-fr-v2",
+    "objective": "aligned-cross-entropy-v1",
+    "checkpointSha256": "9286ddb2c0dcce8e07d2bb3d751203d6982b1ef4bb7fbc636ef25c0c2a76f3b2"
+  }
 }

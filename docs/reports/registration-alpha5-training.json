@@ -1,0 +1,287 @@
+{
+  "format": "open-volleyball-registration-training",
+  "version": 1,
+  "recipe": {
+    "base": "microsoft/trocr-small-handwritten",
+    "revision": "b4648cfa171985a6745f37ddd637e98c0da958ac",
+    "seed": 20261019,
+    "epochs": 4,
+    "batch": 16,
+    "learningRate": 2e-05,
+    "preprocessing": "scripts/registration_preprocessing.py (application textCrop pixel math)",
+    "frenchTrainRepetitions": 4,
+    "maximumLabelTokens": 96,
+    "optimizer": "AdamW, weight_decay=0.01, clip_norm=1",
+    "precision": "bf16 autocast with float32 master weights",
+    "checkpointSelection": "lowest validation character error; test excluded",
+    "corpora": {
+      "cremma": "5cd61fb74a976e23fa23df5811fc05c4424199ce",
+      "gnhk": "eaa67d396fd29b8b04e38d630da79f67db11b212"
+    },
+    "trainCounts": {
+      "cremma": 1436,
+      "gnhk": 6955,
+      "synthetic": 2400
+    },
+    "validationCounts": {
+      "gnhk": 96,
+      "cremma": 96
+    },
+    "testCounts": {
+      "cremma": 251,
+      "gnhk": 1032
+    },
+    "objective": "aligned-cross-entropy-v1",
+    "dataLoaderWorkers": 2
+  },
+  "checkpointSelection": {
+    "epoch": 4,
+    "validationCER": 0.15044545301731382
+  },
+  "validationHistory": [
+    {
+      "epoch": 1,
+      "cer": 0.20440410152966884,
+      "summary": {
+        "cremma": {
+          "lines": 96,
+          "characters": 5429,
+          "characterErrors": 1073,
+          "cer": 0.1976422913980475,
+          "exactLines": 4,
+          "exactRate": 0.041666666666666664
+        },
+        "cremma_accented": {
+          "lines": 71,
+          "characters": 4382,
+          "characterErrors": 851,
+          "cer": 0.1942035600182565,
+          "exactLines": 1,
+          "exactRate": 0.014084507042253521
+        },
+        "gnhk": {
+          "lines": 96,
+          "characters": 520,
+          "characterErrors": 143,
+          "cer": 0.275,
+          "exactLines": 49,
+          "exactRate": 0.5104166666666666
+        },
+        "gnhk_accented": {
+          "lines": 0,
+          "characters": 0,
+          "characterErrors": 0,
+          "cer": 0.0,
+          "exactLines": 0,
+          "exactRate": 0.0
+        }
+      }
+    },
+    {
+      "epoch": 2,
+      "cer": 0.1781812069255337,
+      "summary": {
+        "cremma": {
+          "lines": 96,
+          "characters": 5429,
+          "characterErrors": 914,
+          "cer": 0.16835512985816908,
+          "exactLines": 7,
+          "exactRate": 0.07291666666666667
+        },
+        "cremma_accented": {
+          "lines": 71,
+          "characters": 4382,
+          "characterErrors": 716,
+          "cer": 0.16339570972158832,
+          "exactLines": 4,
+          "exactRate": 0.056338028169014086
+        },
+        "gnhk": {
+          "lines": 96,
+          "characters": 520,
+          "characterErrors": 146,
+          "cer": 0.28076923076923077,
+          "exactLines": 52,
+          "exactRate": 0.5416666666666666
+        },
+        "gnhk_accented": {
+          "lines": 0,
+          "characters": 0,
+          "characterErrors": 0,
+          "cer": 0.0,
+          "exactLines": 0,
+          "exactRate": 0.0
+        }
+      }
+    },
+    {
+      "epoch": 3,
+      "cer": 0.15616069927718945,
+      "summary": {
+        "cremma": {
+          "lines": 96,
+          "characters": 5429,
+          "characterErrors": 792,
+          "cer": 0.14588321974580953,
+          "exactLines": 4,
+          "exactRate": 0.041666666666666664
+        },
+        "cremma_accented": {
+          "lines": 71,
+          "characters": 4382,
+          "characterErrors": 629,
+          "cer": 0.14354176175262437,
+          "exactLines": 1,
+          "exactRate": 0.014084507042253521
+        },
+        "gnhk": {
+          "lines": 96,
+          "characters": 520,
+          "characterErrors": 137,
+          "cer": 0.26346153846153847,
+          "exactLines": 54,
+          "exactRate": 0.5625
+        },
+        "gnhk_accented": {
+          "lines": 0,
+          "characters": 0,
+          "characterErrors": 0,
+          "cer": 0.0,
+          "exactLines": 0,
+          "exactRate": 0.0
+        }
+      }
+    },
+    {
+      "epoch": 4,
+      "cer": 0.15044545301731382,
+      "summary": {
+        "cremma": {
+          "lines": 96,
+          "characters": 5429,
+          "characterErrors": 752,
+          "cer": 0.13851538036470806,
+          "exactLines": 5,
+          "exactRate": 0.052083333333333336
+        },
+        "cremma_accented": {
+          "lines": 71,
+          "characters": 4382,
+          "characterErrors": 578,
+          "cer": 0.1319032405294386,
+          "exactLines": 2,
+          "exactRate": 0.028169014084507043
+        },
+        "gnhk": {
+          "lines": 96,
+          "characters": 520,
+          "characterErrors": 143,
+          "cer": 0.275,
+          "exactLines": 55,
+          "exactRate": 0.5729166666666666
+        },
+        "gnhk_accented": {
+          "lines": 0,
+          "characters": 0,
+          "characterErrors": 0,
+          "cer": 0.0,
+          "exactLines": 0,
+          "exactRate": 0.0
+        }
+      }
+    }
+  ],
+  "fullPublicTest": {
+    "baseline": {
+      "cremma": {
+        "lines": 251,
+        "characters": 14926,
+        "characterErrors": 7119,
+        "cer": 0.47695296797534503,
+        "exactLines": 1,
+        "exactRate": 0.00398406374501992
+      },
+      "cremma_accented": {
+        "lines": 197,
+        "characters": 12219,
+        "characterErrors": 5884,
+        "cer": 0.4815451346264015,
+        "exactLines": 0,
+        "exactRate": 0.0
+      },
+      "gnhk": {
+        "lines": 1032,
+        "characters": 5271,
+        "characterErrors": 6763,
+        "cer": 1.2830582432176059,
+        "exactLines": 346,
+        "exactRate": 0.33527131782945735
+      },
+      "gnhk_accented": {
+        "lines": 0,
+        "characters": 0,
+        "characterErrors": 0,
+        "cer": 0.0,
+        "exactLines": 0,
+        "exactRate": 0.0
+      }
+    },
+    "adapted": {
+      "cremma": {
+        "lines": 251,
+        "characters": 14926,
+        "characterErrors": 2284,
+        "cer": 0.15302157309393005,
+        "exactLines": 8,
+        "exactRate": 0.03187250996015936
+      },
+      "cremma_accented": {
+        "lines": 197,
+        "characters": 12219,
+        "characterErrors": 1870,
+        "cer": 0.15304034700057287,
+        "exactLines": 5,
+        "exactRate": 0.025380710659898477
+      },
+      "gnhk": {
+        "lines": 1032,
+        "characters": 5271,
+        "characterErrors": 1139,
+        "cer": 0.21608802883703282,
+        "exactLines": 669,
+        "exactRate": 0.6482558139534884
+      },
+      "gnhk_accented": {
+        "lines": 0,
+        "characters": 0,
+        "characterErrors": 0,
+        "cer": 0.0,
+        "exactLines": 0,
+        "exactRate": 0.0
+      }
+    }
+  },
+  "testDecoding": {
+    "maxNewTokens": 96,
+    "numBeams": 1,
+    "precision": "GPU bf16",
+    "note": "Checkpoint-development evaluation. Shipped q8 CPU comparison is reported separately with 48 tokens."
+  },
+  "dataAudit": {
+    "crossSplitDocumentGroups": 0,
+    "crossSplitIdenticalNonblankCrops": 0,
+    "emptyPlaceholderImages": {
+      "train": 8,
+      "test": 1
+    },
+    "frenchAccentedTrainLines": 1117,
+    "trainingAppPreprocessingParityCrops": 12
+  },
+  "limits": [
+    "Document separation does not prove writer separation.",
+    "Public line/word results do not establish real registration-field accuracy.",
+    "Private reviewed registration samples have not been used.",
+    "The exploratory run using the upstream double-shift loss was discarded."
+  ]
+}

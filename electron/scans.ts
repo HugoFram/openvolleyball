@@ -8,6 +8,10 @@ import { approveScan, currentForm, type ScanPage } from "../src/domain/scans";
 import { check, id, now } from "../src/domain/engine";
 import type { Tournament } from "../src/domain/types";
 import { normalizedScale } from "../src/scan/geometry";
+import {
+  exportRegistrations,
+  reviewedRegistrations,
+} from "./registration-export";
 
 function scanPath(store: PackageStore, file: string) {
   check(/^scans\/[a-zA-Z0-9.-]+$/.test(file), "Chemin de scan invalide.");
@@ -26,7 +30,9 @@ const valuesSchema = z.record(
     confidence: z.number().min(0).max(1).optional(),
     alternatives: z.array(z.string().max(3)).max(5).optional(),
     issue: z.string().max(2000).optional(),
-    reader: z.enum(["contrast-v2", "style-cnn-v3", "trocr-v1"]).optional(),
+    reader: z
+      .enum(["contrast-v2", "style-cnn-v3", "trocr-v1", "trocr-fr-v2"])
+      .optional(),
   }),
 );
 const pageSchema = z.object({
@@ -53,6 +59,24 @@ export async function scanAction(
   win: BrowserWindow,
   generate: (t: Tournament, s: PackageStore) => Promise<Tournament>,
 ) {
+  if (method === "scan-export-registrations") {
+    check(
+      reviewedRegistrations(store.current).length,
+      "Aucune inscription relue avec une image alignée à exporter.",
+    );
+    const selection = await dialog.showOpenDialog(win, {
+      title: "Exporter les inscriptions relues — contient les noms et e-mails",
+      properties: ["openDirectory", "createDirectory"],
+    });
+    if (selection.canceled) return null;
+    return exportRegistrations(
+      store,
+      path.join(
+        selection.filePaths[0],
+        `inscriptions-relues-${Date.now()}-${id().slice(0, 8)}`,
+      ),
+    );
+  }
   if (method === "scan-export-reviewed") {
     const t = store.current;
     const candidates = (t.scanPages || []).filter(

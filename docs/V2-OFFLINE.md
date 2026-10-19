@@ -1,11 +1,25 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.4`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.5`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
 
 ## Inscriptions : imprimer, couper et scanner
+
+Après avoir vérifié et enregistré les équipes, ouvrir **Feuilles scannées →
+Exporter les inscriptions relues** et choisir un dossier. Compresser le dossier
+`inscriptions-relues-…` pour le transmettre. Il contient les extraits PNG de chaque
+champ et `inscriptions.json` : texte corrigé, proposition initiale et groupes de
+capture. Les champs vides sont inclus ; les niveaux cochés sont exclus. Seules
+les fiches validées avec une image alignée sont exportées. Les corrections sont
+celles de la validation de la fiche, même si l’équipe a été modifiée ensuite.
+
+Cet export contient des noms et des e-mails : le transmettre directement aux
+personnes concernées, sans le publier dans un dépôt public. L’application ne
+l’envoie nulle part. Vérifier que le texte corrigé correspond bien à l’écriture
+sur le papier ; exclure des données d’entraînement les corrections administratives
+qui ne transcrivent pas ce qui est écrit. Scans et tournoi restent inchangés.
 
 Dans **Inscriptions → Fiches d’inscription vierges**, choisir **2 fiches par page**.
 Les deux moitiés ont maintenant exactement la même disposition : nom du tournoi,
@@ -33,9 +47,10 @@ Couper sur la ligne médiane. Les identifiants QR des fiches restent distincts.
    et le verrouillage habituel des inscriptions restent appliqués.
 
 Le modèle est fourni dans l’exécutable : aucun téléchargement, cache préalable,
-GPU ou connexion réseau ne sont nécessaires. Cette première transcription est
-basée sur TrOCR/IAM ; elle n’est pas spécialisée pour les noms français ou les
-adresses e-mail. Une proposition plausible peut être incorrecte. Aucune précision
+GPU ou connexion réseau ne sont nécessaires. Le lecteur TrOCR a été adapté à des
+écritures françaises contemporaines (CREMMA-Wikipedia), à des mots manuscrits
+photographiés (GNHK) et à des champs courts synthétiques avec accents et e-mails.
+Une proposition plausible peut être incorrecte. Aucune précision
 chiffrée sur les vraies fiches n’est annoncée ; une relecture est nécessaire.
 [Fiche technique et limites](../assets/models/registration-model-card.md).
 
@@ -273,6 +288,9 @@ téléphones ne sont pas encore intégrés.
 - [ ] Vérifier noms, accents, clubs et e-mails ; laisser la quatrième ligne vide,
       corriger une proposition puis enregistrer une seule équipe.
 - [ ] Interrompre puis reprendre un lot ; vérifier les brouillons et données déjà relues.
+- [ ] Valider des inscriptions, puis **Exporter les inscriptions relues**. Vérifier
+      les images et accents dans `inscriptions.json`, y compris une quatrième ligne
+      vide ; compresser le dossier pour le transmettre directement.
 - [ ] Enregistrer un brouillon, fermer et rouvrir le tournoi.
 - [ ] Réimporter le même fichier : aucune duplication.
 - [ ] Essayer une ancienne feuille après échange des équipes du tableau : refus.

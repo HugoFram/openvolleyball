@@ -1,6 +1,6 @@
 {
   "name": "open-volleyball",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "private": true,
   "type": "module",
   "description": "Gestion locale de tournois de volleyball",
@@ -60,6 +60,7 @@
       "dist-electron/**/*",
       "assets/**/*",
       "!assets/models/registration/**/*",
+      "!assets/models/registration-fr/**/*",
       "node_modules/pdfkit/**/*",
       "package.json"
     ],

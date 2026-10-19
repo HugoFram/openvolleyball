@@ -1,3 +1,25 @@
+# Version 2.0.0-alpha.5
+
+- **Exporter les inscriptions relues** dans Feuilles scannées : images brutes des
+  champs, textes validés avec accents, propositions initiales, groupes de capture
+  et empreintes des images. Champs vides conservés ; cases de niveaux exclues.
+  Export local, sans modification des scans ni du tournoi ; noms/e-mails inclus.
+- Les étiquettes proviennent de la validation de la fiche, même après une
+  modification ultérieure de l’équipe. Les données alpha.4 restent exportables.
+- Lecteur manuscrit adapté sur 8 391 exemples réels supplémentaires (GNHK et
+  CREMMA-Wikipedia français), plus 2 400 champs courts synthétiques. Inférence CPU
+  entièrement hors ligne. Le lecteur de scores accepté reste inchangé.
+- Comparaison q8 CPU sur 128 lignes françaises hors entraînement : erreurs de
+  caractères 52,5 % → 17,9 % ; sous-ensemble avec accents : 54,0 % → 18,9 %.
+  Sur 128 mots anglais : 40 → 74 transcriptions exactes. Ce ne sont pas des taux
+  de réussite sur les fiches réelles ; la relecture demeure indispensable.
+- Recettes d’entraînement, tests d’alignement des cibles, provenances/licences,
+  rapports de comparaison et poids contrôlés par SHA-256 fournis avec les sources.
+- Validation : 67 tests de domaine/stockage/PDF/modèles, 17 essais Electron et
+  trois tests de l’objectif d’entraînement. Export testé sur demi-feuilles PDF/JPEG,
+  accents, champs vides, modifications ultérieures, annulation et conservation des
+  originaux. Le modèle s’exécute réellement hors ligne pendant les essais.
+
 # Version 2.0.0-alpha.4
 
 - Deux fiches d’inscription identiques par A4 : titre, logo et site sur chaque

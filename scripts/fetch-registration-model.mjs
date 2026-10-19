@@ -2,6 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { brotliDecompressSync } from "node:zlib";
 const manifest = JSON.parse(
   await fs.readFile("assets/models/registration-manifest.json", "utf8"),
 );
@@ -19,6 +20,30 @@ for (const entry of manifest.files) {
     }
   };
   if (await valid()) continue;
+  if (entry.chunks) {
+    const chunks = [];
+    for (const chunk of entry.chunks) {
+      const bytes = await fs.readFile(path.join("assets/models", chunk.file));
+      if (
+        bytes.length !== chunk.bytes ||
+        createHash("sha256").update(bytes).digest("hex") !== chunk.sha256
+      )
+        throw new Error(
+          `Adapted model chunk failed integrity check: ${chunk.file}`,
+        );
+      chunks.push(bytes);
+    }
+    const bytes = brotliDecompressSync(Buffer.concat(chunks));
+    if (
+      bytes.length !== entry.bytes ||
+      createHash("sha256").update(bytes).digest("hex") !== entry.sha256
+    )
+      throw new Error(`Adapted model reconstruction failed: ${entry.file}`);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, bytes);
+    console.log(`Prepared adapted ${entry.file}`);
+    continue;
+  }
   const url = `https://huggingface.co/${manifest.repository}/resolve/${manifest.revision}/${entry.file}`;
   const response = await fetch(url);
   if (!response.ok)

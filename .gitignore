@@ -7,4 +7,6 @@ playwright-report/
 tmp/
 assets/models/registration/
 *.log
+__pycache__/
+*.py[cod]
 .DS_Store

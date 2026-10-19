@@ -195,11 +195,20 @@ for (const format of ["pdf", "jpeg"] as const)
       await page
         .getByRole("button", { name: "Importer des scans", exact: true })
         .click();
-    if(format==="pdf"){
-      await page.getByRole("button",{name:"Interrompre l’analyse",exact:true}).click();
-      await expect(page.getByRole("button",{name:"Interrompre l’analyse",exact:true})).toBeHidden();
-      await page.getByRole("button",{name:"Reprendre l’analyse",exact:true}).click();
-    }
+      if (format === "pdf") {
+        await page
+          .getByRole("button", { name: "Interrompre l’analyse", exact: true })
+          .click();
+        await expect(
+          page.getByRole("button", {
+            name: "Interrompre l’analyse",
+            exact: true,
+          }),
+        ).toBeHidden();
+        await page
+          .getByRole("button", { name: "Reprendre l’analyse", exact: true })
+          .click();
+      }
       await expect(page.getByText("Analyse en cours…")).toBeHidden({
         timeout: 150000,
       });
@@ -228,7 +237,7 @@ for (const format of ["pdf", "jpeg"] as const)
         );
         expect(result.aligned).toBe(true);
         expect(result.note).not.toContain("indisponible");
-        expect(result.values.teamName.reader).toBe("trocr-v1");
+        expect(result.values.teamName.reader).toBe("trocr-fr-v2");
         expect(result.values.teamName.value).toMatch(i ? /Red/i : /Blue/i);
         expect(result.values["player0:name"].value).toMatch(/Anna/i);
         expect(result.values["player0:email"].value.length).toBeGreaterThan(3);
@@ -278,6 +287,165 @@ for (const format of ["pdf", "jpeg"] as const)
           (s: any) => s.status === "approved",
         ),
       ).toHaveLength(1);
+      const edited = await page.evaluate(
+        (t) =>
+          window.volley.call<any>("command", {
+            packageId: t.id,
+            revision: t.revision,
+            command: {
+              type: "team",
+              team: {
+                ...t.teams[0],
+                name: "Nom actuel différent",
+                players: t.teams[0].players.map((p: any, i: number) =>
+                  i ? p : { ...p, name: "Nom administratif" },
+                ),
+              },
+            },
+          }),
+        saved.value.tournament,
+      );
+      expect(edited.ok).toBe(true);
+      saved.value.tournament = edited.value.tournament;
+      await page.reload();
+      await page
+        .getByRole("button", { name: "Feuilles scannées", exact: true })
+        .click();
+      await expect(
+        page.getByRole("button", {
+          name: "Exporter les scores relus",
+          exact: true,
+        }),
+      ).toBeHidden();
+      const beforeExport = await fs.readFile(
+        path.join(folder, "tournament.json"),
+      );
+      const originalSource = await fs.readFile(
+        path.join(folder, saved.value.tournament.scanSources[0].file),
+      );
+      await app.evaluate(({ dialog }, parent) => {
+        dialog.showOpenDialog = async () => ({
+          canceled: false,
+          filePaths: [parent],
+        });
+      }, parent);
+      await page
+        .getByRole("button", {
+          name: "Exporter les inscriptions relues",
+          exact: true,
+        })
+        .click();
+      await expect(
+        page.getByText(/13 champs d’inscription exportés/),
+      ).toBeVisible();
+      const exportedFolder = (await fs.readdir(parent)).find((f) =>
+        f.startsWith("inscriptions-relues-"),
+      )!;
+      const exported = JSON.parse(
+        await fs.readFile(
+          path.join(parent, exportedFolder, "inscriptions.json"),
+          "utf8",
+        ),
+      );
+      expect(exported.format).toBe("open-volleyball-reviewed-registrations");
+      expect(exported.sheets).toBe(1);
+      expect(exported.samples).toHaveLength(13);
+      expect(
+        exported.samples.find((s: any) => s.field === "teamName").text,
+      ).toBe("Les Rouges");
+      expect(
+        exported.samples.find((s: any) => s.field === "player0:name"),
+      ).toMatchObject({
+        text: "Anaïs",
+        suggested: expect.stringMatching(/^anna$/i),
+        kind: "name",
+      });
+      expect(
+        exported.samples.find((s: any) => s.field === "player1:name").text,
+      ).toBe("Zoé");
+      expect(
+        exported.samples.find((s: any) => s.field === "player2:name").text,
+      ).toBe("Émilie");
+      expect(
+        exported.samples.find((s: any) => s.field === "player0:email").text,
+      ).toBe("anna@example.com");
+      expect(
+        exported.samples.find((s: any) => s.field === "player3:name").text,
+      ).toBe("");
+      expect(new Set(exported.samples.map((s: any) => s.sheetGroup)).size).toBe(
+        1,
+      );
+      expect(
+        new Set(exported.samples.map((s: any) => s.captureGroup)).size,
+      ).toBe(1);
+      for (const sample of exported.samples) {
+        const crop = await sharp(
+          await fs.readFile(path.join(parent, exportedFolder, sample.file)),
+        ).metadata();
+        expect(crop.width).toBeGreaterThan(50);
+        expect(crop.height).toBeGreaterThan(25);
+      }
+      // The approved sheet was the LOWER half: the exported raw handwriting
+      // must match its local rectangle, rather than A4 coordinates or half one.
+      const selectedScan = saved.value.tournament.scanPages.find(
+        (s: any) => s.status === "approved",
+      );
+      const selectedForm = sheet.forms!.find(
+        (f) => f.id === selectedScan.formId,
+      )!;
+      const field = selectedForm.fields.find((f) => f.key === "teamName")!;
+      const teamSample = exported.samples.find(
+        (s: any) => s.field === "teamName",
+      );
+      const normalized = Buffer.from(
+        (
+          await page.evaluate(
+            (id) => window.volley.call<any>("scan-image", { id }),
+            selectedScan.id,
+          )
+        ).value,
+      );
+      const [x, y, w, h] = field.rect,
+        top = selectedForm.region?.[1] || 0;
+      const left = Math.floor(x * 2),
+        localTop = Math.floor((y - top) * 2);
+      const expectedCrop = await sharp(normalized)
+        .extract({
+          left,
+          top: localTop,
+          width: Math.ceil((x + w) * 2) - left,
+          height: Math.ceil((y - top + h) * 2) - localTop,
+        })
+        .removeAlpha()
+        .raw()
+        .toBuffer();
+      const actualCrop = await sharp(
+        await fs.readFile(path.join(parent, exportedFolder, teamSample.file)),
+      )
+        .removeAlpha()
+        .raw()
+        .toBuffer();
+      expect(actualCrop).toEqual(expectedCrop);
+      expect(await fs.readFile(path.join(folder, "tournament.json"))).toEqual(
+        beforeExport,
+      );
+      expect(
+        await fs.readFile(
+          path.join(folder, saved.value.tournament.scanSources[0].file),
+        ),
+      ).toEqual(originalSource);
+      await app.evaluate(({ dialog }) => {
+        dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
+      });
+      const canceledExport = await page.evaluate(
+        (t) =>
+          window.volley.call("scan-export-registrations", {
+            packageId: t.id,
+            revision: t.revision,
+          }),
+        saved.value.tournament,
+      );
+      expect(canceledExport.value).toBeNull();
       expect(external).toEqual([]);
     } finally {
       await app.evaluate(({ app }) => app.exit(0)).catch(() => {});

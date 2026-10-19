@@ -50,5 +50,9 @@ fiches par A4, couper sur la ligne centrale puis scanner les demi-feuilles rempl
 Chaque moitié possède le titre, logo, site, QR et ses quatre repères. Écrire une
 ligne par cellule. Vérifier les propositions de texte, les accents et les e-mails,
 puis enregistrer chaque équipe. Les fiches entières restent acceptées.
+Après validation, **Exporter les inscriptions relues** crée un dossier contenant
+les extraits manuscrits et les textes corrigés pour améliorer le lecteur. Compresser
+ce dossier pour le transmettre directement ; il contient des noms et e-mails.
+Les scans originaux et les données du tournoi restent inchangés.
 Imprimer les nouvelles feuilles avec QR codes et conserver une
 copie du tournoi v1 avant de tester v2. Voir le [guide v2 et sa checklist](V2-OFFLINE.md).

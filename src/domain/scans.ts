@@ -45,7 +45,7 @@ export interface ScanValue {
   confidence?: number;
   alternatives?: string[];
   issue?: string;
-  reader?: "contrast-v2" | "style-cnn-v3" | "trocr-v1";
+  reader?: "contrast-v2" | "style-cnn-v3" | "trocr-v1" | "trocr-fr-v2";
 }
 export interface ScanPage {
   id: string;

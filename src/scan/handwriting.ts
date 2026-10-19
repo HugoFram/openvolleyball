@@ -1,6 +1,7 @@
 import type { PaperForm, Rect, ScanValue } from "../domain/scans";
 import type { Raster } from "./geometry";
 import { normalizedScale } from "./geometry";
+export const textReaderVersion = "trocr-fr-v2";
 
 /** Paper metadata uses page coordinates; a cut form's normalized image is local. */
 export function localRect(form: PaperForm, rect: Rect): Rect {
@@ -136,5 +137,5 @@ export function textSuggestion(text: string, key: string): ScanValue {
     if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(joined)) value = joined;
     else issue = "Format d’e-mail à vérifier";
   }
-  return { value, reader: "trocr-v1", ...(issue ? { issue } : {}) };
+  return { value, reader: textReaderVersion, ...(issue ? { issue } : {}) };
 }
