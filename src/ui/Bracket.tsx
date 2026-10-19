@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Trophy, FileText, Check, ArrowRight } from "lucide-react";
+import { Trophy, Check, ArrowLeftRight } from "lucide-react";
 import type { Match, Phase } from "../domain/types";
 import { PrintTeamSheet } from "./RegistrationSheets";
 import {
@@ -7,6 +7,8 @@ import {
   outcome,
   validateScore,
   defaultRules,
+  previousPhaseRanks,
+  canSwapBracketTeams,
 } from "../domain/engine";
 import { useApp, Modal, Hint } from "./shared";
 import { DocumentButtons } from "./PhaseView";
@@ -43,9 +45,42 @@ export function Bracket({
   onMatch: (id: string) => void;
   ranking: boolean;
 }) {
+  const { session, command, busy, notify } = useApp();
+  const [editing, setEditing] = useState(false),
+    [selected, setSelected] = useState<string | null>(null);
+  const canSwap = canSwapBracketTeams(p),
+    ranks = previousPhaseRanks(session.tournament, p);
+  useEffect(() => {
+    if (!canSwap) {
+      setEditing(false);
+      setSelected(null);
+    }
+  }, [canSwap]);
   const { positions, width, height } = bracketLayout(p);
   const name = (tid: string | null) =>
     tid ? p.teamNames[tid] : "À déterminer";
+  const rankedName = (tid: string | null) =>
+    `${name(tid)}${tid && ranks[tid] ? `, rang précédent ${ranks[tid]}` : ""}`;
+  const swap = async (tid: string) => {
+    if (!selected) {
+      setSelected(tid);
+      return;
+    }
+    if (selected === tid) {
+      setSelected(null);
+      return;
+    }
+    try {
+      await command({
+        type: "bracket-swap",
+        phaseId: p.id,
+        teamA: selected,
+        teamB: tid,
+      });
+      setSelected(null);
+      notify("Équipes échangées. Les feuilles sont à jour.");
+    } catch {}
+  };
   if (ranking) {
     const rows = finalPlacements(p);
     return (
@@ -84,7 +119,27 @@ export function Bracket({
             ou afficher sa feuille.
           </p>
         </div>
+        <button
+          disabled={busy || !canSwap}
+          title="Échanges possibles avant le premier résultat de cette phase"
+          className={editing ? "primary" : ""}
+          aria-pressed={editing}
+          onClick={() => {
+            setEditing(!editing);
+            setSelected(null);
+          }}
+        >
+          <ArrowLeftRight size={16} />
+          {editing ? "Terminer les échanges" : "Échanger des équipes"}
+        </button>
       </div>
+      {editing && canSwap && (
+        <div className="bracket-swap-hint" role="status">
+          {selected
+            ? `Sélectionnez l’équipe à échanger avec ${name(selected)}, ou cliquez à nouveau pour annuler.`
+            : "Sélectionnez deux équipes du premier tour pour les échanger."}
+        </div>
+      )}
       <div className="bracket-scroll">
         <div className="bracket-canvas" style={{ width, height }}>
           <svg
@@ -146,6 +201,27 @@ export function Bracket({
                 ? "Perdant de demi-finale"
                 : "Vainqueur du tour précédent";
             };
+            const teamLine = (tid: string | null, side: number) => (
+              <>
+                <span
+                  className="bracket-team-name"
+                  title={tid ? name(tid) : placeholder(side)}
+                >
+                  {tid ? name(tid) : placeholder(side)}
+                </span>
+                {tid && ranks[tid] && (
+                  <span
+                    className="bracket-rank"
+                    title="Rang général dans la phase de groupes précédente"
+                    aria-hidden="true"
+                  >
+                    #{ranks[tid]}
+                  </span>
+                )}
+              </>
+            );
+            const lineClass = (tid: string | null) =>
+              `bracket-team-line ${tid && outcome(m, "winner") === tid ? "bracket-winner" : ""}`;
             return (
               <div
                 className="bracket-node-wrap"
@@ -153,30 +229,40 @@ export function Bracket({
                 key={m.id}
               >
                 {m.bronze && <div className="bronze-title">Petite finale</div>}
-                <button
-                  className={`bracket-card ${m.score ? "completed" : ""} ${m.bye ? "bye" : ""}`}
-                  aria-label={`Ouvrir ${m.bronze ? "Petite finale" : `match ${m.order}`} : ${name(m.a)} contre ${name(m.b)}`}
-                  onClick={() => onMatch(m.id)}
-                >
-                  <span
-                    className={
-                      outcome(m, "winner") === m.a && m.a
-                        ? "bracket-winner"
-                        : ""
-                    }
+                {editing && canSwap && m.round === 0 && !m.bronze ? (
+                  <div
+                    className={`bracket-card editing-card ${m.bye ? "bye" : ""}`}
+                    aria-label={`Modifier le match ${m.order}`}
                   >
-                    {m.a ? name(m.a) : placeholder(0)}
-                  </span>
-                  <span
-                    className={
-                      outcome(m, "winner") === m.b && m.b
-                        ? "bracket-winner"
-                        : ""
-                    }
+                    {([m.a, m.b] as const).map((tid, side) =>
+                      tid ? (
+                        <button
+                          key={side}
+                          className={`${lineClass(tid)} ${selected === tid ? "swap-selected" : ""}`}
+                          disabled={busy}
+                          aria-label={`Échanger ${rankedName(tid)}`}
+                          aria-pressed={selected === tid}
+                          onClick={() => void swap(tid)}
+                        >
+                          {teamLine(tid, side)}
+                        </button>
+                      ) : (
+                        <span className={lineClass(tid)} key={side}>
+                          {teamLine(tid, side)}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    className={`bracket-card ${m.score ? "completed" : ""} ${m.bye ? "bye" : ""}`}
+                    aria-label={`Ouvrir ${m.bronze ? "Petite finale" : `match ${m.order}`} : ${rankedName(m.a)} contre ${rankedName(m.b)}`}
+                    onClick={() => onMatch(m.id)}
                   >
-                    {m.b ? name(m.b) : placeholder(1)}
-                  </span>
-                </button>
+                    <span className={lineClass(m.a)}>{teamLine(m.a, 0)}</span>
+                    <span className={lineClass(m.b)}>{teamLine(m.b, 1)}</span>
+                  </button>
+                )}
               </div>
             );
           })}

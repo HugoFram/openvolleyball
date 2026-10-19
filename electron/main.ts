@@ -238,9 +238,14 @@ async function handle(method: string, a: any) {
       let next = applyCommand(store.current, a.command as Command);
       if (next === store.current) return sessionValue();
       if (
-        ["confirm", "knockout", "score", "random", "match-details"].includes(
-          a.command.type,
-        )
+        [
+          "confirm",
+          "knockout",
+          "score",
+          "random",
+          "match-details",
+          "bracket-swap",
+        ].includes(a.command.type)
       )
         next = await generateDocuments(next, store);
       await store.save(next);

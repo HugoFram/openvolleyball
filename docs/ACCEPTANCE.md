@@ -4,12 +4,16 @@ The application was built from the supplied specification against an empty repos
 
 ## Automated evidence
 
-- **37 domain, storage and PDF tests** (`npm test`). Includes the exact 17-team/28-result split and a synthetic 23-team state with **104 recorded results**, completed Principale groups 2/3 and a completed Consolante knockout before creation of the eight-team Principale final.
-- **9 real Electron GUI/printing tests** (`npm run test:ui`). Native chooser selections are stubbed; renderer, IPC, domain, package writes, PDFs and reloads are real. Renderer exceptions fail the suite.
-- All nine also pass against the **packaged application inside app.asar**. The single-file portable launcher was additionally started, opened a copied example, displayed its progression/bracket and closed normally (`node scripts/smoke-portable.mjs`).
+- **47 domain, storage and PDF tests** (`npm test`). Includes the exact 17-team/28-result split and a synthetic 23-team state with **104 recorded results**, completed Principale groups 2/3 and a completed Consolante knockout before creation of the eight-team Principale final.
+- **10 real Electron GUI/printing tests** (`npm run test:ui`). Native chooser selections are stubbed; renderer, IPC, domain, package writes, PDFs and reloads are real. Renderer exceptions fail the suite.
+- All ten also pass against the **packaged application inside app.asar**. The single-file portable launcher was additionally started, opened a copied example, displayed its progression/bracket and closed normally (`node scripts/smoke-portable.mjs`).
 - TypeScript validation and production build: `npm run build`.
 - Runtime dependency audit: `npm audit --omit=dev` reports **zero vulnerabilities**. The full audit includes eight moderate findings in the electron-builder development dependency chain; no vulnerable runtime dependency is shipped from that chain.
 - Actual generated PDF page counts/dimensions are parsed with pdf-lib. Representative A4 pages were rasterized with Poppler and visually reviewed. The actual Imprimer button path renders complete PDF pages through PDF.js at 200 DPI before printing the resulting HTML. Tests check decoded page pixels, embedded image resources and one/two-page output, rather than relying on page count alone. The resulting print PDFs were rasterized and inspected.
+
+## Version 1.3 bracket editing
+
+Ten new domain tests cover immutable previous-phase ranks (including shared places), first-round swaps in 4/8/16-team draws, qualification/graph identity preservation, unaffected Consolante results, PDF invalidation, dependency progression, 3/5/6/7-team exemptions, rejection after play, invalid teams, same-match side swaps and persistence. A desktop test opens an older bracket without rank snapshots, performs keyboard and mouse selection, swaps a bye beneficiary, verifies the updated PDF text and associations, reloads, records a result and verifies both UI and direct-command lockout.
 
 ## Version 1.2.1 table layout
 
@@ -72,6 +76,7 @@ The immutable original examples keep their original schedules and sporting alloc
 - [ ] Open an unplayed final match: referee blank/optional; Afficher/Imprimer already available; later-round sheets update after semifinals.
 - [ ] Enter 21–0 and a valid 25-point overtime result; verify an invalid/partial pair leaves saved results intact.
 - [ ] Open a copy of example 01 and split eight/nine. Open example 02 and create the eight-team Principale final from groups 3 without affecting Consolante.
+- [ ] Before a final starts, compare # badges with the previous general ranking. Use Échanger des équipes, select two first-round teams, then Terminer les échanges. Reopen and verify the draw, exemptions and PDFs; record one result and confirm swaps are locked.
 - [ ] Play semifinals, final and Petite finale; correct an upstream score, read/confirm the consequences and replay the invalidated matches.
 - [ ] Close/reopen, switch A→B→A, and verify phase 3, results, tie decisions, documents and correction history.
 

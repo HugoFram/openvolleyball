@@ -26,8 +26,10 @@ L’impression prépare toutes les pages dans une vue dédiée avant d’ouvrir 
 ## Tableau final
 
 1. **Phase finale** propose le nombre de participants, les cibles des tours et une Petite finale facultative. Les têtes de série proviennent des derniers résultats ; les exemptions complètent le tableau.
-2. Cliquez sur une rencontre ou utilisez Tab puis Entrée. La feuille est **déjà préparée**, avec **Afficher** et **Imprimer**. L’**arbitre est facultatif**. Les rencontres sans participants connus restent en attente ; leurs feuilles sont actualisées automatiquement à mesure que les équipes avancent.
-3. Les vainqueurs avancent ; les perdants des demi-finales rejoignent la Petite finale. Dans **Classement final**, **Imprimer la fiche** prépare la fiche d’inscription de l’équipe avec les noms, niveaux, e-mails et clubs des joueurs.
+2. Le badge **#** à droite d’une équipe indique son **rang général de la phase de groupes précédente**. Il reste attaché à l’équipe pendant toute la finale ; les équipes statistiquement égales partagent leur rang.
+3. Avant le premier résultat, **Échanger des équipes** active la modification du tableau. Cliquez sur deux équipes du premier tour pour échanger leurs places. Cliquez à nouveau sur la même équipe pour annuler sa sélection. L’échange est enregistré immédiatement ; **Terminer les échanges** revient à la saisie des matchs. Les exemptions restent aux mêmes emplacements, mais leur bénéficiaire peut changer. Les équipes déjà qualifiées automatiquement et leurs feuilles sont actualisées. Après le premier résultat, le bouton d’échange est désactivé.
+4. Cliquez sur une rencontre ou utilisez Tab puis Entrée. La feuille est **déjà préparée**, avec **Afficher** et **Imprimer**. L’**arbitre est facultatif**. Les rencontres sans participants connus restent en attente ; leurs feuilles sont actualisées automatiquement à mesure que les équipes avancent.
+5. Les vainqueurs avancent ; les perdants des demi-finales rejoignent la Petite finale. Dans **Classement final**, **Imprimer la fiche** prépare la fiche d’inscription de l’équipe avec les noms, niveaux, e-mails et clubs des joueurs.
 
 ## Corriger et reprendre
 

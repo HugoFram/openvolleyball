@@ -178,7 +178,8 @@ export type Command =
       matchId: string;
       court: string;
       referee: string;
-    };
+    }
+  | { type: "bracket-swap"; phaseId: string; teamA: string; teamB: string };
 export interface Session {
   tournament: Tournament;
   path: string;

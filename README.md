@@ -4,7 +4,7 @@ Application de bureau en français pour préparer et conduire un tournoi local d
 
 ## Lancer
 
-**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-1.2.1-Windows.exe`. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ce binaire local n’est pas signé avec un certificat commercial.
+**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-1.3.0-Windows.exe`. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ce binaire local n’est pas signé avec un certificat commercial.
 
 Depuis les sources, avec Node.js **22.13 ou plus récent** :
 
@@ -34,7 +34,7 @@ Les exemples sont entièrement synthétiques et contiennent aussi huit équipes 
 - Scores 21/25, zéro et prolongations avec écart fixe de deux points, sauvegarde au changement de focus, classements général et par groupe selon victoires/matchs joués puis différence/matchs joués, corrections explicites et scores aléatoires uniquement sur les rencontres vierges.
 - Principale / Consolante, égalités décisives par sélecteurs nominatifs, comparaison normalisée des groupes inégaux et décisions propres à leur phase/contexte.
 - Phases de groupes ultérieures sans maximum prédéfini ; progression commune à deux branches ; tableaux 2–64, exemptions, finale et Petite finale.
-- Cartes de tableau reliées et accessibles au clavier ; détails séparés ; progression des vainqueurs et perdants de demi-finale ; classement final.
+- Cartes de tableau reliées et accessibles au clavier ; rangs de la phase précédente ; échanges manuels du premier tour avant le premier résultat ; détails séparés ; progression des vainqueurs et perdants de demi-finale ; classement final.
 - Formulaires d’inscription vierges, une ou deux fiches par page ; fiches des joueurs imprimables depuis le classement final.
 - Correction avec annonce des conséquences et archivage des anciens résultats/étapes.
 
@@ -48,7 +48,7 @@ npm run test:ui
 
 Les tests Electron utilisent uniquement des dossiers temporaires et simulent les choix des dialogues natifs. Ils exécutent les véritables interface, moteur, IPC et stockage. Aucun exemple n’est modifié.
 
-- [Nouveautés de la version 1.2](docs/CHANGELOG.md)
+- [Nouveautés de la version 1.3](docs/CHANGELOG.md)
 - [Guide de l’organisateur](docs/GUIDE.md)
 - [Règlement et décisions sportives](docs/SPORTING-RULES.md)
 - [Résultats, traçabilité A01–A21 et checklist](docs/ACCEPTANCE.md)

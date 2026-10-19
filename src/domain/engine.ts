@@ -248,6 +248,25 @@ export function overallStandings(p: Phase): Standing[] {
   );
   return rows;
 }
+export function previousPhaseRanks(
+  t: Tournament,
+  p: Phase,
+): Record<string, number> {
+  if (p.previousRanks) return p.previousRanks;
+  const source = t.phases.find(
+    (q) => q.id === p.sourceId && q.kind === "groups",
+  );
+  return source
+    ? Object.fromEntries(
+        overallStandings(source)
+          .filter((r) => p.teamIds.includes(r.teamId))
+          .map((r) => [r.teamId, r.overallPlace!]),
+      )
+    : {};
+}
+export function canSwapBracketTeams(p: Phase): boolean {
+  return p.kind === "knockout" && !p.matches.some((m) => m.score || m.forfeit);
+}
 export function normalizeWebsite(value?: string): string | undefined {
   if (!value?.trim()) return undefined;
   const raw = value.trim();
@@ -561,6 +580,11 @@ function makeBracket(
     matches: [],
     teamIds: seeds,
     ...snapshot(t, seeds),
+    previousRanks: Object.fromEntries(
+      overallStandings(source)
+        .filter((r) => seeds.includes(r.teamId))
+        .map((r) => [r.teamId, r.overallPlace!]),
+    ),
     createdAt: now(),
     rules: { ...defaultRules },
     seeds,
@@ -1045,6 +1069,53 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
       );
       const seeds = resolvePlan(plan, c.decisions).slice(0, c.count);
       t.phases.push(makeBracket(t, source, c.lane, seeds, c));
+      break;
+    }
+    case "bracket-swap": {
+      const p = getPhase(t, c.phaseId);
+      check(
+        p.kind === "knockout",
+        "Les échanges concernent uniquement une phase finale.",
+      );
+      check(
+        canSwapBracketTeams(p),
+        "Le tableau est verrouillé dès le premier résultat enregistré.",
+      );
+      check(c.teamA !== c.teamB, "Choisissez deux équipes différentes.");
+      const slots = p.matches
+        .filter((m) => m.round === 0 && !m.bronze)
+        .flatMap((m) => (m.refs || []).map((ref, side) => ({ m, ref, side })));
+      const a = slots.find(
+        (slot) => slot.ref.type === "team" && slot.ref.id === c.teamA,
+      );
+      const b = slots.find(
+        (slot) => slot.ref.type === "team" && slot.ref.id === c.teamB,
+      );
+      check(
+        a && b,
+        "Choisissez deux équipes présentes dans le premier tour de ce tableau.",
+      );
+      const before = new Map(p.matches.map((m) => [m.id, [m.a, m.b, m.bye]]));
+      a.ref.id = c.teamB;
+      b.ref.id = c.teamA;
+      refreshBracket(p);
+      const changed = p.matches
+        .filter((m) => {
+          const old = before.get(m.id)!;
+          return old[0] !== m.a || old[1] !== m.b || old[2] !== m.bye;
+        })
+        .map((m) => m.id);
+      t.documents = t.documents.filter(
+        (d) => !d.matchId || !changed.includes(d.matchId),
+      );
+      detail = {
+        ...c,
+        slots: [
+          { matchId: a.m.id, side: a.side },
+          { matchId: b.m.id, side: b.side },
+        ],
+        updatedMatches: changed,
+      };
       break;
     }
     case "match-details": {

@@ -208,6 +208,7 @@ const labels: Record<string, string> = {
   knockout: "Tableau final créé",
   withdraw: "Disponibilité d’une équipe modifiée",
   "match-details": "Terrain ou arbitrage modifié",
+  "bracket-swap": "Équipes échangées dans le tableau final",
   sheet: "Feuille de match générée",
   "repair-documents": "Documents vérifiés",
   "documents-updated": "Feuilles actualisées",

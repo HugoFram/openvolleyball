@@ -37,6 +37,10 @@ Optional additive schema fields retain schema 1 readability: embedded normalized
 
 Opening a tournament refreshes outdated/missing phase sheets before adopting the session. Creating a final prepares all sheets, including unresolved fixtures. Advancing or correcting participants refreshes their fingerprints and PDF associations in the same tournament revision. Unchanged sheets are reused. The logo is embedded in JSON rather than linked to the source file.
 
+## Bracket draw overrides
+
+New knockout phases snapshot the source group phase’s general ranks, independent of seed or draw position; older brackets derive ranks from their source on display. The bracket-swap command validates an unplayed knockout and two registered first-round team references, exchanges only those reference IDs, then runs the existing dependency recalculation. It invalidates PDFs whose participants/byes changed; desktop generation writes refreshed associations in the same saved revision. The original seed order, qualification, rank snapshot and graph IDs remain intact. Any result/forfeit locks further draw swaps for that phase. UI edit mode provides two accessible team-selection buttons per first-round match without nesting them inside match buttons.
+
 ## Reliable printing
 
 The Electron PDF viewer is no longer used as the print target. A second Vite entry point bundles PDF.js and its worker offline. A sandboxed window receives only the selected PDF through a sender-scoped preload channel, renders pages sequentially at 200 DPI, waits for image decoding/fonts/layout, and reports readiness. The main process then prints A4 HTML pages with explicit zero page margins. Preparation has a timeout, and failure/cancellation closes its window and releases the operation. The source PDF stays vector-based for Afficher. Tests intercept only the hardware print call, capture actual Chromium printToPDF output, and verify nonblank decoded images and PDF content resources on every page.

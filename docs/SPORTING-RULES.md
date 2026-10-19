@@ -13,6 +13,7 @@ Règles fixes depuis la version 1.1, conformément aux changements demandés. Au
 | Terrains | Un terrain par groupe de trois/quatre ; un ou deux pour un groupe de cinq. Les anciennes phases déjà confirmées conservent leur calendrier. |
 | Participants | Les retraits excluent uniquement les prochaines phases, sans réécrire l’historique. |
 | Tableaux | 2–64 participants ; puissance de deux supérieure ; exemptions aux meilleures têtes de série ; répartition récursive conventionnelle. 4/8/16 vérifiés de bout en bout. |
+| Matchmaking manuel | Avant le premier résultat de la phase finale, deux équipes du premier tour peuvent échanger leurs positions. Les places d’exemption sont fixes ; leurs bénéficiaires peuvent être échangés. Les rangs précédents et la qualification ne changent pas. Après le premier résultat ou forfait enregistré, le tableau est verrouillé. |
 | Cibles des tours | 21 pour les tours précoces, 25 pour finale/Petite finale par défaut ; choix 21/25 à la création, sans changement rétroactif. |
 | Arbitrage | Groupe : équipe au repos si disponible ; à cinq/deux terrains elle supervise les deux matchs synchronisés. Sinon arbitre externe explicite. Finale : arbitre facultatif, champ vide par défaut et sur les feuilles. |
 | Feuilles | Préparation automatique pour les groupes confirmés et toutes les rencontres finales, même en attente de participants. Actualisation automatique des participants, terrains et arbitres après enregistrement ; afficher/imprimer utilise la dernière version enregistrée. |

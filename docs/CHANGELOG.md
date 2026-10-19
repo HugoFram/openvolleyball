@@ -1,3 +1,11 @@
+# Version 1.3.0
+
+- Chaque équipe du tableau final affiche son rang général de la dernière phase de groupes, y compris après qualification automatique, progression ou échange. Les égalités conservent leur rang partagé. Les anciens tableaux restent compatibles.
+- Avant le premier résultat de la phase, **Échanger des équipes** permet de sélectionner deux équipes du premier tour pour inverser leurs places, y compris le bénéficiaire d’une exemption. Les échanges sont enregistrés immédiatement et peuvent être inversés.
+- Les participants des tours suivants et leurs feuilles PDF sont actualisés automatiquement. Les rangs, les qualifiés, les identifiants des rencontres et l’historique des autres phases sont conservés. L’ordre initial des têtes de série reste disponible dans les données.
+- Le premier résultat, ou un forfait enregistré, verrouille les échanges de cette phase. L’interface et le moteur appliquent la même restriction.
+- Validation : 47 tests de moteur/stockage/PDF et 10 tests Electron, incluant les tableaux 4/8/16, les exemptions 3/5/6/7, la reprise des anciens tableaux, la persistance, les nouvelles feuilles et le verrouillage.
+
 # Version 1.2.1
 
 - Texte centré verticalement dans les cellules, y compris les noms sur plusieurs lignes et les fiches d’inscription.

@@ -738,3 +738,148 @@ test("Branding, letter-only levels, 3–4-player limits and one/two-per-page reg
   expect(reopened.tournament.branding).toEqual(stored.tournament.branding);
   expect(reopened.tournament.documents).toHaveLength(3);
 });
+
+test("Bracket ranks and first-round team swaps persist, update byes and PDFs, then lock after the first result", async () => {
+  let t = groupPhase(registered(9));
+  t = playPhase(t, t.phases[0].id);
+  t = splitTournament(t, 5);
+  t = finals(t, "Principale", 5);
+  const p = t.phases.at(-1)!,
+    first = p.matches.filter((m) => m.round === 0 && !m.bronze),
+    bye = first.find((m) => m.bye)!,
+    fixture = first.find((m) => !m.bye)!;
+  const a = (bye.a || bye.b)!,
+    b = fixture.a!;
+  const ranks = { ...p.previousRanks };
+  // Older tournaments lack rank snapshots: the UI must derive them from the saved source phase.
+  delete p.previousRanks;
+  const folder = path.join(parent, "Échanges.openvolley");
+  await fs.mkdir(folder);
+  await fs.mkdir(path.join(folder, "history"));
+  await fs.mkdir(path.join(folder, "documents"));
+  await fs.writeFile(path.join(folder, "tournament.json"), encode(t));
+  await app.evaluate(({ dialog }, folder) => {
+    dialog.showOpenDialog = async () => ({
+      canceled: false,
+      filePaths: [folder],
+    });
+  }, folder);
+  await page
+    .getByRole("button", { name: "Ouvrir un tournoi existant", exact: true })
+    .click();
+  await page.locator(".lane.principale .phase-node").click();
+  const nameA = p.teamNames[a],
+    nameB = p.teamNames[b];
+  const rankOf = (name: string) =>
+    page
+      .locator(".bracket-team-line")
+      .filter({
+        has: page.locator(".bracket-team-name").filter({ hasText: name }),
+      })
+      .first()
+      .locator(".bracket-rank");
+  await expect(rankOf(nameA)).toHaveText(`#${ranks[a]}`);
+  await expect(rankOf(nameB)).toHaveText(`#${ranks[b]}`);
+  const before = (await page.evaluate(() => window.volley.call<any>("session")))
+    .value;
+  const priorDoc = before.tournament.documents.find(
+    (d: any) => d.matchId === fixture.id,
+  );
+  await page
+    .getByRole("button", { name: "Échanger des équipes", exact: true })
+    .click();
+  const pick = (name: string, rank: number) =>
+    page.getByRole("button", {
+      name: `Échanger ${name}, rang précédent ${rank}`,
+      exact: true,
+    });
+  await pick(nameA, ranks[a]).focus();
+  await page.keyboard.press("Enter");
+  await expect(pick(nameA, ranks[a])).toHaveAttribute("aria-pressed", "true");
+  await page
+    .locator(".bracket-panel")
+    .screenshot({ path: "docs/screenshots/bracket-swaps.png" });
+  await pick(nameA, ranks[a]).click();
+  await expect(pick(nameA, ranks[a])).toHaveAttribute("aria-pressed", "false");
+  await pick(nameA, ranks[a]).click();
+  await pick(nameB, ranks[b]).click();
+  await expect
+    .poll(
+      async () =>
+        (await page.evaluate(() => window.volley.call<any>("session"))).value
+          .tournament.revision,
+    )
+    .toBe(before.tournament.revision + 1);
+  const changed = (
+    await page.evaluate(() => window.volley.call<any>("session"))
+  ).value;
+  const ko = changed.tournament.phases.find((x: any) => x.id === p.id);
+  expect(ko.matches.find((m: any) => m.id === fixture.id).a).toBe(a);
+  const downstream = ko.matches.find((m: any) =>
+    m.refs?.some((r: any) => r.type === "winner" && r.id === bye.id),
+  );
+  expect([downstream.a, downstream.b]).toContain(b);
+  const doc = changed.tournament.documents.find(
+    (d: any) => d.matchId === fixture.id,
+  );
+  expect(doc.id).not.toBe(priorDoc.id);
+  expect(doc.sourceHash).not.toBe(priorDoc.sourceHash);
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const task = getDocument({
+    data: new Uint8Array(await fs.readFile(path.join(changed.path, doc.file))),
+    useWasm: false,
+  });
+  try {
+    const pdf = await task.promise;
+    const text = (await (await pdf.getPage(1)).getTextContent()).items
+      .map((i: any) => i.str || "")
+      .join(" ");
+    expect(text).toContain(nameA);
+    expect(text).not.toContain(nameB);
+  } finally {
+    await task.destroy();
+  }
+  await expect(pick(nameA, ranks[a]).locator(".bracket-rank")).toHaveText(
+    `#${ranks[a]}`,
+  );
+  await page
+    .getByRole("button", { name: "Terminer les échanges", exact: true })
+    .click();
+  await page.reload();
+  await page.locator(".lane.principale .phase-node").click();
+  const reopened = (
+    await page.evaluate(() => window.volley.call<any>("session"))
+  ).value;
+  expect(reopened.tournament).toEqual(changed.tournament);
+  await expect(rankOf(nameA)).toHaveText(`#${ranks[a]}`);
+  await page
+    .locator("button.bracket-card")
+    .filter({ hasText: nameA })
+    .filter({ hasText: p.teamNames[fixture.b!] })
+    .click();
+  await page.getByLabel("Score 1", { exact: true }).fill("21");
+  await page.getByLabel("Score 2", { exact: true }).fill("8");
+  await page
+    .getByRole("button", { name: "Enregistrer la rencontre", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Échanger des équipes", exact: true }),
+  ).toBeDisabled();
+  const saved = (await page.evaluate(() => window.volley.call<any>("session")))
+    .value;
+  const blocked = await page.evaluate(
+    ({ packageId, revision, command }) =>
+      window.volley.call("command", { packageId, revision, command }),
+    {
+      packageId: saved.tournament.id,
+      revision: saved.tournament.revision,
+      command: { type: "bracket-swap", phaseId: p.id, teamA: a, teamB: b },
+    },
+  );
+  expect(blocked.ok).toBe(false);
+  expect(blocked.error).toContain("verrouillé");
+  await dismiss();
+  await page
+    .locator(".bracket-panel")
+    .screenshot({ path: "docs/screenshots/bracket-ranks.png" });
+});
