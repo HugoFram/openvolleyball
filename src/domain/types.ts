@@ -88,6 +88,7 @@ export interface Audit {
   revision: number;
 }
 export interface Document {
+  forms?: import("./scans").PaperForm[];
   id: string;
   phaseId?: string;
   kind?: "blank-registration" | "team-registration";
@@ -101,7 +102,10 @@ export interface Document {
   pages: number;
 }
 export interface Tournament {
-  schema: 1;
+  paperForms?: import("./scans").PaperForm[];
+  scanSources?: import("./scans").ScanSource[];
+  scanPages?: import("./scans").ScanPage[];
+  schema: 1 | 2;
   id: string;
   name: string;
   branding?: { website?: string; logo?: string };

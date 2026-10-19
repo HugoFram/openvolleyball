@@ -13,12 +13,14 @@ import {
   Trash2,
   RefreshCw,
   ShieldCheck,
+  ScanLine,
 } from "lucide-react";
 import type { Category, Command, Recent, Session } from "../domain/types";
 import { Context, Busy, Modal, Hint } from "./shared";
 import { Registration } from "./Registration";
 import { Progression } from "./Progression";
 import { DocumentsView, HistoryView } from "./Utilities";
+import { ScansView } from "./Scans";
 
 export function App() {
   const [session, setSession] = useState<Session | null>(null),
@@ -150,6 +152,7 @@ export function App() {
   const nav = [
     { id: "progression", label: "Progression", icon: GitFork },
     { id: "registration", label: "Inscriptions", icon: Users },
+    { id: "scans", label: "Feuilles scannées", icon: ScanLine },
     { id: "documents", label: "Exports et diagnostic", icon: Files },
     { id: "history", label: "Historique", icon: History },
   ];
@@ -283,6 +286,8 @@ export function App() {
                   />
                 ) : view === "documents" ? (
                   <DocumentsView />
+                ) : view === "scans" ? (
+                  <ScansView />
                 ) : (
                   <HistoryView />
                 )}

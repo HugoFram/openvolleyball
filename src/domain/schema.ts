@@ -48,8 +48,78 @@ const match = z.object({
   forfeit: text.optional(),
 });
 const decisions = z.record(z.string(), z.array(id));
+const rect = z.tuple([
+  z.number(),
+  z.number(),
+  z.number().positive(),
+  z.number().positive(),
+]);
+const paperForm = z.object({
+  id,
+  documentId: id,
+  tournamentId: id,
+  version: z.literal(1),
+  page: z.number().int().positive(),
+  kind: z.enum(["scores", "registration"]),
+  label: text,
+  category,
+  phaseId: id.optional(),
+  groupId: id.optional(),
+  teamId: id.optional(),
+  sourceHash: text.optional(),
+  qr: rect,
+  fields: z.array(
+    z.object({
+      key: id,
+      label: text,
+      rect,
+      digits: z.array(rect).optional(),
+      choices: z.array(z.object({ value: text, rect })).optional(),
+      matchId: id.optional(),
+      side: z.union([z.literal(0), z.literal(1)]).optional(),
+    }),
+  ),
+  participants: z.record(z.string(), z.tuple([id.nullable(), id.nullable()])),
+});
 export const tournamentSchema = z.object({
-  schema: z.literal(1),
+  paperForms: z.array(paperForm).optional(),
+  scanSources: z
+    .array(
+      z.object({
+        id,
+        name: text,
+        file: text,
+        hash: text,
+        importedAt: text,
+        processed: z.boolean().optional(),
+        error: text.optional(),
+      }),
+    )
+    .optional(),
+  scanPages: z
+    .array(
+      z.object({
+        id,
+        sourceId: id,
+        page: z.number().int().positive(),
+        formId: id.optional(),
+        image: text,
+        status: z.enum(["pending", "approved", "ignored"]),
+        note: text.optional(),
+        values: z.record(
+          z.string(),
+          z.object({
+            value: text,
+            confidence: z.number().min(0).max(1).optional(),
+          }),
+        ),
+        approvedAt: text.optional(),
+        accepted: z.record(z.string(), text).optional(),
+        appliedIds: z.array(id).optional(),
+      }),
+    )
+    .optional(),
+  schema: z.union([z.literal(1), z.literal(2)]),
   id,
   name: text,
   createdAt: text,
@@ -110,6 +180,7 @@ export const tournamentSchema = z.object({
   ),
   documents: z.array(
     z.object({
+      forms: z.array(paperForm).optional(),
       id,
       phaseId: id.optional(),
       kind: z.enum(["blank-registration", "team-registration"]).optional(),

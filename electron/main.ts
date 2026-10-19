@@ -28,6 +28,7 @@ import { atomicWrite, decode, PackageStore } from "./store";
 import { makeSheet, sheetFingerprint } from "./pdf";
 import { makeRegistrationSheet } from "./registration-pdf";
 import { printDocument } from "./printing";
+import { scanAction } from "./scans";
 let win: BrowserWindow;
 let active: PackageStore | undefined;
 let queue = Promise.resolve();
@@ -85,7 +86,7 @@ async function switchTo(next: PackageStore) {
         at: now(),
         revision: refreshed.revision,
         action: "documents-updated",
-        detail: { layout: 4 },
+        detail: { layout: 5 },
       });
       await next.save(refreshed);
     }
@@ -148,7 +149,10 @@ async function generateDocuments(
         } catch {}
       }
       if (d) next.documents = next.documents.filter((x) => x.id !== d.id);
-      next.documents.push(await makeSheet(next, p, store.folder, fonts, g, m));
+      const made = await makeSheet(next, p, store.folder, fonts, g, m);
+      next.documents.push(made);
+      (next.paperForms ??= []).push(...(made.forms || []));
+      next.schema = 2;
     }
   return next;
 }
@@ -172,6 +176,16 @@ async function logoData(file: string): Promise<string> {
   return `data:image/png;base64,${png.toString("base64")}`;
 }
 async function handle(method: string, a: any) {
+  if (method.startsWith("scan-")) {
+    const store = requireActive(a?.packageId);
+    if (method !== "scan-source" && method !== "scan-image")
+      check(
+        a.revision === store.current.revision,
+        "Le tournoi a changé. Réessayez depuis la vue actuelle.",
+      );
+    const result = await scanAction(method, a, store, win, generateDocuments);
+    return result === true ? sessionValue() : result;
+  }
   switch (method) {
     case "session":
       return sessionValue();
@@ -303,6 +317,8 @@ async function handle(method: string, a: any) {
         team,
       );
       t.documents.push(d);
+      (t.paperForms ??= []).push(...(d.forms || []));
+      t.schema = 2;
       t.audit.push({
         id: id(),
         at: now(),
@@ -325,6 +341,8 @@ async function handle(method: string, a: any) {
       const d = await makeSheet(t, p, store.folder, fonts, undefined, m);
       t.documents = t.documents.filter((x) => x.matchId !== m.id);
       t.documents.push(d);
+      (t.paperForms ??= []).push(...(d.forms || []));
+      t.schema = 2;
       t.revision++;
       t.modifiedAt = now();
       t.audit.push({
@@ -409,6 +427,47 @@ async function handle(method: string, a: any) {
         t.revision = 1;
         t.modifiedAt = now();
         t.documents = [];
+        // Scan originals live alongside a tournament, not inside its JSON.
+        // Carry them into a restoration when the selected backup has them.
+        const backupFolder = path.dirname(r.filePaths[0]);
+        const originalFolder =
+          path.basename(backupFolder) === "history"
+            ? path.dirname(backupFolder)
+            : backupFolder;
+        if (t.scanSources?.length) {
+          await fs.mkdir(path.join(store.folder, "scans"), { recursive: true });
+          const files = new Set([
+            ...(t.scanSources || []).map((s) => s.file),
+            ...(t.scanPages || []).map((s) => s.image),
+          ]);
+          for (const file of files) {
+            check(
+              /^scans\/[a-zA-Z0-9.-]+$/.test(file),
+              "Chemin de scan invalide.",
+            );
+            await fs
+              .copyFile(
+                path.join(originalFolder, file),
+                path.join(store.folder, file),
+              )
+              .catch(() => {});
+          }
+          for (const source of t.scanSources) {
+            source.processed = true;
+            try {
+              await fs.access(path.join(store.folder, source.file));
+            } catch {
+              source.error =
+                "Original absent de la sauvegarde JSON. Retrouvez-le dans le dossier scans du tournoi source.";
+            }
+          }
+          for (const scan of t.scanPages || [])
+            if (scan.status === "pending") {
+              scan.status = "ignored";
+              scan.note =
+                "Copie restaurée : feuille de l’ancien tournoi conservée pour consultation. Utilisez les nouvelles feuilles pour importer des résultats.";
+            }
+        }
         t.audit.push({
           id: id(),
           at: now(),

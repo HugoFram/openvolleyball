@@ -1,0 +1,10 @@
+{
+  "name": "MNIST-12",
+  "file": "mnist-12.onnx",
+  "sha256": "5c688690f8bacf667d4c2074af5ad0646ca328d7ab03eccf944a65b320171bdd",
+  "source": "https://github.com/onnx/models/tree/main/validated/vision/classification/mnist",
+  "download": "https://media.githubusercontent.com/media/onnx/models/main/validated/vision/classification/mnist/model/mnist-12.onnx",
+  "license": "MIT",
+  "input": "Single handwritten digit, white foreground on black, float32 [1,1,28,28]",
+  "limitations": "MNIST digit model only. No names or emails. Its model scores are not calibrated confidence on tournament scans. All extracted values require review."
+}

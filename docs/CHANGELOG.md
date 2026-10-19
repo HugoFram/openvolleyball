@@ -1,3 +1,18 @@
+# Version 2.0.0-alpha.1
+
+- Première étape v2 entièrement hors ligne : nouvelles feuilles avec QR codes,
+  repères d’alignement, cases de chiffres et niveaux N/R/D/U à cocher.
+- Import PDF multipages/PNG/JPEG ; lecture locale des chiffres sur CPU avec un
+  modèle embarqué et des niveaux cochés ; images et originaux conservés.
+- File de vérification, agrandissement, extraits par champ, brouillons persistants,
+  association manuelle, validation transactionnelle et reprise des imports.
+- Protection contre les fichiers dupliqués, les feuilles remplacées, les anciens
+  participants et les résultats contradictoires ; historique de la validation.
+- Inscriptions identifiées et recopiées à côté de leur image ; texte libre
+  manuscrit et téléphones prévus pour les étapes suivantes.
+- Format 2 protégé contre la réécriture par v1. Utiliser une copie du tournoi.
+- [Guide, limites et checklist v2](V2-OFFLINE.md).
+
 # Version 1.3.0
 
 - Chaque équipe du tableau final affiche son rang général de la dernière phase de groupes, y compris après qualification automatique, progression ou échange. Les égalités conservent leur rang partagé. Les anciens tableaux restent compatibles.

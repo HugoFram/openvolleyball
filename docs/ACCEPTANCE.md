@@ -2,7 +2,37 @@
 
 The application was built from the supplied specification against an empty repository. All test data is disposable and synthetic; the three original example tournaments remain unchanged.
 
-## Automated evidence
+## V2 offline scan milestone: 2.0.0-alpha.1
+
+- **51 domain/storage/PDF tests** pass. Scan-specific coverage includes immutable
+  input, one-revision multi-match approval, durable provenance, repeated approval
+  rejection, partial/invalid/conflicting scores, changed fixtures, stale sheets,
+  roster limits and page geometry.
+- **13 Electron tests** pass, including the ten existing lifecycle/printing tests
+  and three new scan workflows. The scan workflows also passed four consecutive
+  repetitions with random form IDs after tightening multi-code detection.
+- All 13 also pass against the packaged application inside `app.asar`, including
+  its embedded WASM runtime and handwriting model. The 34 original example files
+  retain their SHA-256 hashes; the runtime dependency audit reports no findings.
+- The v2 single-file Windows launcher also passed its smoke test: it opened a
+  disposable copy of the example, displayed its progression/bracket and closed.
+- Real MNIST handwritten digits are embedded in printed score boxes and the PDF
+  is rotated. The bundled worker reads them without external network requests;
+  scores stay empty until review and approval. Reimporting the source creates no
+  duplicates, and the original/provenance remain in the saved tournament.
+- Two separate QR registration forms on one A4 are identified independently;
+  N/R/U checkbox marks are read locally, Unicode names are reviewed into a valid
+  three-player roster, and the second form remains pending.
+- A two-court five-team PDF imports both pages with the right form IDs. JPEG
+  import, missing QR codes, manual association, a review draft surviving reload,
+  blank cells and stale IPC revisions are exercised too.
+- Representative branded A4 group and one/two-per-page registration PDFs were
+  rendered with Poppler and visually checked. Print-content tests remain active.
+- These tests establish workflow correctness, **not handwriting accuracy on real
+  tournament scans**. A physical scanner and multiple-writer trial remains on the
+  [manual acceptance checklist](V2-OFFLINE.md).
+
+## Version 1.3 automated evidence
 
 - **47 domain, storage and PDF tests** (`npm test`). Includes the exact 17-team/28-result split and a synthetic 23-team state with **104 recorded results**, completed Principale groups 2/3 and a completed Consolante knockout before creation of the eight-team Principale final.
 - **10 real Electron GUI/printing tests** (`npm run test:ui`). Native chooser selections are stubbed; renderer, IPC, domain, package writes, PDFs and reloads are real. Renderer exceptions fail the suite.

@@ -6,6 +6,8 @@ import { atomicWrite } from "./store";
 import { check, id } from "../src/domain/engine";
 import { levelLetter, levelLegend } from "../src/domain/levels";
 import type { Category, Document, Team, Tournament } from "../src/domain/types";
+import type { PaperForm, Rect } from "../src/domain/scans";
+import { paperCode, paperMarkers } from "./paper";
 export async function makeRegistrationSheet(
   t: Tournament,
   folder: string,
@@ -27,11 +29,35 @@ export async function makeRegistrationSheet(
     fontDir,
     `${t.name} - Fiche d’inscription`,
   );
+  const documentId = id(),
+    forms: PaperForm[] = [];
   for (let page = 0; page < pages; page++) {
     doc.addPage();
     printHeader(doc, t);
+    paperMarkers(doc);
     for (let form = 0; form < perPage; form++) {
       const y = 115 + form * 335;
+      const paper: PaperForm = {
+        id: id(),
+        documentId,
+        tournamentId: t.id,
+        version: 1,
+        page: page + 1,
+        kind: "registration",
+        category,
+        teamId: team?.id,
+        label: `Inscription · ${category} · ${team?.name || `Fiche ${page * perPage + form + 1}`}`,
+        qr: [485, y - 4, 64, 64],
+        fields: [],
+        participants: {},
+      };
+      forms.push(paper);
+      paperCode(doc, paper);
+      paper.fields.push({
+        key: "teamName",
+        label: "Équipe",
+        rect: [91, y + 27, 386, 23],
+      });
       doc
         .font("Bold")
         .fontSize(13)
@@ -41,14 +67,14 @@ export async function makeRegistrationSheet(
         .font("Regular")
         .fontSize(11)
         .text(`Équipe : ${team?.name || ""}`, 36, y + 27, {
-          width: 523,
+          width: 435,
           height: 28,
         });
       if (!team)
         doc
           .strokeColor("#788aa1")
           .moveTo(88, y + 47)
-          .lineTo(559, y + 47)
+          .lineTo(478, y + 47)
           .stroke();
       doc
         .fontSize(8)
@@ -72,6 +98,41 @@ export async function makeRegistrationSheet(
           .lineTo(559, top + 26 + i * row)
           .stroke();
       for (let i = 0; i < 4; i++) {
+        ["name", "level", "email", "club"].forEach((field, j) => {
+          const choices =
+            field === "level" && !team
+              ? ["N", "R", "D", "U"].map((value, n) => ({
+                  value,
+                  rect: [
+                    xs[j] + 4 + (n % 2) * 21,
+                    top + 26 + i * row + row / 2 - 11 + Math.floor(n / 2) * 14,
+                    6,
+                    6,
+                  ] as Rect,
+                }))
+              : undefined;
+          paper.fields.push({
+            key: `player${i}:${field}`,
+            label: `Joueur ${i + 1} · ${field}`,
+            rect: [xs[j] + 3, top + 26 + i * row + 3, widths[j] - 6, row - 6],
+            choices,
+          });
+          if (choices)
+            for (const choice of choices) {
+              const [x, y, w, h] = choice.rect;
+              doc
+                .save()
+                .strokeColor("#788aa1")
+                .lineWidth(0.5)
+                .rect(x, y, w, h)
+                .stroke()
+                .font("Regular")
+                .fontSize(6)
+                .fillColor("#172f4b")
+                .text(choice.value, x + 8, y - 1, { lineBreak: false });
+              doc.restore();
+            }
+        });
         const player = team?.players[i];
         if (!player) continue;
         doc.font("Regular").fontSize(perPage === 2 ? 9 : 10);
@@ -92,7 +153,8 @@ export async function makeRegistrationSheet(
   await fs.mkdir(path.join(folder, "documents"), { recursive: true });
   await atomicWrite(path.join(folder, file), await bytes);
   return {
-    id: id(),
+    id: documentId,
+    forms,
     kind: team ? "team-registration" : "blank-registration",
     teamId: team?.id,
     category,

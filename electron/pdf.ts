@@ -5,6 +5,8 @@ import { printHeader, printFooter, pdfDocument } from "./pdf-base";
 import { MAX_TABLE_ROW_HEIGHT, tableText } from "./pdf-table";
 import { atomicWrite } from "./store";
 import { id } from "../src/domain/engine";
+import { paperCode, paperMarkers } from "./paper";
+import type { PaperForm, Rect } from "../src/domain/scans";
 import type {
   Document,
   Group,
@@ -25,7 +27,7 @@ export function sheetFingerprint(
   return createHash("sha256")
     .update(
       JSON.stringify({
-        layout: 4,
+        layout: 5,
         branding: t.branding,
         name: t.name,
         category: p.category,
@@ -86,10 +88,34 @@ export async function makeSheet(
     `${t.name} - ${g?.name || "Phase finale"}`,
   );
   const names = p.teamNames;
+  const documentId = id();
+  const sourceHash = sheetFingerprint(t, p, g, m);
+  const forms: PaperForm[] = [];
   const name = (x: string | null) => (x ? names[x] || x : "À déterminer");
   pages.forEach((page, index) => {
     doc.addPage();
     printHeader(doc, t);
+    paperMarkers(doc);
+    const form: PaperForm = {
+      id: id(),
+      documentId,
+      tournamentId: t.id,
+      version: 1,
+      page: index + 1,
+      kind: "scores",
+      category: p.category,
+      phaseId: p.id,
+      groupId: g?.id,
+      label: `${p.category} · ${p.lane} · ${g ? `Groupes ${p.number} · ${g.name}` : `Rencontre ${m!.order}`} · Terrain ${page.court}`,
+      sourceHash,
+      qr: [485, 161, 64, 64],
+      fields: [],
+      participants: Object.fromEntries(
+        page.matches.map((m) => [m.id, [m.a, m.b]]),
+      ),
+    };
+    forms.push(form);
+    paperCode(doc, form);
     doc
       .font("Bold")
       .fillColor("#172f4b")
@@ -116,7 +142,7 @@ export async function makeSheet(
         .fillColor("#172f4b")
         .fontSize(10)
         .text(`• ${name(tid)}`, 42, y, {
-          width: 510,
+          width: 425,
           height: 28,
           ellipsis: true,
         });
@@ -151,6 +177,27 @@ export async function makeSheet(
         .fillColor("#172f4b");
       tableText(doc, name(match.a), xs[0], ry, widths[0], rowHeight);
       tableText(doc, name(match.b), xs[1], ry, widths[1], rowHeight);
+      for (const side of [0, 1] as const) {
+        const cx = xs[2 + side],
+          box = Math.min(25, rowHeight - 12);
+        const digits: Rect[] = [0, 1, 2].map((n) => [
+          cx + (widths[2 + side] - box * 3) / 2 + n * box,
+          ry + (rowHeight - box) / 2,
+          box,
+          box,
+        ]);
+        doc.save().strokeColor("#b0bac5").lineWidth(0.4);
+        for (const r of digits) doc.rect(...r).stroke();
+        doc.restore();
+        form.fields.push({
+          key: `${match.id}:${side}`,
+          label: `Score ${side + 1}`,
+          matchId: match.id,
+          side,
+          rect: [cx + 3, ry + 3, widths[2 + side] - 6, rowHeight - 6],
+          digits,
+        });
+      }
       doc.fontSize(9);
       tableText(
         doc,
@@ -172,6 +219,12 @@ export async function makeSheet(
       .fontSize(8)
       .fillColor("#465b73")
       .text(
+        "Un chiffre par case, de gauche à droite. Laissez les cases inutilisées vides.",
+        36,
+        776,
+        { width: 523, lineBreak: false },
+      )
+      .text(
         "Classement : victoires / matchs joués, puis différence de points / matchs joués.",
         36,
         790,
@@ -184,13 +237,14 @@ export async function makeSheet(
   await fs.mkdir(path.join(folder, "documents"), { recursive: true });
   await atomicWrite(path.join(folder, file), await bytes);
   return {
-    id: id(),
+    id: documentId,
+    forms,
     phaseId: p.id,
     groupId: g?.id,
     matchId: m?.id,
     file,
     revision: t.revision,
     pages: pages.length,
-    sourceHash: sheetFingerprint(t, p, g, m),
+    sourceHash,
   };
 }

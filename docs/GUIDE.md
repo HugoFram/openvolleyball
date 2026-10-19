@@ -40,3 +40,11 @@ L’impression prépare toutes les pages dans une vue dédiée avant d’ouvrir 
 - Les tournois de la version 1.0 restent lisibles. Les résultats et répartitions existants sont conservés. Le nouveau classement fixe s’applique aux vues et aux prochaines décisions. Les feuilles sont actualisées à l’ouverture ; les anciens scores joués avec un écart d’un point restent historiques, mais toute nouvelle saisie ou correction exige deux points.
 
 Avant le tournoi, imprimez une feuille sur le matériel du site et gardez une copie externe du tournoi fermé.
+
+## Préversion v2 : feuilles scannées
+
+La préversion v2 lit les scores manuscrits et les niveaux cochés entièrement sur
+l’ordinateur. **Feuilles scannées** importe PDF multipages, PNG et JPEG, puis permet
+de vérifier chaque valeur avant validation. Les inscriptions se recopient à côté
+de leur image. Imprimer les nouvelles feuilles avec QR codes et conserver une
+copie du tournoi v1 avant de tester v2. Voir le [guide v2 et sa checklist](V2-OFFLINE.md).

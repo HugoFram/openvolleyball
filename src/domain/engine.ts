@@ -1160,7 +1160,7 @@ export function applyCommand(original: Tournament, c: Command): Tournament {
 }
 export function assertInvariants(t: Tournament) {
   check(
-    t.schema === 1 &&
+    (t.schema === 1 || t.schema === 2) &&
       typeof t.id === "string" &&
       typeof t.name === "string" &&
       Number.isInteger(t.revision),
@@ -1358,6 +1358,36 @@ export function assertInvariants(t: Tournament) {
       (!d.groupId || p.groups.some((g) => g.id === d.groupId)) &&
         (!d.matchId || p.matches.some((m) => m.id === d.matchId)),
       "Source de document introuvable.",
+    );
+  }
+  const forms = t.paperForms || [],
+    sources = t.scanSources || [],
+    pages = t.scanPages || [];
+  for (const items of [forms, sources, pages])
+    check(
+      new Set(items.map((x) => x.id)).size === items.length,
+      "Identifiants de scan dupliqués.",
+    );
+  for (const form of forms)
+    check(
+      new Set(form.fields.map((f) => f.key)).size === form.fields.length,
+      "Champs de feuille dupliqués.",
+    );
+  for (const source of sources)
+    check(
+      /^scans\/[a-zA-Z0-9.-]+$/.test(source.file),
+      "Source de scan invalide.",
+    );
+  for (const scan of pages) {
+    check(
+      sources.some((s) => s.id === scan.sourceId) &&
+        (!scan.formId || forms.some((f) => f.id === scan.formId)) &&
+        /^scans\/[a-zA-Z0-9.-]+\.png$/.test(scan.image),
+      "Association de scan invalide.",
+    );
+    check(
+      scan.status !== "approved" || (!!scan.approvedAt && !!scan.accepted),
+      "Validation de scan incomplète.",
     );
   }
 }
