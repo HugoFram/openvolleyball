@@ -85,7 +85,7 @@ async function switchTo(next: PackageStore) {
         at: now(),
         revision: refreshed.revision,
         action: "documents-updated",
-        detail: { layout: 3 },
+        detail: { layout: 4 },
       });
       await next.save(refreshed);
     }

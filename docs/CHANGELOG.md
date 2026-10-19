@@ -1,3 +1,9 @@
+# Version 1.2.1
+
+- Texte centré verticalement dans les cellules, y compris les noms sur plusieurs lignes et les fiches d’inscription.
+- Hauteur maximale des lignes : 5 cm. Les feuilles des matchs de finale n’étirent plus une seule ligne jusqu’au bas de la page.
+- Les feuilles de groupes/finales existantes sont actualisées à l’ouverture du tournoi.
+
 # Version 1.2.0
 
 - Icône fournie intégrée à l’exécutable, à la fenêtre et à l’interface ; palette bleue. La construction ne régénère plus l’ancienne icône verte.

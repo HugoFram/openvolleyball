@@ -2,6 +2,7 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { printHeader, printFooter, pdfDocument } from "./pdf-base";
+import { MAX_TABLE_ROW_HEIGHT, tableText } from "./pdf-table";
 import { atomicWrite } from "./store";
 import { id } from "../src/domain/engine";
 import type {
@@ -24,7 +25,7 @@ export function sheetFingerprint(
   return createHash("sha256")
     .update(
       JSON.stringify({
-        layout: 3,
+        layout: 4,
         branding: t.branding,
         name: t.name,
         category: p.category,
@@ -128,13 +129,12 @@ export async function makeSheet(
     const headers = sheetColumns.map((column) => column.label);
     doc.font("Bold").fontSize(10);
     headers.forEach((h, i) =>
-      doc.text(h, xs[i] + 5, top + 10, {
-        width: widths[i] - 10,
-        align: "center",
-        lineBreak: false,
-      }),
+      tableText(doc, h, xs[i], top, widths[i], 32, "center"),
     );
-    const rowHeight = (770 - top - 32) / page.matches.length;
+    const rowHeight = Math.min(
+      MAX_TABLE_ROW_HEIGHT,
+      (770 - top - 32) / page.matches.length,
+    );
     const bottom = top + 32 + rowHeight * page.matches.length;
     doc.strokeColor("#788aa1").lineWidth(0.6);
     xs.forEach((x) => doc.moveTo(x, top).lineTo(x, bottom).stroke());
@@ -145,36 +145,23 @@ export async function makeSheet(
       .stroke();
     page.matches.forEach((match, j) => {
       const ry = top + 32 + j * rowHeight;
-      const padding = page.matches.length > 6 ? 7 : 12;
       doc
         .font("Regular")
         .fontSize(page.matches.length > 6 ? 9 : 10)
         .fillColor("#172f4b");
-      doc.text(name(match.a), xs[0] + 6, ry + padding, {
-        width: widths[0] - 14,
-        height: rowHeight - padding - 4,
-        ellipsis: true,
-      });
-      doc.text(name(match.b), xs[1] + 6, ry + padding, {
-        width: widths[1] - 12,
-        height: rowHeight - padding - 4,
-        ellipsis: true,
-      });
-      doc
-        .fontSize(9)
-        .text(
-          p.kind === "knockout" &&
-            match.referee === "Arbitre externe à désigner"
-            ? ""
-            : names[match.referee] || match.referee,
-          xs[4] + 7,
-          ry + padding,
-          {
-            width: widths[4] - 14,
-            height: rowHeight - padding - 4,
-            ellipsis: true,
-          },
-        );
+      tableText(doc, name(match.a), xs[0], ry, widths[0], rowHeight);
+      tableText(doc, name(match.b), xs[1], ry, widths[1], rowHeight);
+      doc.fontSize(9);
+      tableText(
+        doc,
+        p.kind === "knockout" && match.referee === "Arbitre externe à désigner"
+          ? ""
+          : names[match.referee] || match.referee,
+        xs[4],
+        ry,
+        widths[4],
+        rowHeight,
+      );
       doc
         .moveTo(36, ry + rowHeight)
         .lineTo(559, ry + rowHeight)

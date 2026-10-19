@@ -1,6 +1,7 @@
 import path from "node:path";
 import fs from "node:fs/promises";
 import { pdfDocument, printHeader, printFooter } from "./pdf-base";
+import { MAX_TABLE_ROW_HEIGHT, tableText } from "./pdf-table";
 import { atomicWrite } from "./store";
 import { check, id } from "../src/domain/engine";
 import { levelLetter, levelLegend } from "../src/domain/levels";
@@ -56,14 +57,11 @@ export async function makeRegistrationSheet(
         widths = [150, 44, 180, 149],
         xs = [36];
       widths.forEach((w) => xs.push(xs.at(-1)! + w));
-      const row = perPage === 2 ? 43 : 116,
+      const row = Math.min(MAX_TABLE_ROW_HEIGHT, perPage === 2 ? 43 : 116),
         bottom = top + 26 + 4 * row;
       doc.font("Bold").fontSize(9);
       ["Nom du joueur", "Niveau", "E-mail", "Club"].forEach((label, i) =>
-        doc.text(label, xs[i] + 6, top + 8, {
-          width: widths[i] - 12,
-          lineBreak: false,
-        }),
+        tableText(doc, label, xs[i], top, widths[i], 26),
       );
       doc.strokeColor("#788aa1").lineWidth(0.6);
       xs.forEach((x) => doc.moveTo(x, top).lineTo(x, bottom).stroke());
@@ -83,11 +81,7 @@ export async function makeRegistrationSheet(
           player.email,
           player.club,
         ].forEach((value, j) =>
-          doc.text(value, xs[j] + 6, top + 26 + i * row + 10, {
-            width: widths[j] - 12,
-            height: row - 16,
-            ellipsis: true,
-          }),
+          tableText(doc, value, xs[j], top + 26 + i * row, widths[j], row),
         );
       }
     }

@@ -11,6 +11,10 @@ The application was built from the supplied specification against an empty repos
 - Runtime dependency audit: `npm audit --omit=dev` reports **zero vulnerabilities**. The full audit includes eight moderate findings in the electron-builder development dependency chain; no vulnerable runtime dependency is shipped from that chain.
 - Actual generated PDF page counts/dimensions are parsed with pdf-lib. Representative A4 pages were rasterized with Poppler and visually reviewed. The actual Imprimer button path renders complete PDF pages through PDF.js at 200 DPI before printing the resulting HTML. Tests check decoded page pixels, embedded image resources and one/two-page output, rather than relying on page count alone. The resulting print PDFs were rasterized and inspected.
 
+## Version 1.2.1 table layout
+
+Cell text is vertically centred as a wrapped block, including headers and filled registration forms. Match table rows are capped at exactly 5 cm (141.732 PDF points). Representative single-match, three-team, five-team and registration sheets are rasterized and visually reviewed; pagination and real print-content tests remain in force. Existing group/final PDFs receive a new layout fingerprint on open.
+
 ## Version 1.2 print/layout coverage
 
 One-page five-team/single-court sheets and two-page five-team/two-court sheets; paired team columns followed by score columns at least one third wider; actual PDF text positions for footer URL, phase identity and absence of application branding. Two desktop tests invoke the real Imprimer button and replace only the final physical printer call with Chromium printToPDF, checking all page images are decoded, nonblank and included in the printed output. The dedicated print renderer has no access to tournament mutation APIs. The supplied ICO is retained byte-for-byte; its PNG derivative is used in the app.

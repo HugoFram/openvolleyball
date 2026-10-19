@@ -4,7 +4,7 @@ Application de bureau en français pour préparer et conduire un tournoi local d
 
 ## Lancer
 
-**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-1.2.0-Windows.exe`. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ce binaire local n’est pas signé avec un certificat commercial.
+**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-1.2.1-Windows.exe`. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ce binaire local n’est pas signé avec un certificat commercial.
 
 Depuis les sources, avec Node.js **22.13 ou plus récent** :
 
