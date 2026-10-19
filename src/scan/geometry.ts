@@ -46,6 +46,12 @@ export interface Raster {
   height: number;
   data: Uint8ClampedArray;
 }
+/** The normalized canvas uses x/2 and y/2; rounded A4 pixel dimensions must
+ * not introduce another scale change when exporting or displaying a crop. */
+export const normalizedScale = (width: number, height: number) =>
+  width === Math.round(595.28 * 2) && height === Math.round(841.89 * 2)
+    ? 2
+    : width / 595.28;
 const dark = (im: Raster, x: number, y: number) => {
   if (x < 0 || y < 0 || x >= im.width || y >= im.height) return false;
   const i = (y * im.width + x) * 4;

@@ -2570,6 +2570,20 @@ th {
   }
 }
 /* Local scan inbox */
+.scan-uncertain {
+  color: #975317;
+  font-size: 12px;
+}
+.scan-alternatives {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.scan-alternatives button {
+  padding: 5px 12px;
+  background: #fff8e9;
+  border-color: #e3c79f;
+}
 .scan-layout {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);

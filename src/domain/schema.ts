@@ -67,6 +67,7 @@ const paperForm = z.object({
   groupId: id.optional(),
   teamId: id.optional(),
   sourceHash: text.optional(),
+  fixtureKey: z.string().max(30000).optional(),
   qr: rect,
   fields: z.array(
     z.object({
@@ -104,6 +105,7 @@ export const tournamentSchema = z.object({
         page: z.number().int().positive(),
         formId: id.optional(),
         image: text,
+        aligned: z.boolean().optional(),
         status: z.enum(["pending", "approved", "ignored"]),
         note: text.optional(),
         values: z.record(
@@ -111,8 +113,23 @@ export const tournamentSchema = z.object({
           z.object({
             value: text,
             confidence: z.number().min(0).max(1).optional(),
+            alternatives: z.array(z.string().max(3)).max(5).optional(),
+            issue: text.optional(),
+            reader: z.literal("contrast-v2").optional(),
           }),
         ),
+        originalValues: z
+          .record(
+            z.string(),
+            z.object({
+              value: text,
+              confidence: z.number().min(0).max(1).optional(),
+              alternatives: z.array(z.string().max(3)).max(5).optional(),
+              issue: text.optional(),
+              reader: z.literal("contrast-v2").optional(),
+            }),
+          )
+          .optional(),
         approvedAt: text.optional(),
         accepted: z.record(z.string(), text).optional(),
         appliedIds: z.array(id).optional(),

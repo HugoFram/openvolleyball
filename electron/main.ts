@@ -29,6 +29,7 @@ import { makeSheet, sheetFingerprint } from "./pdf";
 import { makeRegistrationSheet } from "./registration-pdf";
 import { printDocument } from "./printing";
 import { scanAction } from "./scans";
+import { currentForm, scoreFixtureKey } from "../src/domain/scans";
 let win: BrowserWindow;
 let active: PackageStore | undefined;
 let queue = Promise.resolve();
@@ -86,7 +87,7 @@ async function switchTo(next: PackageStore) {
         at: now(),
         revision: refreshed.revision,
         action: "documents-updated",
-        detail: { layout: 5 },
+        detail: { layout: 6 },
       });
       await next.save(refreshed);
     }
@@ -129,6 +130,15 @@ async function generateDocuments(
   store: PackageStore,
 ): Promise<Tournament> {
   const next = structuredClone(t);
+  // Certify existing templates before a layout-only refresh removes their PDF
+  // associations. Old printouts remain usable only for exactly the same fixtures.
+  for (const form of next.paperForms || [])
+    if (form.kind === "scores" && !form.fixtureKey) {
+      try {
+        currentForm(next, form.id);
+        form.fixtureKey = scoreFixtureKey(next, form);
+      } catch {}
+    }
   for (const p of next.phases.filter((p) => p.status !== "Préparation"))
     for (const item of p.kind === "groups" ? p.groups : p.matches) {
       const g =

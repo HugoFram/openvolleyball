@@ -1,3 +1,17 @@
+# Version 2.0.0-alpha.2
+
+- Espace de comptage libre ; petites cases Final de 14 × 18 points dans le coin
+  inférieur droit, moins de 15 % d’une cellule du groupe le plus dense.
+- Lecture locale : contraste par case, réduction des poussières, cadrage moins
+  serré, centrage de l’encre et trois préparations comparées. Les lectures ambiguës
+  demandent un choix explicite, avec propositions cliquables.
+- Une mise à jour de mise en page conserve les anciens tirages tant que leurs
+  rencontres/participants/cibles restent identiques.
+- Export local des scores relus : extraits PNG, étiquettes et propositions initiales
+  conservées séparément du brouillon. Aucun apprentissage automatique implicite.
+- Benchmark contrôlé reproductible et outil de comparaison sur les exports réels.
+  Les mesures synthétiques ne constituent pas une précision annoncée sur le terrain.
+
 # Version 2.0.0-alpha.1
 
 - Première étape v2 entièrement hors ligne : nouvelles feuilles avec QR codes,

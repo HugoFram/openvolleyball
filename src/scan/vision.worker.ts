@@ -3,13 +3,13 @@ import { InferenceSession, Tensor, env } from "onnxruntime-web/wasm";
 import type { PaperForm, ScanValue } from "../domain/scans";
 import {
   alignRaster,
-  digitTensor,
   findMarker,
   homography,
   markedChoice,
   project,
   type Raster,
 } from "./geometry";
+import { readScore } from "./digits";
 function locate(
   data: Uint8ClampedArray,
   width: number,
@@ -173,23 +173,9 @@ self.onmessage = async (
         ? undefined
         : "Repères de page incomplets : lecture automatique suspendue. Vérifiez l’alignement et saisissez les scores depuis l’image.";
       if (form.kind === "scores" && aligned) {
-        const runtime = await session();
-        for (const field of form.fields) {
-          const digits: string[] = [],
-            confidences: number[] = [];
-          let seen = false,
-            gap = false;
-          for (const rect of field.digits || []) {
-            const tensor = digitTensor(image, rect);
-            if (!tensor) {
-              if (seen) gap = true;
-              continue;
-            }
-            if (gap) {
-              digits.push("?");
-              continue;
-            }
-            seen = true;
+        try {
+          const runtime = await session();
+          const predict = async (tensor: Float32Array) => {
             const prediction = await runtime.run({
               [runtime.inputNames[0]]: new Tensor(
                 "float32",
@@ -197,21 +183,20 @@ self.onmessage = async (
                 [1, 1, 28, 28],
               ),
             });
-            const logits = Array.from(
-                prediction[runtime.outputNames[0]].data as Float32Array,
-              ),
-              max = Math.max(...logits);
-            const exps = logits.map((v) => Math.exp(v - max)),
-              sum = exps.reduce((a, b) => a + b, 0);
-            digits.push(String(logits.indexOf(max)));
-            confidences.push(1 / sum);
-          }
-          values[field.key] = {
-            value: digits.join(""),
-            confidence: confidences.length
-              ? Math.min(...confidences)
-              : undefined,
+            return Array.from(
+              prediction[runtime.outputNames[0]].data as Float32Array,
+            );
           };
+          for (const field of form.fields)
+            values[field.key] = await readScore(
+              image,
+              field.digits || [],
+              predict,
+            );
+        } catch (error) {
+          note =
+            "Lecteur local indisponible : recopiez les scores depuis l’image. " +
+            (error as Error).message;
         }
       } else if (form.kind === "registration") {
         if (aligned)
@@ -223,6 +208,7 @@ self.onmessage = async (
       }
       results.push({
         formId: form.id,
+        aligned,
         image: await blobUrl(image),
         values,
         note,

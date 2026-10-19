@@ -7,6 +7,7 @@ import { PackageStore, atomicWrite } from "./store";
 import { approveScan, currentForm, type ScanPage } from "../src/domain/scans";
 import { check, id, now } from "../src/domain/engine";
 import type { Tournament } from "../src/domain/types";
+import { normalizedScale } from "../src/scan/geometry";
 
 function scanPath(store: PackageStore, file: string) {
   check(/^scans\/[a-zA-Z0-9.-]+$/.test(file), "Chemin de scan invalide.");
@@ -23,6 +24,9 @@ const valuesSchema = z.record(
   z.object({
     value: z.string().max(2000),
     confidence: z.number().min(0).max(1).optional(),
+    alternatives: z.array(z.string().max(3)).max(5).optional(),
+    issue: z.string().max(2000).optional(),
+    reader: z.literal("contrast-v2").optional(),
   }),
 );
 const pageSchema = z.object({
@@ -32,6 +36,7 @@ const pageSchema = z.object({
     .array(
       z.object({
         formId: z.string().optional(),
+        aligned: z.boolean().optional(),
         image: z.string().max(16000000),
         values: valuesSchema,
         note: z.string().max(2000).optional(),
@@ -48,6 +53,100 @@ export async function scanAction(
   win: BrowserWindow,
   generate: (t: Tournament, s: PackageStore) => Promise<Tournament>,
 ) {
+  if (method === "scan-export-reviewed") {
+    const t = store.current;
+    const candidates = (t.scanPages || []).filter(
+      (s) =>
+        s.status === "approved" &&
+        s.formId &&
+        (s.aligned === true || (s.aligned === undefined && !s.note)) &&
+        t.paperForms?.some((f) => f.id === s.formId && f.kind === "scores"),
+    );
+    check(
+      candidates.length,
+      "Aucun score relu avec une image alignée à exporter.",
+    );
+    const selection = await dialog.showOpenDialog(win, {
+      title: "Exporter les scores relus",
+      properties: ["openDirectory", "createDirectory"],
+    });
+    if (selection.canceled) return null;
+    const folder = path.join(
+      selection.filePaths[0],
+      `scores-relus-${Date.now()}-${id().slice(0, 8)}`,
+    );
+    await fs.mkdir(folder);
+    const samples: unknown[] = [];
+    let skipped = 0;
+    for (const scan of candidates) {
+      const form = t.paperForms!.find((f) => f.id === scan.formId)!;
+      const source = t.scanSources!.find((s) => s.id === scan.sourceId)!;
+      const image = nativeImage.createFromBuffer(
+        await fs.readFile(scanPath(store, scan.image)),
+      );
+      if (image.isEmpty()) {
+        skipped++;
+        continue;
+      }
+      const size = image.getSize(),
+        scale = normalizedScale(size.width, size.height);
+      for (const field of form.fields) {
+        const accepted = scan.accepted?.[field.key]?.trim();
+        if (!accepted || !/^\d{1,3}$/.test(accepted) || !field.digits?.length)
+          continue;
+        const x = Math.max(0, Math.floor((field.digits[0][0] - 1) * scale)),
+          y = Math.max(0, Math.floor((field.digits[0][1] - 1) * scale)),
+          width = Math.ceil(
+            (field.digits.reduce((sum, r) => sum + r[2], 0) + 2) * scale,
+          ),
+          height = Math.ceil((field.digits[0][3] + 5) * scale);
+        if (x + width > size.width || y + height > size.height) {
+          skipped++;
+          continue;
+        }
+        const file = `score-${String(samples.length + 1).padStart(5, "0")}.png`;
+        await atomicWrite(
+          path.join(folder, file),
+          image.crop({ x, y, width, height }).toPNG(),
+        );
+        const original = scan.originalValues?.[field.key];
+        samples.push({
+          file,
+          score: accepted,
+          suggested: original?.value ?? null,
+          reader: original?.reader || "unknown",
+          alternatives: original?.alternatives || [],
+          captureGroup: source.hash,
+          boxes: field.digits.map(([bx, by, bw, bh]) => [
+            bx * scale - x,
+            by * scale - y,
+            bw * scale,
+            bh * scale,
+          ]),
+        });
+      }
+    }
+    await atomicWrite(
+      path.join(folder, "scores.json"),
+      JSON.stringify(
+        {
+          format: "open-volleyball-reviewed-scores",
+          version: 1,
+          createdAt: now(),
+          pipeline: "contrast-consensus-v2",
+          samples,
+          skipped,
+        },
+        null,
+        2,
+      ),
+    );
+    await atomicWrite(
+      path.join(folder, "LISEZ-MOI.txt"),
+      "Extraits des zones de score et valeurs validées par l’organisateur. Aucun nom d’équipe, de joueur ou fichier source n’est exporté dans les métadonnées. Vérifiez les étiquettes avant entraînement. captureGroup identifie une source de scan, pas un auteur. Conservez des auteurs distincts pour la validation. L’application ne réentraîne aucun modèle automatiquement.\n",
+    );
+    return { path: folder, count: samples.length, skipped };
+  }
   if (method === "scan-source" || method === "scan-image") {
     const item =
       method === "scan-source"
@@ -156,8 +255,10 @@ export async function scanAction(
         page: data.page,
         formId: result.formId,
         image: "",
+        aligned: result.aligned,
         status: "pending",
         values: result.values,
+        originalValues: structuredClone(result.values),
         note: result.note,
       };
       scan.image = `scans/${scan.id}.png`;

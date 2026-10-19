@@ -7,6 +7,7 @@ export interface PageResult {
   image: string;
   values: Record<string, ScanValue>;
   note?: string;
+  aligned?: boolean;
 }
 export async function* scannedPages(
   bytes: Uint8Array,

@@ -24,6 +24,7 @@ export interface PaperForm {
   groupId?: string;
   teamId?: string;
   sourceHash?: string;
+  fixtureKey?: string;
   qr: Rect;
   fields: PaperField[];
   participants: Record<string, [string | null, string | null]>;
@@ -40,6 +41,9 @@ export interface ScanSource {
 export interface ScanValue {
   value: string;
   confidence?: number;
+  alternatives?: string[];
+  issue?: string;
+  reader?: "contrast-v2";
 }
 export interface ScanPage {
   id: string;
@@ -47,8 +51,10 @@ export interface ScanPage {
   page: number;
   formId?: string;
   image: string;
+  aligned?: boolean;
   status: "pending" | "approved" | "ignored";
   values: Record<string, ScanValue>;
+  originalValues?: Record<string, ScanValue>;
   note?: string;
   approvedAt?: string;
   accepted?: Record<string, string>;
@@ -56,6 +62,25 @@ export interface ScanPage {
 }
 export const qrPayload = (form: PaperForm) =>
   `OV2:${form.tournamentId}:${form.id}`;
+
+/** Sporting identity, independent of paper layout, branding and score changes. */
+export function scoreFixtureKey(t: Tournament, form: PaperForm): string {
+  const p = t.phases.find((p) => p.id === form.phaseId);
+  check(p, "La phase de cette feuille n’existe plus.");
+  return JSON.stringify([
+    p.id,
+    p.category,
+    p.lane,
+    p.kind,
+    Object.keys(form.participants)
+      .sort()
+      .map((mid) => {
+        const m = p.matches.find((m) => m.id === mid);
+        check(m, "La rencontre de cette feuille n’existe plus.");
+        return [m.id, m.a, m.b, m.target];
+      }),
+  ]);
+}
 
 /** Reject stale fixtures even if a scan was reviewed before a draw change. */
 export function currentForm(t: Tournament, formId: string): PaperForm {
@@ -73,7 +98,8 @@ export function currentForm(t: Tournament, formId: string): PaperForm {
     );
     const document = t.documents.find((d) => d.id === form.documentId);
     check(
-      document && document.sourceHash === form.sourceHash,
+      (document && document.sourceHash === form.sourceHash) ||
+        (!!form.fixtureKey && form.fixtureKey === scoreFixtureKey(t, form)),
       "Cette feuille a été remplacée. Importez la feuille actuelle ou saisissez les résultats dans la phase.",
     );
     for (const [mid, pair] of Object.entries(form.participants)) {

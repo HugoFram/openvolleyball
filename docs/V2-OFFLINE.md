@@ -1,9 +1,36 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.1`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.2`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
+
+## Scores et place pour le comptage
+
+Les grandes cases au centre des cellules ont été remplacées par trois petites
+cases **Final**, dans le coin inférieur droit. Elles mesurent chacune 14 × 18 points
+PDF ; même dans un groupe de cinq sur un seul terrain, les cases occupent moins
+de 15 % de la surface de la cellule. Le reste sert au comptage par bâtons, carrés
+ou toute autre méthode de l’arbitre. Le lecteur utilise seulement la zone Final.
+
+Le prétraitement conserve davantage des bords du chiffre, adapte le contraste à
+chaque case, enlève les petites poussières et compare trois préparations :
+centrage de l’encre, cadrage et correction d’inclinaison ou d’épaisseur du trait.
+Les divergences et lectures peu nettes donnent **?**, avec des propositions.
+Choisir une proposition ou saisir le score avant validation. Les règles sportives
+ne servent jamais à transformer automatiquement un chiffre ambigu en score valide.
+Si un trait descend sous le guide, une petite marge inférieure permet de récupérer
+son pied sans incorporer la ligne imprimée pâle. Un score de match incompatible
+avec la cible ou l’écart est également signalé, sans correction automatique.
+
+Les petites cases facilitent la séparation des chiffres pour le modèle actuel.
+Elles ne sont pas une nécessité universelle : un futur lecteur local de nombres
+entiers pourrait les remplacer par une petite zone libre Final. La séparation
+entre cette zone et le comptage resterait utile.
+
+Les anciens tirages alpha.1 et leurs scans restent utilisables quand les rencontres,
+participants et cibles n’ont pas changé. Leur géométrie originale est conservée.
+Une modification sportive reste protégée comme avant.
 
 ## Essayer la préversion
 
@@ -13,7 +40,8 @@ compte, clé API, téléchargement de modèle au lancement ou connexion Internet
 3. Imprimer les feuilles depuis v2 : QR codes, quatre repères noirs et cases de
    scores sont ajoutés automatiquement. Pour une inscription, chaque fiche a
    son propre identifiant, y compris les deux fiches d’une page A4.
-4. Écrire un chiffre par case, de gauche à droite. Laisser les cases restantes
+4. Utiliser la grande zone libre pour compter les points. À la fin, écrire le
+   score dans les petites cases Final, un chiffre par case, de gauche à droite. Laisser les cases restantes
    vides ; ne pas écrire de tiret. Les scores à un, deux ou trois chiffres sont
    possibles. Cocher une seule case N/R/D/U par joueur sur les inscriptions.
 5. Scanner en A4 à 200 ou 300 ppp, en conservant toute la page et ses quatre
@@ -62,6 +90,65 @@ tournoi d’origine ; un JSON isolé ne contient pas les images. Les feuilles en
 attente de l’ancien tournoi sont conservées mais écartées dans la copie restaurée.
 
 ## Reconnaissance locale et limites
+
+### Constituer les vrais exemples nécessaires
+
+Après avoir corrigé et validé un lot, **Exporter les scores relus** crée un dossier
+avec uniquement les zones Final en PNG et un fichier `scores.json` contenant les
+scores validés. Les noms d’équipes, joueurs et fichiers d’origine ne figurent pas
+dans les métadonnées. Les propositions initiales alpha.2 sont conservées même si
+un brouillon a été corrigé ; pour les anciens imports, une proposition d’origine
+non traçable est indiquée comme inconnue. Aucun modèle n’est réentraîné en direct.
+
+Pour améliorer réellement le taux de lecture, réunir plusieurs écritures et les
+scans PDF originaux à 300 ppp. Conserver un lot d’auteurs distincts pour vérifier
+les améliorations, sans l’utiliser pour le réglage ou l’entraînement. Commencer
+par examiner des échecs annotés : cadrage, contraste, chiffre confondu ou rature.
+Un modèle local plus riche ou un lecteur de nombres entiers sera ensuite comparé
+au lecteur actuel sur ces mêmes cas, en mesurant aussi les erreurs non signalées
+et le temps de relecture.
+
+Les développeurs peuvent comparer les deux lecteurs sur cet export avec
+`npx tsx scripts/evaluate-reviewed.ts <dossier-scores-relus>`.
+
+### Mesure contrôlée, distincte d’un essai réel
+
+Un [premier diagnostic réel](reports/digits-alpha2-reviewed-summary.json) sur trois
+pages déjà approuvées, soit **52 scores complets**, donne 40 suggestions correctes
+et 12 incorrectes avec alpha.1 ; alpha.2 donne **46 correctes, 1 incorrecte et 5
+lectures signalées**. Les valeurs de référence sont celles approuvées par
+l’organisateur. Ce lot a servi à diagnostiquer les traits coupés sous les guides
+et a été utilisé pendant le développement. **Ce n’est donc pas un test indépendant**,
+ni une mesure de la future précision sur les nouvelles petites cases ou d’autres
+écritures. Les scans, noms et étiquettes détaillées restent locaux.
+
+Le [rapport alpha.2](reports/digits-alpha2-controlled.json) utilise les mêmes
+1 000 chiffres MNIST de test (indices 100–1099), rendus avec différentes conditions
+simulées. Le modèle n’a pas changé ; la préparation et la gestion d’incertitude
+changent. Les colonnes ci-dessous comptent des **chiffres**, pas des scores complets.
+
+| Simulation | Alpha.1 : mauvaises suggestions numériques | Alpha.2 : mauvaises suggestions numériques | Alpha.2 : à relire explicitement |
+|---|---:|---:|---:|
+| Propre | 60 / 1 000 | 3 / 1 000 | 85 / 1 000 |
+| Inclinaison simulée | 56 / 1 000 | 4 / 1 000 | 84 / 1 000 |
+| Format compact | 105 / 1 000 | 4 / 1 000 | 131 / 1 000 |
+
+Sur la simulation de crayon clair, l’ancien seuil ne détecte aucun des 1 000
+chiffres ; alpha.2 émet 915 propositions, dont 912 correctes, et signale 85 cas.
+Ce test volontairement contrôlé démontre la sensibilité au contraste, pas la
+fréquence attendue de ce problème au tournoi. Les premières propositions alpha.2,
+y compris celles soumises à relecture, sont correctes pour 975 / 1 000 images
+propres et 960 / 1 000 compactes. Le bénéfice vient donc à la fois de la préparation
+et du signalement ; certaines lectures correctes deviennent également à confirmer.
+
+Reproduction : télécharger les fichiers de test MNIST `t10k-images-idx3-ubyte.gz`
+et `t10k-labels-idx1-ubyte.gz` depuis le miroir PyTorch
+`https://ossci-datasets.s3.amazonaws.com/mnist/`, puis exécuter
+`npx tsx scripts/benchmark-digits.ts <images.gz> <labels.gz> 1000`.
+
+**Ces résultats ne prédisent pas la précision sur vos feuilles.** Les mêmes
+écritures sont réutilisées dans les quatre simulations. Il faut mesurer les
+scores complets et les erreurs non signalées sur un ensemble réel indépendant.
 
 Le lecteur utilise le modèle CNN MNIST-12, embarqué avec son empreinte SHA-256 et
 sa licence MIT, et ONNX Runtime Web en WebAssembly sur le processeur. QR codes,

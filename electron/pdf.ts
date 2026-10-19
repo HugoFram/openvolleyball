@@ -7,6 +7,7 @@ import { atomicWrite } from "./store";
 import { id } from "../src/domain/engine";
 import { paperCode, paperMarkers } from "./paper";
 import type { PaperForm, Rect } from "../src/domain/scans";
+import { scoreFixtureKey } from "../src/domain/scans";
 import type {
   Document,
   Group,
@@ -27,7 +28,7 @@ export function sheetFingerprint(
   return createHash("sha256")
     .update(
       JSON.stringify({
-        layout: 5,
+        layout: 6,
         branding: t.branding,
         name: t.name,
         category: p.category,
@@ -115,6 +116,7 @@ export async function makeSheet(
       ),
     };
     forms.push(form);
+    form.fixtureKey = scoreFixtureKey(t, form);
     paperCode(doc, form);
     doc
       .font("Bold")
@@ -179,14 +181,24 @@ export async function makeSheet(
       tableText(doc, name(match.b), xs[1], ry, widths[1], rowHeight);
       for (const side of [0, 1] as const) {
         const cx = xs[2 + side],
-          box = Math.min(25, rowHeight - 12);
+          boxWidth = 14,
+          boxHeight = Math.min(18, rowHeight - 12),
+          scoreLeft = cx + widths[2 + side] - 6 - boxWidth * 3,
+          scoreTop = ry + rowHeight - 5 - boxHeight;
         const digits: Rect[] = [0, 1, 2].map((n) => [
-          cx + (widths[2 + side] - box * 3) / 2 + n * box,
-          ry + (rowHeight - box) / 2,
-          box,
-          box,
+          scoreLeft + n * boxWidth,
+          scoreTop,
+          boxWidth,
+          boxHeight,
         ]);
-        doc.save().strokeColor("#b0bac5").lineWidth(0.4);
+        doc
+          .save()
+          .font("Regular")
+          .fontSize(6.5)
+          .fillColor("#465b73")
+          .text("Final", scoreLeft, scoreTop - 9, { lineBreak: false })
+          .strokeColor("#b0bac5")
+          .lineWidth(0.4);
         for (const r of digits) doc.rect(...r).stroke();
         doc.restore();
         form.fields.push({
@@ -194,7 +206,7 @@ export async function makeSheet(
           label: `Score ${side + 1}`,
           matchId: match.id,
           side,
-          rect: [cx + 3, ry + 3, widths[2 + side] - 6, rowHeight - 6],
+          rect: [scoreLeft - 2, scoreTop - 2, boxWidth * 3 + 4, boxHeight + 4],
           digits,
         });
       }
@@ -219,7 +231,7 @@ export async function makeSheet(
       .fontSize(8)
       .fillColor("#465b73")
       .text(
-        "Un chiffre par case, de gauche à droite. Laissez les cases inutilisées vides.",
+        "Zone libre : comptage des points. Cases « Final » : score terminé, un chiffre par case.",
         36,
         776,
         { width: 523, lineBreak: false },

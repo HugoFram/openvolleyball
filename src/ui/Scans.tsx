@@ -6,12 +6,15 @@ import {
   Check,
   Save,
   ZoomIn,
+  Download,
 } from "lucide-react";
 import { useApp, Hint, Modal } from "./shared";
 import type { Session } from "../domain/types";
 import type { PaperForm, Rect, ScanPage, ScanValue } from "../domain/scans";
 import { currentForm } from "../domain/scans";
+import { defaultRules, validateScore } from "../domain/engine";
 import { analyzePage, scannedPages } from "../scan/import";
+import { normalizedScale } from "../scan/geometry";
 
 export function ScansView() {
   const { session, native, notify, dirty, busy, confirm } = useApp();
@@ -22,6 +25,7 @@ export function ScansView() {
     [selected, setSelected] = useState<string>(),
     [filter, setFilter] = useState("pending"),
     [zoom, setZoom] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const reviewChanged = useRef(false);
   const [reviewEpoch, setReviewEpoch] = useState(0);
   const t = session.tournament,
@@ -157,6 +161,38 @@ export function ScansView() {
               Reprendre l’analyse
             </button>
           )}
+          {pages.some((p) => p.status === "approved") && (
+            <button
+              disabled={working || busy || exporting}
+              onClick={() =>
+                void (async () => {
+                  setExporting(true);
+                  try {
+                    const current = live.current.tournament;
+                    const result = await native<{
+                      path: string;
+                      count: number;
+                      skipped: number;
+                    } | null>("scan-export-reviewed", {
+                      packageId: current.id,
+                      revision: current.revision,
+                    });
+                    if (result)
+                      notify(
+                        `${result.count} scores relus exportés dans ${result.path}${result.skipped ? ` · ${result.skipped} extraits ignorés` : ""}.`,
+                      );
+                  } catch (error) {
+                    notify((error as Error).message, true);
+                  } finally {
+                    setExporting(false);
+                  }
+                })()
+              }
+            >
+              <Download size={17} />
+              {exporting ? "Export en cours…" : "Exporter les scores relus"}
+            </button>
+          )}
           <span className="muted">
             Lecture locale · aucune connexion Internet
           </span>
@@ -287,7 +323,7 @@ function Crop({ image, rect }: { image: string; rect: Rect }) {
     im.onload = () => {
       if (canceled || !canvas.current) return;
       const [x, y, w, h] = rect,
-        scale = im.width / 595.28;
+        scale = normalizedScale(im.width, im.height);
       const c = canvas.current;
       c.width = Math.ceil(w * 2);
       c.height = Math.ceil(h * 2);
@@ -425,7 +461,9 @@ function Review({
             />
           )}
           {f.kind === "scores" && values[field.key]?.value && (
-            <small className="muted">
+            <small
+              className={values[field.key].issue ? "scan-uncertain" : "muted"}
+            >
               {values[field.key].confidence !== undefined &&
               values[field.key].confidence! < 0.9
                 ? "Lecture incertaine · "
@@ -433,12 +471,45 @@ function Review({
               À vérifier sur l’image
             </small>
           )}
+          {values[field.key]?.issue && (
+            <span className="scan-uncertain">
+              {values[field.key].issue}. Choisissez une proposition ou saisissez
+              le score.
+            </span>
+          )}
+          {!!values[field.key]?.alternatives?.length &&
+            page.status === "pending" && (
+              <span className="scan-alternatives">
+                {values[field.key].alternatives!.map((candidate) => (
+                  <button
+                    type="button"
+                    key={candidate}
+                    disabled={readOnly}
+                    aria-label={`Choisir ${candidate} pour ${field.label}`}
+                    onClick={() => change(field.key, candidate)}
+                  >
+                    {candidate}
+                  </button>
+                ))}
+              </span>
+            )}
         </label>
       );
     });
   return (
     <section className="panel scan-review">
       <h2>{form?.label || "Identifier la feuille"}</h2>
+      {page.status === "pending" &&
+        Object.values(values).some((v) => v.issue || v.value.includes("?")) && (
+          <Hint>
+            {
+              Object.values(values).filter(
+                (v) => v.issue || v.value.includes("?"),
+              ).length
+            }{" "}
+            lecture(s) à confirmer sur cette feuille.
+          </Hint>
+        )}
       {page.note && <Hint>{page.note}</Hint>}
       {stale && <Hint error>{stale}</Hint>}
       {!form ? (
@@ -494,6 +565,27 @@ function Review({
             <div>
               {Object.entries(form.participants).map(([mid, pair]) => {
                 const p = t.phases.find((p) => p.id === form.phaseId);
+                const match = p?.matches.find((m) => m.id === mid),
+                  pairValues = form.fields
+                    .filter((f) => f.matchId === mid)
+                    .sort((a, b) => a.side! - b.side!)
+                    .map((f) => values[f.key]?.value || "");
+                let scoreWarning = "";
+                if (
+                  page.status === "pending" &&
+                  match &&
+                  pairValues.length === 2 &&
+                  pairValues.every((v) => /^\d{1,3}$/.test(v))
+                )
+                  try {
+                    validateScore(
+                      pairValues.map(Number) as [number, number],
+                      match.target,
+                      defaultRules,
+                    );
+                  } catch (error) {
+                    scoreWarning = (error as Error).message;
+                  }
                 return (
                   <div className="scan-match" key={mid}>
                     <h3>
@@ -503,6 +595,9 @@ function Review({
                         )
                         .join(" / ")}
                     </h3>
+                    {scoreWarning && (
+                      <Hint error>Score à vérifier : {scoreWarning}</Hint>
+                    )}
                     <div className="scan-score-pair">
                       {fields({
                         ...form,

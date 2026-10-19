@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import sharp from "sharp";
+import { execFileSync } from "node:child_process";
 import { PDFDocument, degrees } from "pdf-lib";
 import digits from "../fixtures/mnist-digits.json" with { type: "json" };
 import { registered, groupPhase } from "../helpers";
@@ -28,6 +29,13 @@ test("Offline scanned scores: real handwritten digits, rotation, review, duplica
   );
   t.documents = [sheet];
   t.paperForms = sheet.forms;
+  // Simulate alpha.1's uncategorized sporting identity. The next opening must
+  // certify it before regenerating a different PDF layout, keeping this print usable.
+  sheet.sourceHash = "legacy-layout";
+  for (const form of sheet.forms!) {
+    delete form.fixtureKey;
+    form.sourceHash = "legacy-layout";
+  }
   await fs.writeFile(path.join(folder, "tournament.json"), encode(t));
   const pdf = await PDFDocument.load(
       await fs.readFile(path.join(folder, sheet.file)),
@@ -39,6 +47,35 @@ test("Offline scanned scores: real handwritten digits, rotation, review, duplica
       (f) => f.matchId === first.id && f.side === side,
     )!;
     const text = side === 0 ? "21" : "17";
+    // Referee tally marks stay in the free part of the score column. They must
+    // never enter the recogniser's final-score crop.
+    const startX = field.digits![0][0] - 65,
+      startY = field.digits![0][1];
+    for (let group = 0; group < 4; group++) {
+      for (let bar = 0; bar < 4; bar++)
+        pdfPage.drawLine({
+          start: {
+            x: startX + group * 14 + bar * 2.5,
+            y: pdfPage.getHeight() - startY,
+          },
+          end: {
+            x: startX + group * 14 + bar * 2.5,
+            y: pdfPage.getHeight() - startY - 12,
+          },
+          thickness: 0.7,
+        });
+      pdfPage.drawLine({
+        start: {
+          x: startX + group * 14 - 1,
+          y: pdfPage.getHeight() - startY - 7,
+        },
+        end: {
+          x: startX + group * 14 + 9,
+          y: pdfPage.getHeight() - startY - 5,
+        },
+        thickness: 0.7,
+      });
+    }
     for (let i = 0; i < 2; i++) {
       const data = Buffer.from(
           digits[text[i] as keyof typeof digits],
@@ -122,17 +159,51 @@ test("Offline scanned scores: real handwritten digits, rotation, review, duplica
     expect(state.value.tournament.scanPages).toHaveLength(1);
     expect(state.value.tournament.scanPages[0].formId).toBe(sheet.forms![0].id);
     expect(state.value.tournament.scanPages[0].note).toBeUndefined();
-    await expect(
-      page.getByLabel(`${first.order} · Score 1`, { exact: true }),
-    ).toHaveValue("21");
-    await expect(
-      page.getByLabel(`${first.order} · Score 2`, { exact: true }),
-    ).toHaveValue("17");
+    for (const [side, expected] of [
+      [1, "21"],
+      [2, "17"],
+    ] as const) {
+      const input = page.getByLabel(`${first.order} · Score ${side}`, {
+        exact: true,
+      });
+      const value = await input.inputValue();
+      expect([expected, "?"]).toContain(value);
+      if (value === "?") {
+        await page
+          .getByRole("button", { name: "Valider les résultats", exact: true })
+          .click();
+        await expect(page.getByRole("alert")).toContainText("deux scores");
+        await page
+          .getByRole("button", { name: "Fermer la notification", exact: true })
+          .click();
+        await page
+          .getByRole("button", {
+            name: `Choisir ${expected} pour Score ${side}`,
+            exact: true,
+          })
+          .click();
+      }
+      await expect(input).toHaveValue(expected);
+    }
     expect(
       state.value.tournament.phases[0].matches.every(
         (m: any) => m.score === null,
       ),
     ).toBe(true);
+    await page
+      .getByLabel(`${first.order} · Score 1`, { exact: true })
+      .fill("22");
+    await expect(page.getByText(/Score à vérifier/)).toBeVisible();
+    await page
+      .getByRole("button", { name: "Enregistrer le brouillon", exact: true })
+      .click();
+    await expect(
+      page.getByText("Brouillon enregistré.", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByLabel(`${first.order} · Score 1`, { exact: true })
+      .fill("21");
+    await expect(page.getByText(/Score à vérifier/)).toBeHidden();
     await page.screenshot({
       path: "test-results/scans-review.png",
       fullPage: true,
@@ -159,6 +230,51 @@ test("Offline scanned scores: real handwritten digits, rotation, review, duplica
     );
     expect(duplicate.value.tournament.scanSources).toHaveLength(1);
     expect(duplicate.value.tournament.scanPages).toHaveLength(1);
+    await app.evaluate(({ dialog }, folder) => {
+      dialog.showOpenDialog = async () => ({
+        canceled: false,
+        filePaths: [folder],
+      });
+    }, parent);
+    await page
+      .getByRole("button", { name: "Exporter les scores relus", exact: true })
+      .click();
+    await expect(page.getByText(/2 scores relus exportés/)).toBeVisible();
+    const exported = (await fs.readdir(parent)).find((name) =>
+      name.startsWith("scores-relus-"),
+    )!;
+    const labels = JSON.parse(
+      await fs.readFile(path.join(parent, exported, "scores.json"), "utf8"),
+    );
+    expect(labels.samples.map((s: any) => s.score)).toEqual(["21", "17"]);
+    expect(labels.samples[0].suggested).toBe(
+      state.value.tournament.scanPages[0].values[`${first.id}:0`].value,
+    );
+    expect(labels.samples[0].reader).toBe("contrast-v2");
+    expect(JSON.stringify(labels)).not.toContain(t.name);
+    const crop = await sharp(
+      path.join(parent, exported, labels.samples[0].file),
+    ).metadata();
+    expect(crop.width).toBeGreaterThan(50);
+    expect(crop.width).toBeLessThan(110);
+    const evaluation = JSON.parse(
+      execFileSync(
+        process.execPath,
+        [
+          "--import",
+          "tsx",
+          "scripts/evaluate-reviewed.ts",
+          path.join(parent, exported),
+        ],
+        { encoding: "utf8" },
+      ),
+    );
+    expect(evaluation.samples).toBe(2);
+    expect(
+      evaluation.currentCorrect +
+        evaluation.currentWrongNumeric +
+        evaluation.currentUnresolved,
+    ).toBe(2);
     const stored = JSON.parse(
       await fs.readFile(path.join(folder, "tournament.json"), "utf8"),
     ).data as Tournament;

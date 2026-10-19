@@ -1,0 +1,13 @@
+{
+  "purpose": "Development diagnostic on an existing local batch; not an independent accuracy estimate",
+  "source": "Three approved scan pages. Source images and labels remain local and are not distributed.",
+  "unit": "whole score",
+  "samples": 52,
+  "baselineCorrect": 40,
+  "baselineWrongNumeric": 12,
+  "currentCorrect": 46,
+  "currentWrongNumeric": 1,
+  "currentUnresolved": 5,
+  "currentTopCandidateCorrect": 47,
+  "limitations": "Compared with organizer-approved values. The batch helped diagnose strokes clipped below guides and was used during development. No claim of generalization to different writers, scanners or the compact layout. Human review remains required."
+}

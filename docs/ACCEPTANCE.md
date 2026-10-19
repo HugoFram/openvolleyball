@@ -1,6 +1,30 @@
 # Acceptance report
 
-The application was built from the supplied specification against an empty repository. All test data is disposable and synthetic; the three original example tournaments remain unchanged.
+The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
+
+## V2 recognition and referee layout: 2.0.0-alpha.2
+
+- **56 domain/storage/PDF tests** pass. New checks cover faint ink normalization,
+  center of mass, tally exclusion, recovery of ink below a guide, explicit
+  ambiguity, compact paper area and layout-independent sporting identity.
+- **13 Electron tests** pass. The scan test includes handwritten digits plus tally
+  marks, a legacy-template layout refresh, manual resolution of uncertain reads,
+  an impossible-score warning, immutable original predictions across a draft,
+  reviewed crop export and a full-score evaluation of that export.
+- All 13 also pass against the packaged application, using its embedded local
+  handwriting model and WASM runtime. Runtime dependencies have zero audit findings.
+- A controlled comparison on 1,000 MNIST digits in each of four simulated
+  conditions reports numeric errors separately from explicit review cases. It is
+  not a field-accuracy estimate. See [the report](reports/digits-alpha2-controlled.json).
+- A separate diagnostic on **52 locally approved whole scores** found 12 wrong
+  numeric suggestions with alpha.1; alpha.2 produces 46 correct, 1 wrong and 5
+  explicit review flags. The batch helped diagnose clipped lower pen strokes and
+  was used during development, so it is **not independent validation**. No source
+  scans, names or detailed real labels are distributed. The source tournament's
+  JSON and the 34 original example files retain their hashes.
+- The five-team and single-match A4 layouts were rendered and visually checked.
+  Final-score boxes occupy less than 15% of the densest group cell. Existing print
+  tests still require real nonblank page content.
 
 ## V2 offline scan milestone: 2.0.0-alpha.1
 
