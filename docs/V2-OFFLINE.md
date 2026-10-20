@@ -1,9 +1,33 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.6`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.7`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
+
+**Fonction expérimentale.** La lecture des inscriptions n’atteint pas encore une
+précision démontrée d’au moins 75 % de chaînes non vides exactes sur des écritures
+variées. L’écriture cursive reste acceptée : les lettres capitales ne sont pas une
+condition d’utilisation. Toutes les propositions sont à relire avant validation.
+
+## Lecteur avancé facultatif
+
+Décompresser entièrement le pack `OpenVolleyball-LecteurAvance`. Dans **Feuilles
+scannées → Installer le lecteur avancé…**, sélectionner ce dossier, qui doit
+rester sur le PC. Le menu **Lecteur des inscriptions** permet de revenir au lecteur
+intégré. Le pack contient déjà moteur et modèles ; aucune installation de Python,
+aucun compte et aucun téléchargement dans l’application ne sont nécessaires.
+
+Le lecteur avancé peut utiliser une carte graphique compatible Vulkan. En cas
+d’incompatibilité ou de mémoire graphique insuffisante, cocher **Utiliser seulement
+le processeur**, puis reprendre l’analyse. Ce mode est nettement plus lent. Le
+lecteur est chargé à la première cellule manuscrite du lot, puis libéré à la fin
+ou à l’interruption. La lecture des scores conserve son moteur habituel.
+
+Les modèles publics du pack n’ont pas été adaptés aux inscriptions fournies.
+[Comparaison, configuration et limites](REGISTRATION-READERS.md). Les fiches déjà
+relues conservent leurs corrections ; importer une nouvelle copie pour comparer
+les lectures. Le changement de lecteur ne relit pas les fiches validées.
 
 ## Inscriptions : imprimer, couper et scanner
 
@@ -48,15 +72,15 @@ Couper sur la ligne médiane. Les identifiants QR des fiches restent distincts.
    catégorie. L’autre moitié reste indépendante. Les règles de trois/quatre joueurs
    et le verrouillage habituel des inscriptions restent appliqués.
 
-Le modèle est fourni dans l’exécutable : aucun téléchargement, cache préalable,
-GPU ou connexion réseau ne sont nécessaires. Le lecteur TrOCR a été adapté à des
+Le modèle intégré est fourni dans l’exécutable : aucun téléchargement, cache préalable,
+GPU ou connexion réseau ne sont nécessaires pour ce lecteur. Le lecteur TrOCR a été adapté à des
 écritures françaises contemporaines (CREMMA-Wikipedia), à des mots manuscrits
 photographiés (GNHK) et à des champs courts synthétiques avec accents et e-mails.
-La version alpha.6 sépare la lecture des e-mails de celle du texte ordinaire.
-La compilation Windows locale peut inclure un modèle personnalisé entraîné à partir
-d’inscriptions relues ; ce modèle et les textes restent hors du dépôt public.
-La compilation publique conserve le lecteur générique. Dans les deux cas,
-l’inférence reste entièrement locale et une relecture est nécessaire.
+La version alpha.6 avait expérimenté une adaptation personnalisée. Elle ne démontre
+pas une précision sur des auteurs inconnus et n’est pas sélectionnée dans alpha.7.
+Alpha.7 conserve le modèle public générique et propose le pack avancé sans
+apprentissage sur vos fiches. L’inférence reste entièrement locale et une relecture
+est nécessaire.
 Les fiches déjà validées conservent leurs corrections et propositions initiales ;
 le nouveau lecteur est utilisé pour les nouvelles analyses.
 [Fiche technique et limites](../assets/models/registration-model-card.md).

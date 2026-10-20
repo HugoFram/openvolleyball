@@ -1,3 +1,19 @@
+# Version 2.0.0-alpha.7
+
+- Page Feuilles scannées marquée expérimentale dans la navigation et le contenu.
+  Écritures ordinaires et cursives acceptées, sans condition de lettres capitales.
+- Comparaison sans apprentissage sur vos fiches : TrOCR générique, LightOnOCR-2,
+  Qwen3-VL 4B/8B et Qwen3.5 9B, avec variantes de résolution/nettoyage. Cellules vides
+  exclues du pourcentage principal ; erreurs d’étiquettes exclues explicitement.
+- Pack avancé facultatif Qwen3.5 9B / llama.cpp, entièrement local, contrôle
+  d’intégrité, accélération graphique ou processeur, arrêt à l’interruption et
+  après analyse. Interface et lecture des scores conservées.
+- Meilleur rejeu avec le moteur de l’application : 45/61 chaînes exactes (73,8 %),
+  noms 19/24, e-mails 8/12. Seuil de 75 % **non atteint** ; précision sur des auteurs
+  inconnus non établie. Aucun résultat personnalisé alpha.6 utilisé pour l’acceptation.
+- La compilation Windows alpha.7 conserve le modèle intégré public générique.
+  Aucun modèle personnalisé, scan ou texte personnel n’est distribué.
+
 # Version 2.0.0-alpha.6
 
 - Lecture locale conditionnée par le type de champ : e-mail ou texte ordinaire,

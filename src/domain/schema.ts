@@ -134,6 +134,7 @@ export const tournamentSchema = z.object({
                 "trocr-v1",
                 "trocr-fr-v2",
                 "trocr-fr-v3",
+                "local-vlm-v1",
               ])
               .optional(),
           }),
@@ -153,6 +154,7 @@ export const tournamentSchema = z.object({
                   "trocr-v1",
                   "trocr-fr-v2",
                   "trocr-fr-v3",
+                  "local-vlm-v1",
                 ])
                 .optional(),
             }),

@@ -13,6 +13,36 @@ export function localRect(form: PaperForm, rect: Rect): Rect {
   ];
 }
 
+/** Preserve pen strokes and colour for a vision-language reader. Blank detection
+ * is shared with the compact reader; only the outermost border pixels are cut. */
+export function nativeTextCrop(im: Raster, rect: Rect): Raster {
+  const scale = normalizedScale(im.width, im.height);
+  const left = Math.max(0, Math.ceil(rect[0] * scale)) + 1;
+  const top = Math.max(0, Math.ceil(rect[1] * scale)) + 1;
+  const width = Math.max(
+    1,
+    Math.min(im.width, Math.floor((rect[0] + rect[2]) * scale)) - 1 - left,
+  );
+  const height = Math.max(
+    1,
+    Math.min(im.height, Math.floor((rect[1] + rect[3]) * scale)) - 1 - top,
+  );
+  const padding = 16,
+    w = width + padding * 2,
+    h = height + padding * 2;
+  const data = new Uint8ClampedArray(w * h * 4);
+  data.fill(255);
+  for (let y = 0; y < height; y++)
+    data.set(
+      im.data.subarray(
+        ((top + y) * im.width + left) * 4,
+        ((top + y) * im.width + left + width) * 4,
+      ),
+      ((y + padding) * w + padding) * 4,
+    );
+  return { width: w, height: h, data };
+}
+
 /** Isolate handwriting before invoking a language model. Empty cells stay empty,
  * including ruled team-name guides; printed borders must never become invented text. */
 export function textCrop(im: Raster, rect: Rect): Raster | null {

@@ -2,6 +2,43 @@
 
 The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
 
+## V2 experimental native registration reader: 2.0.0-alpha.7
+
+- **72 unit/domain/storage/model/PDF tests pass**, including pack integrity,
+  path constraints, local authenticated requests, incomplete generation rejection,
+  cancellation, and native crop pixel preservation.
+- **18 packaged Electron workflows pass**: the existing 17 plus an optional real
+  Qwen3.5 / llama.cpp workflow. It installs the local pack through the UI, cancels
+  during handwriting processing, resumes cut/rotated half sheets, verifies reader
+  provenance, corrects text, saves an actual team and reloads it. Browser network
+  access is disabled. Existing scores, progression, bracket and print paths pass.
+- Native GPU replay on all 104 exported fields: 45/61 eligible nonempty strings
+  exact (73.8%), names 19/24, emails 8/12, blanks 39/39. Four mismatched/clipped
+  labels excluded; no training on the reviewed registrations. The **75% requirement
+  is not met**. Writer-independent accuracy remains unproven.
+- Processor-only native startup and two nonempty fields plus one blank complete
+  successfully. It is substantially slower (about 55 seconds recognition for this
+  tiny smoke test); this is a compatibility check, not an accuracy benchmark.
+- Packaged model verification confirms the public generic integrated reader,
+  zero private training fields, and all eight runtime file hashes. No private
+  model, handwriting sample, source model chunks or training dependencies are
+  included. The optional native pack is separate and hash-verified.
+- Portable launcher smoke passes: disposable tournament, progression and bracket,
+  normal close. Production dependency audit reports zero vulnerabilities.
+
+Manual acceptance checklist:
+
+1. Confirm **Expérimental** appears in the navigation and on Feuilles scannées.
+2. Install the unpacked local reader folder, disconnect Internet, import ordinary
+   cursive registration half sheets and compare every proposed string to its crop.
+3. Cancel during reading, resume, correct names and emails, save the team and reopen
+   the tournament. Existing approved scans must keep their corrected values.
+4. Try processor-only mode on a short batch, then return to the integrated reader.
+5. Scan and approve a score sheet; confirm scores and downstream progression still
+   require the normal explicit approval.
+
+Detailed comparison and limits: [registration reader report](REGISTRATION-READERS.md).
+
 ## V2 registration personalization: 2.0.0-alpha.6
 
 - **67 domain/storage/PDF/model tests**, **six training/privacy-policy tests** and

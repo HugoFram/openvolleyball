@@ -12,6 +12,7 @@ import {
 import { readScore } from "./digits";
 import {
   localRect,
+  nativeTextCrop,
   textCrop,
   textSuggestion,
   textReaderVersion,
@@ -81,13 +82,32 @@ const blobUrl = async (im: Raster) => {
     binary += String.fromCharCode(...bytes.subarray(i, i + 16384));
   return "data:image/png;base64," + btoa(binary);
 };
+let nativeReply:
+  { resolve: (text: string) => void; reject: (e: Error) => void } | undefined;
+const nativeTranscribe = async (im: Raster, kind: "text" | "email") => {
+  const image = await blobUrl(im);
+  return new Promise<string>((resolve, reject) => {
+    nativeReply = { resolve, reject };
+    self.postMessage({ nativeText: { image, kind } });
+  });
+};
 self.onmessage = async (
   event: MessageEvent<{
     raster: Raster;
     forms: PaperForm[];
     tournamentId: string;
+    nativeReader?: boolean;
+    nativeResponse?: { text?: string; error?: string };
   }>,
 ) => {
+  if (event.data.nativeResponse) {
+    const response = event.data.nativeResponse;
+    response.error
+      ? nativeReply?.reject(new Error(response.error))
+      : nativeReply?.resolve(response.text || "");
+    nativeReply = undefined;
+    return;
+  }
   try {
     const { raster, forms, tournamentId } = event.data,
       search = new Uint8ClampedArray(raster.data);
@@ -234,15 +254,21 @@ self.onmessage = async (
                   .replace(/email$/, "E-mail")
                   .replace(/club$/, "Club")}`,
               });
-              const { transcribe } = await import("./text-reader");
-              values[field.key] = textSuggestion(
-                await transcribe(
-                  crop,
-                  field.key.endsWith(":email") ? 80 : 48,
-                  field.key.endsWith(":email") ? "email" : "text",
-                ),
-                field.key,
-              );
+              const kind = field.key.endsWith(":email") ? "email" : "text";
+              const transcription = event.data.nativeReader
+                ? await nativeTranscribe(
+                    nativeTextCrop(image, localRect(form, field.rect)),
+                    kind,
+                  )
+                : await (
+                    await import("./text-reader")
+                  ).transcribe(crop, kind === "email" ? 80 : 48, kind);
+              values[field.key] = textSuggestion(transcription, field.key);
+              if (event.data.nativeReader) {
+                values[field.key].reader = "local-vlm-v1";
+                values[field.key].issue ||=
+                  "Transcription expérimentale à vérifier";
+              }
             }
             note =
               "Transcription locale proposée. Vérifiez chaque champ sur l’image, en particulier les accents et les e-mails, puis enregistrez l’équipe.";

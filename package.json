@@ -1,6 +1,6 @@
 {
   "name": "open-volleyball",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0-alpha.7",
   "private": true,
   "type": "module",
   "description": "Gestion locale de tournois de volleyball",
@@ -15,7 +15,8 @@
     "test:ui": "playwright test",
     "package": "npm run build && electron-builder --win portable --x64",
     "sample": "tsx scripts/sample.ts",
-    "models:fetch": "node scripts/fetch-registration-model.mjs"
+    "models:fetch": "node scripts/fetch-registration-model.mjs",
+    "reader:prepare": "node scripts/prepare-advanced-reader.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.0",

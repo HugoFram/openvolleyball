@@ -16,6 +16,12 @@ import { defaultRules, validateScore } from "../domain/engine";
 import { createScanReader, scannedPages } from "../scan/import";
 import { normalizedScale } from "../scan/geometry";
 import { localRect } from "../scan/handwriting";
+type ReaderStatus = {
+  installed: boolean;
+  name: string;
+  enabled: boolean;
+  cpu: boolean;
+};
 
 export function ScansView() {
   const { session, native, notify, dirty, busy, confirm } = useApp();
@@ -27,6 +33,13 @@ export function ScansView() {
     [filter, setFilter] = useState("pending"),
     [zoom, setZoom] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [advanced, setAdvanced] = useState<ReaderStatus>({
+    installed: false,
+    name: "",
+    enabled: false,
+    cpu: false,
+  });
+  const [configuring, setConfiguring] = useState(false);
   const reviewChanged = useRef(false);
   const [reviewEpoch, setReviewEpoch] = useState(0);
   const t = session.tournament,
@@ -39,6 +52,31 @@ export function ScansView() {
     undefined,
   );
   const [image, setImage] = useState("");
+  useEffect(() => {
+    void native<ReaderStatus>("registration-reader-status", { packageId: t.id })
+      .then(setAdvanced)
+      .catch((e) => notify(e.message, true));
+  }, [t.id]);
+  async function configureReader(
+    install: boolean,
+    enabled = advanced.enabled,
+    cpu = advanced.cpu,
+  ) {
+    setConfiguring(true);
+    try {
+      const status = await native<ReaderStatus | null>(
+        install
+          ? "registration-reader-install"
+          : "registration-reader-settings",
+        { packageId: t.id, enabled, cpu },
+      );
+      if (status) setAdvanced(status);
+    } catch (e) {
+      notify((e as Error).message, true);
+    } finally {
+      setConfiguring(false);
+    }
+  }
   async function navigate(action: () => void) {
     if (
       reviewChanged.current &&
@@ -133,7 +171,33 @@ export function ScansView() {
     dirty("scan-processing", true);
     try {
       const s = importNew ? await mutate("scan-import") : live.current;
-      reader.current = createScanReader();
+      const settings = await native<ReaderStatus>(
+        "registration-reader-status",
+        { packageId: s.tournament.id },
+      );
+      setAdvanced(settings);
+      let startup: Promise<unknown> | undefined;
+      reader.current = createScanReader(
+        settings.enabled
+          ? {
+              transcribe: async (image, kind) => {
+                startup ??= native("registration-reader-start", {
+                  packageId: s.tournament.id,
+                });
+                await startup;
+                if (canceled.current) throw Error("Analyse interrompue.");
+                return native<string>("registration-reader-read", {
+                  packageId: s.tournament.id,
+                  image,
+                  kind,
+                });
+              },
+              stop: () => {
+                void native("registration-reader-stop").catch(() => {});
+              },
+            }
+          : undefined,
+      );
       await processSources(s);
     } catch (e) {
       notify((e as Error).message, true);
@@ -154,18 +218,73 @@ export function ScansView() {
   );
   return (
     <>
+      <div className="hint experimental-scans" role="note">
+        <strong>Fonction expérimentale</strong>
+        <span>
+          La reconnaissance des inscriptions n’est pas encore validée sur des
+          écritures variées. Vérifiez les noms, les e-mails et les scores avant
+          de les enregistrer.
+        </span>
+      </div>
+      <div className="reader-settings">
+        <label>
+          Lecture des inscriptions
+          <select
+            aria-label="Lecteur des inscriptions"
+            value={advanced.enabled ? "advanced" : "compact"}
+            disabled={working || busy || configuring}
+            onChange={(e) =>
+              void configureReader(false, e.target.value === "advanced")
+            }
+          >
+            <option value="compact">Lecteur intégré</option>
+            <option value="advanced" disabled={!advanced.installed}>
+              Lecteur avancé local{advanced.name ? ` · ${advanced.name}` : ""}
+            </option>
+          </select>
+        </label>
+        <button
+          disabled={working || busy || configuring}
+          onClick={() => void configureReader(true)}
+        >
+          {configuring
+            ? "Vérification du lecteur…"
+            : advanced.installed
+              ? "Changer le lecteur avancé…"
+              : "Installer le lecteur avancé…"}
+        </button>
+        {advanced.enabled && (
+          <label className="reader-cpu">
+            <input
+              type="checkbox"
+              checked={advanced.cpu}
+              disabled={working || busy || configuring}
+              onChange={(e) =>
+                void configureReader(false, true, e.target.checked)
+              }
+            />
+            Utiliser seulement le processeur
+          </label>
+        )}
+        <span className="muted">
+          Pack local facultatif · aucun envoi de vos feuilles
+        </span>
+      </div>
       <div className="toolbar">
         <div className="actions">
           <button
             className="primary"
-            disabled={working || busy}
+            disabled={working || busy || configuring}
             onClick={() => void run(true)}
           >
             <Upload size={17} />
             Importer des scans
           </button>
           {sources.some((s) => !s.processed) && (
-            <button disabled={working || busy} onClick={() => void run(false)}>
+            <button
+              disabled={working || busy || configuring}
+              onClick={() => void run(false)}
+            >
               <ScanLine size={17} />
               Reprendre l’analyse
             </button>

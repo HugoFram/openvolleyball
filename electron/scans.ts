@@ -37,6 +37,7 @@ const valuesSchema = z.record(
         "trocr-v1",
         "trocr-fr-v2",
         "trocr-fr-v3",
+        "local-vlm-v1",
       ])
       .optional(),
   }),

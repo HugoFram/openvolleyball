@@ -181,11 +181,17 @@ export function App() {
                 {nav.map((n) => (
                   <button
                     key={n.id}
+                    aria-label={n.label}
                     className={view === n.id ? "active" : ""}
                     onClick={() => void guard(() => setView(n.id))}
                   >
                     <n.icon size={19} />
-                    {n.label}
+                    <span>
+                      {n.label}
+                      {n.id === "scans" && (
+                        <small className="experimental-nav">Expérimental</small>
+                      )}
+                    </span>
                     {view === n.id && <ChevronRight size={16} />}
                   </button>
                 ))}

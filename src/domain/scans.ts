@@ -46,7 +46,12 @@ export interface ScanValue {
   alternatives?: string[];
   issue?: string;
   reader?:
-    "contrast-v2" | "style-cnn-v3" | "trocr-v1" | "trocr-fr-v2" | "trocr-fr-v3";
+    | "contrast-v2"
+    | "style-cnn-v3"
+    | "trocr-v1"
+    | "trocr-fr-v2"
+    | "trocr-fr-v3"
+    | "local-vlm-v1";
 }
 export interface ScanPage {
   id: string;

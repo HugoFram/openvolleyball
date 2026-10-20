@@ -53,7 +53,10 @@ export async function* scannedPages(
     }
   }
 }
-export function createScanReader() {
+export function createScanReader(nativeReader?: {
+  transcribe: (image: string, kind: "text" | "email") => Promise<string>;
+  stop: () => void;
+}) {
   const worker = new Worker(new URL("./vision.worker.ts", import.meta.url), {
     type: "module",
   });
@@ -61,9 +64,11 @@ export function createScanReader() {
     disposed = false;
   return {
     dispose() {
+      if (disposed) return;
       disposed = true;
       fail?.(new Error("Analyse interrompue."));
       worker.terminate();
+      nativeReader?.stop();
     },
     analyze(
       canvas: HTMLCanvasElement,
@@ -94,11 +99,30 @@ export function createScanReader() {
               ),
             );
             worker.terminate();
+            nativeReader?.stop();
             disposed = true;
           }, 120000);
         };
         deadline();
         worker.onmessage = (e) => {
+          if (e.data.nativeText && nativeReader) {
+            deadline();
+            void nativeReader
+              .transcribe(e.data.nativeText.image, e.data.nativeText.kind)
+              .then(
+                (text) => {
+                  if (!disposed)
+                    worker.postMessage({ nativeResponse: { text } });
+                },
+                (error) => {
+                  if (!disposed)
+                    worker.postMessage({
+                      nativeResponse: { error: (error as Error).message },
+                    });
+                },
+              );
+            return;
+          }
           if (e.data.progress) {
             deadline();
             onProgress?.(e.data.progress);
@@ -125,6 +149,7 @@ export function createScanReader() {
             },
             forms,
             tournamentId,
+            nativeReader: !!nativeReader,
           },
           [image.data.buffer],
         );

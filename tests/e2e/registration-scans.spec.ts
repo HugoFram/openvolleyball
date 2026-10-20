@@ -8,7 +8,11 @@ import { makeRegistrationSheet } from "../../electron/registration-pdf";
 import { createTournament } from "../../src/domain/engine";
 import { encode } from "../../electron/store";
 
-for (const format of ["pdf", "jpeg"] as const)
+for (const format of [
+  "pdf",
+  "jpeg",
+  ...(process.env.OV_REGISTRATION_READER_PACK ? ["native"] : []),
+])
   test(`Cut registration halves (${format}): rotated batch, local handwritten text, independent levels, review and durable team creation`, async () => {
     test.setTimeout(180000);
     const parent = await fs.mkdtemp(path.join(os.tmpdir(), "OV-cut-roster-")),
@@ -192,10 +196,40 @@ for (const format of ["pdf", "jpeg"] as const)
       await page
         .getByRole("button", { name: "Feuilles scannées", exact: true })
         .click();
+      await expect(page.getByRole("note")).toContainText(
+        "Fonction expérimentale",
+      );
+      if (format === "native") {
+        await app.evaluate(({ dialog }, folder) => {
+          dialog.showOpenDialog = async () => ({
+            canceled: false,
+            filePaths: [folder],
+          });
+        }, process.env.OV_REGISTRATION_READER_PACK!);
+        await page
+          .getByRole("button", {
+            name: "Installer le lecteur avancé…",
+            exact: true,
+          })
+          .click();
+        await expect(
+          page.getByRole("combobox", { name: "Lecteur des inscriptions" }),
+        ).toHaveValue("advanced", { timeout: 90000 });
+        await app.evaluate(({ dialog }, inputs) => {
+          dialog.showOpenDialog = async () => ({
+            canceled: false,
+            filePaths: inputs,
+          });
+        }, inputs);
+      }
       await page
         .getByRole("button", { name: "Importer des scans", exact: true })
         .click();
-      if (format === "pdf") {
+      if (format === "pdf" || format === "native") {
+        if (format === "native")
+          await expect(page.getByRole("status")).toContainText("Inscription", {
+            timeout: 30000,
+          });
         await page
           .getByRole("button", { name: "Interrompre l’analyse", exact: true })
           .click();
@@ -212,6 +246,11 @@ for (const format of ["pdf", "jpeg"] as const)
       await expect(page.getByText("Analyse en cours…")).toBeHidden({
         timeout: 150000,
       });
+      if (format === "native")
+        await page.screenshot({
+          path: "docs/screenshots/scans.png",
+          fullPage: true,
+        });
       const state = await page.evaluate(() =>
         window.volley.call<any>("session"),
       );
@@ -237,7 +276,9 @@ for (const format of ["pdf", "jpeg"] as const)
         );
         expect(result.aligned).toBe(true);
         expect(result.note).not.toContain("indisponible");
-        expect(result.values.teamName.reader).toBe("trocr-fr-v3");
+        expect(result.values.teamName.reader).toBe(
+          format === "native" ? "local-vlm-v1" : "trocr-fr-v3",
+        );
         expect(result.values.teamName.value).toMatch(i ? /Red/i : /Blue/i);
         expect(result.values["player0:name"].value).toMatch(/Anna/i);
         expect(result.values["player0:email"].value.length).toBeGreaterThan(3);

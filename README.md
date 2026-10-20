@@ -1,10 +1,20 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.6** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.7** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
 avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
 transcrites localement puis relues. Les téléphones restent une prochaine étape.
 [Guide et checklist v2](docs/V2-OFFLINE.md).
+
+Alpha.7 marque **Feuilles scannées comme expérimental** et ajoute un lecteur
+avancé entièrement local, fourni dans un pack facultatif séparé. Comparaison de
+TrOCR, LightOnOCR et plusieurs modèles Qwen sans apprentissage sur les fiches
+fournies. Le seuil demandé est de **75 % de chaînes non vides entièrement
+correctes**, sans compter les cellules vides. Il n’est pas encore validé sur des
+écritures variées. Aucune obligation de lettres capitales ou de cases individuelles.
+[Résultats, limites et installation du lecteur](docs/REGISTRATION-READERS.md).
+Le lecteur intégré de cette version conserve le modèle public générique ; aucun
+modèle personnalisé ni aucune inscription privée ne sont distribués.
 
 Alpha.6 permet une adaptation locale du lecteur aux inscriptions relues, en
 séparant la lecture des e-mails de celle du texte ordinaire. Le modèle personnalisé

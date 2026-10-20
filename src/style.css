@@ -2708,6 +2708,45 @@ th {
   width: 100%;
   display: block;
 }
+.experimental-nav {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  color: #8a6418;
+  margin-top: 3px;
+}
+.experimental-scans {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff8e8;
+  border-color: #e8d6ad;
+  color: #705719;
+  margin-bottom: 16px;
+}
+.reader-settings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.reader-settings > label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.reader-settings select {
+  max-width: 340px;
+}
+.reader-settings .reader-cpu {
+  font-weight: 400;
+  flex-direction: row;
+}
+.reader-settings input[type="checkbox"] {
+  width: auto;
+}
 @media (max-width: 1250px) {
   .scan-layout {
     grid-template-columns: 220px minmax(0, 1fr);

@@ -30,12 +30,98 @@ import { makeRegistrationSheet } from "./registration-pdf";
 import { printDocument } from "./printing";
 import { phaseDocuments, mergePhaseSheets } from "./phase-print";
 import { scanAction } from "./scans";
+import { RegistrationReader, verifyReaderPack } from "./registration-reader";
 import { currentForm, scoreFixtureKey } from "../src/domain/scans";
 let win: BrowserWindow;
 let active: PackageStore | undefined;
 let queue = Promise.resolve();
 let allowClose = false;
 const root = app.getAppPath();
+const registrationReader = new RegistrationReader();
+const readerSettingsFile = () =>
+  path.join(app.getPath("userData"), "registration-reader.json");
+async function readerSettings() {
+  try {
+    const s = JSON.parse(await fs.readFile(readerSettingsFile(), "utf8"));
+    if (typeof s.folder === "string" && typeof s.name === "string")
+      return {
+        folder: s.folder,
+        name: s.name,
+        enabled: s.enabled === true,
+        cpu: s.cpu === true,
+      };
+  } catch {}
+  return { folder: "", name: "", enabled: false, cpu: false };
+}
+async function readerAction(method: string, args: any) {
+  if (method === "registration-reader-stop") {
+    registrationReader.stop();
+    return null;
+  }
+  requireActive(args?.packageId);
+  const settings = await readerSettings();
+  if (method === "registration-reader-status")
+    return {
+      installed: !!settings.folder,
+      name: settings.name,
+      enabled: settings.enabled,
+      cpu: settings.cpu,
+    };
+  if (method === "registration-reader-install") {
+    const selected = await dialog.showOpenDialog(win, {
+      title: "Choisir le dossier du lecteur avancé local",
+      properties: ["openDirectory"],
+    });
+    if (selected.canceled) return null;
+    const folder = await fs.realpath(selected.filePaths[0]);
+    const manifest = await verifyReaderPack(folder);
+    registrationReader.stop();
+    await atomicWrite(
+      readerSettingsFile(),
+      JSON.stringify({
+        folder,
+        name: manifest.name,
+        enabled: true,
+        cpu: false,
+      }),
+    );
+    return { installed: true, name: manifest.name, enabled: true, cpu: false };
+  }
+  if (method === "registration-reader-settings") {
+    check(
+      typeof args.enabled === "boolean" && typeof args.cpu === "boolean",
+      "Réglage du lecteur invalide.",
+    );
+    check(
+      !args.enabled || settings.folder,
+      "Installez d’abord le lecteur avancé local.",
+    );
+    registrationReader.stop();
+    await atomicWrite(
+      readerSettingsFile(),
+      JSON.stringify({ ...settings, enabled: args.enabled, cpu: args.cpu }),
+    );
+    return {
+      installed: !!settings.folder,
+      name: settings.name,
+      enabled: args.enabled,
+      cpu: args.cpu,
+    };
+  }
+  if (method === "registration-reader-start") {
+    check(settings.enabled && settings.folder, "Lecteur avancé non activé.");
+    return registrationReader.start(settings.folder, settings.cpu);
+  }
+  if (method === "registration-reader-read") {
+    check(
+      args.kind === "text" || args.kind === "email",
+      "Type de champ invalide.",
+    );
+    check(typeof args.image === "string", "Image du champ manquante.");
+    return registrationReader.read(args.image, args.kind);
+  }
+  throw Error("Action du lecteur inconnue.");
+}
 const fonts = path.join(root, "assets", "fonts");
 protocol.registerSchemesAsPrivileged([
   {
@@ -613,6 +699,21 @@ else {
     ipcMain.handle("volley", (event, method, args) => {
       if (event.sender !== win.webContents)
         return { ok: false, error: "Origine de la requête refusée." };
+      // Recognition never mutates tournament state. Keep cancellation responsive
+      // while a native inference request is running outside the mutation queue.
+      if (
+        typeof method === "string" &&
+        method.startsWith("registration-reader-")
+      )
+        return readerAction(method, args)
+          .then((value) => ({ ok: true, value }))
+          .catch((error) => ({
+            ok: false,
+            error:
+              error instanceof Error
+                ? error.message
+                : "Lecteur local indisponible.",
+          }));
       const run = queue.then(async () => {
         try {
           return { ok: true, value: await handle(method, args) };
@@ -656,4 +757,5 @@ else {
     }
   });
   app.on("window-all-closed", () => app.quit());
+  app.on("before-quit", () => registrationReader.stop());
 }
