@@ -1,3 +1,16 @@
+# Version 2.0.0-alpha.8
+
+- Exports et diagnostic réduit à deux actions, sans statistiques, liste de PDF,
+  outils de diagnostic, réparation ou récupération sur cette page.
+- Instantané complet dans le dossier choisi : état courant, PDF, scans originaux
+  et alignés, formulaires, archives, sauvegardes et historique. Identifiants conservés
+  pour reprendre le tournoi et ses feuilles imprimées. Verrou de session exclu.
+  Copie publiée seulement après réussite, sans remplacer une copie existante.
+- Liste des joueurs exportée vers un nom/emplacement choisi : cinq colonnes,
+  niveaux N/R/D/U, UTF-8 BOM, séparateur point-virgule et champs correctement cités.
+- Annuler l’un des sélecteurs ne crée rien. Aucun de ces exports ne modifie le
+  tournoi actif. Reconnaissance manuscrite et modèles inchangés, toujours expérimentaux.
+
 # Version 2.0.0-alpha.7
 
 - Page Feuilles scannées marquée expérimentale dans la navigation et le contenu.

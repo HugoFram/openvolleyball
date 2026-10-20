@@ -35,8 +35,9 @@ L’impression prépare toutes les pages dans une vue dédiée avant d’ouvrir 
 
 - Le crayon d’une rencontre ouvre une correction explicite et annonce ses conséquences. Les résultats dépendants sont annulés ; leurs feuilles sont actualisées. Les descendants d’une phase de groupes corrigée sont archivés et retirés du parcours actif pour être recréés volontairement.
 - **Ouvrir un autre tournoi** conserve le tournoi actif si le choix est annulé ou invalide. Une saisie incomplète doit être corrigée ou abandonnée avant changement/fermeture.
-- **Exports et diagnostic** ouvre les documents, répare les feuilles de groupes et de finales, exporte un diagnostic et restaure une sauvegarde dans une copie distincte.
-- Fermez le tournoi avant de copier/déplacer tout son dossier `.openvolley`. Sélectionnez ce dossier pour le rouvrir, pas seulement `tournament.json`.
+- **Exports et diagnostic** contient uniquement deux boutons. **Créer un instantané du tournoi** demande un dossier de destination, puis y crée une copie datée `.openvolley` : équipes, joueurs, résultats, progression, feuilles PDF, scans et historique. Le tournoi actif reste ouvert et inchangé. Pour reprendre l’instantané, utiliser **Ouvrir un autre tournoi** et sélectionner son dossier complet.
+- **Exporter les joueurs (CSV)** demande le nom et l’emplacement du fichier. Il contient tous les joueurs des deux catégories : nom du joueur, nom de l’équipe, niveau N/R/D/U, e-mail, club. Le CSV utilise UTF-8 avec accents, séparateur point-virgule et champs entre guillemets. Il ne modifie pas le tournoi.
+- Fermez le tournoi avant de déplacer manuellement tout son dossier `.openvolley`. Pour une copie pendant qu’il est ouvert, utilisez le bouton d’instantané. Sélectionnez le dossier complet pour le rouvrir, pas seulement `tournament.json`.
 - Les tournois de la version 1.0 restent lisibles. Les résultats et répartitions existants sont conservés. Le nouveau classement fixe s’applique aux vues et aux prochaines décisions. Les feuilles sont actualisées à l’ouverture ; les anciens scores joués avec un écart d’un point restent historiques, mais toute nouvelle saisie ou correction exige deux points.
 
 Avant le tournoi, imprimez une feuille sur le matériel du site et gardez une copie externe du tournoi fermé.

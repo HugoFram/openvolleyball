@@ -1,10 +1,16 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.7** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.8** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
 avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
 transcrites localement puis relues. Les téléphones restent une prochaine étape.
 [Guide et checklist v2](docs/V2-OFFLINE.md).
+
+Alpha.8 simplifie **Exports et diagnostic** à deux boutons : **Créer un instantané
+du tournoi**, copie complète et réouvrable dans le dossier choisi, et **Exporter
+les joueurs (CSV)**, avec nom et emplacement du fichier au choix. Le CSV contient
+nom du joueur, équipe, niveau N/R/D/U, e-mail et club, pour toutes les catégories.
+La reconnaissance manuscrite expérimentale et les modèles restent inchangés.
 
 Alpha.7 marque **Feuilles scannées comme expérimental** et ajoute un lecteur
 avancé entièrement local, fourni dans un pack facultatif séparé. Comparaison de

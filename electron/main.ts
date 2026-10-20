@@ -32,6 +32,11 @@ import { phaseDocuments, mergePhaseSheets } from "./phase-print";
 import { scanAction } from "./scans";
 import { RegistrationReader, verifyReaderPack } from "./registration-reader";
 import { currentForm, scoreFixtureKey } from "../src/domain/scans";
+import {
+  exportStem,
+  playersCsv,
+  snapshotTournament,
+} from "./tournament-exports";
 let win: BrowserWindow;
 let active: PackageStore | undefined;
 let queue = Promise.resolve();
@@ -207,7 +212,7 @@ async function documentFor(documentId: string) {
   const file = store.documentPath(d.file);
   await fs.access(file).catch(() => {
     throw new Error(
-      "La feuille est absente. Utilisez « Réparer les feuilles manquantes » dans Exports et diagnostic.",
+      "La feuille est absente. Fermez puis rouvrez ce tournoi pour actualiser ses feuilles de match et de groupe.",
     );
   });
   return file;
@@ -470,6 +475,40 @@ async function handle(method: string, a: any) {
       });
       await store.save(t);
       return sessionValue();
+    }
+    case "snapshot-tournament": {
+      const store = requireActive(a.packageId);
+      const selection = await dialog.showOpenDialog(win, {
+        title: "Choisir le dossier de destination de l’instantané",
+        properties: ["openDirectory", "createDirectory"],
+      });
+      if (selection.canceled) return null;
+      return { path: await snapshotTournament(store, selection.filePaths[0]) };
+    }
+    case "export-players": {
+      const store = requireActive(a.packageId);
+      const selection = await dialog.showSaveDialog(win, {
+        title: "Exporter la liste des joueurs",
+        defaultPath: path.join(
+          app.getPath("documents"),
+          `${exportStem(store.current.name)} - joueurs.csv`,
+        ),
+        filters: [{ name: "Fichier CSV", extensions: ["csv"] }],
+        properties: ["createDirectory", "showOverwriteConfirmation"],
+      });
+      if (selection.canceled || !selection.filePath) return null;
+      check(
+        path.extname(selection.filePath).toLowerCase() === ".csv",
+        "Choisissez un nom de fichier se terminant par .csv.",
+      );
+      await atomicWrite(selection.filePath, playersCsv(store.current));
+      return {
+        path: selection.filePath,
+        count: store.current.teams.reduce(
+          (n, team) => n + team.players.length,
+          0,
+        ),
+      };
     }
     case "repair-documents": {
       const store = requireActive(a.packageId);

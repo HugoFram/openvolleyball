@@ -1,164 +1,52 @@
 import { useState } from "react";
-import {
-  Check,
-  ShieldCheck,
-  FolderOpen,
-  FileCheck2,
-  RefreshCw,
-  Download,
-  History,
-} from "lucide-react";
-import { useApp, Hint, phaseName } from "./shared";
-import type { Rules } from "../domain/types";
+import { Download, Copy, History } from "lucide-react";
+import { useApp } from "./shared";
+
 export function DocumentsView() {
-  const { session, native, busy, notify, guard } = useApp(),
-    t = session.tournament;
-  const run = async (method: string) => {
+  const { session, native, busy, notify } = useApp();
+  const [working, setWorking] = useState<string>();
+  async function run(method: "snapshot-tournament" | "export-players") {
+    setWorking(method);
     try {
-      await native(method, { packageId: t.id });
-      notify("Opération terminée.");
+      const result = await native<{ path: string; count?: number } | null>(
+        method,
+        { packageId: session.tournament.id },
+      );
+      if (result)
+        notify(
+          method === "snapshot-tournament"
+            ? `Instantané créé : ${result.path}`
+            : `${result.count} joueurs exportés : ${result.path}`,
+        );
     } catch (e) {
       notify((e as Error).message, true);
+    } finally {
+      setWorking(undefined);
     }
-  };
+  }
   return (
-    <>
-      <div className="stats-row">
-        <div className="stat">
-          <span>FEUILLES ASSOCIÉES</span>
-          <strong>{t.documents.length}</strong>
-        </div>
-        <div className="stat">
-          <span>RÉVISION DU TOURNOI</span>
-          <strong>{t.revision}</strong>
-        </div>
-        <div className="stat">
-          <span>CORRECTIONS ARCHIVÉES</span>
-          <strong>{t.archives.length}</strong>
-        </div>
+    <section className="panel documents-panel">
+      <div className="utility-actions">
+        <button
+          disabled={busy || !!working}
+          onClick={() => void run("snapshot-tournament")}
+        >
+          <Copy size={18} />
+          {working === "snapshot-tournament"
+            ? "Copie du tournoi…"
+            : "Créer un instantané du tournoi"}
+        </button>
+        <button
+          disabled={busy || !!working}
+          onClick={() => void run("export-players")}
+        >
+          <Download size={18} />
+          {working === "export-players"
+            ? "Export en cours…"
+            : "Exporter les joueurs (CSV)"}
+        </button>
       </div>
-      <section className="panel documents-panel">
-        <h2>
-          <FolderOpen size={21} />
-          Dossier du tournoi
-        </h2>
-        <p className="tournoi-path">{session.path}</p>
-        <Hint>
-          Copiez ou déplacez le dossier .openvolley entier lorsque le tournoi
-          est fermé. Il contient tournament.json, documents et history. Chaque
-          sauvegarde est automatique.
-        </Hint>
-        <div className="utility-actions">
-          <button onClick={() => void run("show-documents")}>
-            <FolderOpen size={17} />
-            Ouvrir le dossier documents
-          </button>
-          <button disabled={busy} onClick={() => void run("repair-documents")}>
-            <RefreshCw size={17} />
-            Réparer les feuilles manquantes
-          </button>
-          <button onClick={() => void run("export-diagnostic")}>
-            <Download size={17} />
-            Exporter le diagnostic
-          </button>
-        </div>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Phase</th>
-                <th>Document</th>
-                <th>Pages</th>
-                <th>Révision</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {t.documents.map((d) => {
-                const p = t.phases.find((x) => x.id === d.phaseId);
-                return (
-                  <tr key={d.id}>
-                    <td>
-                      {p ? `${p.lane} · ${phaseName(p)}` : "Inscriptions"}
-                    </td>
-                    <td>
-                      {d.kind === "blank-registration"
-                        ? "Fiches vierges"
-                        : d.kind === "team-registration"
-                          ? t.teams.find((team) => team.id === d.teamId)?.name
-                          : d.groupId
-                            ? p?.groups.find((g) => g.id === d.groupId)?.name
-                            : `Rencontre ${p?.matches.find((m) => m.id === d.matchId)?.order}`}
-                    </td>
-                    <td>{d.pages}</td>
-                    <td>{d.revision}</td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          void native("view-document", { id: d.id }).catch(
-                            (e) => notify(e.message, true),
-                          )
-                        }
-                      >
-                        Afficher
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section className="panel documents-panel">
-        <h2>
-          <History size={21} />
-          Récupération et anciens tournois
-        </h2>
-        <p>
-          Les sauvegardes se trouvent dans history et tournament.backup.json.
-          Une restauration crée une copie distincte, régénère les feuilles de
-          groupes et préserve l’original.
-        </p>
-        <div className="utility-actions">
-          <button
-            onClick={() =>
-              void guard(async () => {
-                await native("restore-copy");
-              })
-            }
-          >
-            <RefreshCw size={17} />
-            Restaurer une sauvegarde dans une copie
-          </button>
-          <button
-            onClick={async () => {
-              try {
-                const r = await native<{
-                  message: string;
-                  files: string[];
-                } | null>("legacy-inspect");
-                if (r)
-                  notify(
-                    `${r.message} Fichiers détectés : ${r.files.join(", ")}`,
-                    true,
-                  );
-              } catch (e) {
-                notify((e as Error).message, true);
-              }
-            }}
-          >
-            <FileCheck2 size={17} />
-            Inspecter un ancien tournoi (lecture seule)
-          </button>
-        </div>
-        <p className="muted">
-          Aucun format de l’ancienne application n’a été supposé. Les tournois
-          de cette version sont autonomes ; une migration historique fidèle
-          nécessite un exemple source.
-        </p>
-      </section>
-    </>
+    </section>
   );
 }
 export function HistoryView() {

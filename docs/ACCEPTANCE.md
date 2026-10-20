@@ -2,6 +2,33 @@
 
 The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
 
+## V2 tournament snapshots and player CSV: 2.0.0-alpha.8
+
+- **76 unit/domain/storage/model/PDF tests and 19 packaged Electron workflows
+  pass.** New tests cover complete snapshot preservation and independent reopening,
+  unchanged originals, repeated snapshots, destinations inside the original or
+  aliased to it, failed-copy cleanup, and five-column CSV escaping/UTF-8/levels.
+- The packaged UI has exactly two action buttons in Exports et diagnostic. The
+  tests exercise both native location dialogs, cancellation with no file or state
+  changes, custom CSV filename, and reopening a snapshot through the ordinary
+  tournament-opening workflow. Results, document bytes, original/aligned scans,
+  history, identifiers and revision are retained.
+- Scanning, recognition models and the optional advanced reader pack are unchanged.
+  The existing score/registration scanning, printing and tournament lifecycle
+  workflows still pass. Experimental recognition status is retained.
+- A snapshot does not include the active session lock. Copies are published only
+  after successful completion and never merged into an existing snapshot. The
+  source tournament is not modified by either export.
+
+Manual acceptance checklist:
+
+1. Open Exports et diagnostic and confirm only the snapshot and CSV buttons remain.
+2. Choose a snapshot destination, then open its dated `.openvolley` folder through
+   Ouvrir un autre tournoi; check teams, results, progression, PDFs and scans.
+3. Export the CSV with a chosen filename; check all five columns, accents, optional
+   empty fields and levels N/R/D/U. Cancel each dialog once and confirm nothing is
+   created or changed.
+
 ## V2 experimental native registration reader: 2.0.0-alpha.7
 
 - **72 unit/domain/storage/model/PDF tests pass**, including pack integrity,

@@ -883,3 +883,168 @@ test("Bracket ranks and first-round team swaps persist, update byes and PDFs, th
     .locator(".bracket-panel")
     .screenshot({ path: "docs/screenshots/bracket-ranks.png" });
 });
+
+test("Exports page contains only snapshot and player CSV actions; dialogs cancel cleanly and a full snapshot reopens independently", async () => {
+  const folder = path.join(parent, "Tournoi original.openvolley");
+  await fs.mkdir(folder);
+  await fs.mkdir(path.join(folder, "history"));
+  await fs.mkdir(path.join(folder, "scans"));
+  const grouped = groupPhase(registered(3));
+  const t = playPhase(grouped, grouped.phases[0].id);
+  Object.assign(t.teams[0].players[0], {
+    name: 'Élodie "Été"',
+    email: "elodie@example.com",
+    club: "Léman; Volley",
+    level: 3,
+  });
+  const scan = Buffer.from("disposable original scan");
+  const { createHash } = await import("node:crypto");
+  t.schema = 2;
+  t.scanSources = [
+    {
+      id: "source",
+      name: "Original.png",
+      file: "scans/original.png",
+      hash: createHash("sha256").update(scan).digest("hex"),
+      importedAt: new Date().toISOString(),
+      processed: true,
+    },
+  ];
+  t.scanPages = [
+    {
+      id: "page",
+      sourceId: "source",
+      page: 1,
+      image: "scans/aligned.png",
+      status: "ignored",
+      values: {},
+    },
+  ];
+  await fs.writeFile(path.join(folder, "scans/original.png"), scan);
+  await fs.writeFile(
+    path.join(folder, "scans/aligned.png"),
+    "disposable aligned scan",
+  );
+  await fs.writeFile(path.join(folder, "tournament.json"), encode(t));
+  await fs.writeFile(
+    path.join(folder, "history/revision-original.json"),
+    encode(t),
+  );
+  const opened = await page.evaluate(
+    (folder) => window.volley.call<any>("open", { path: folder }),
+    folder,
+  );
+  expect(opened.ok).toBe(true);
+  await page.reload();
+  await page
+    .getByRole("button", { name: "Exports et diagnostic", exact: true })
+    .click();
+  await expect(page.locator(".content button")).toHaveCount(2);
+  await expect(page.locator(".content table, .content .stats-row")).toHaveCount(
+    0,
+  );
+  const snapshot = page.getByRole("button", {
+    name: "Créer un instantané du tournoi",
+    exact: true,
+  });
+  const csvButton = page.getByRole("button", {
+    name: "Exporter les joueurs (CSV)",
+    exact: true,
+  });
+  const before = await fs.readFile(path.join(folder, "tournament.json"));
+  await app.evaluate(({ dialog }) => {
+    dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
+    dialog.showSaveDialog = async () => ({ canceled: true, filePath: "" });
+  });
+  await snapshot.click();
+  await expect(snapshot).toBeEnabled();
+  await csvButton.click();
+  await expect(csvButton).toBeEnabled();
+  expect(await fs.readFile(path.join(folder, "tournament.json"))).toEqual(
+    before,
+  );
+  await expect(page.locator(".toast")).toHaveCount(0);
+
+  const output = path.join(parent, "Exports à conserver");
+  await fs.mkdir(output);
+  const csvPath = path.join(output, "Mes joueurs été.csv");
+  await app.evaluate(({ dialog }, file) => {
+    dialog.showSaveDialog = async (...args: unknown[]) => {
+      (globalThis as any).csvDialog = args.at(-1);
+      return { canceled: false, filePath: file };
+    };
+  }, csvPath);
+  await csvButton.click();
+  await expect(page.getByText(/joueurs exportés :/)).toBeVisible();
+  const csv = await fs.readFile(csvPath, "utf8");
+  expect(csv).toContain('"Élodie ""Été"""');
+  expect(csv).toContain(';"N";"elodie@example.com";"Léman; Volley"');
+  expect(csv.split("\r\n")).toHaveLength(
+    t.teams.reduce((n, team) => n + team.players.length, 0) + 2,
+  );
+  const csvDialog = await app.evaluate(() => (globalThis as any).csvDialog);
+  expect(csvDialog.defaultPath).toMatch(/joueurs\.csv$/);
+  expect(csvDialog.filters[0].extensions).toEqual(["csv"]);
+  await dismiss();
+  await app.evaluate(({ dialog }, folder) => {
+    dialog.showOpenDialog = async (...args: unknown[]) => {
+      (globalThis as any).snapshotDialog = args.at(-1);
+      return { canceled: false, filePaths: [folder] };
+    };
+  }, output);
+  await snapshot.click();
+  await expect(page.getByText(/Instantané créé :/)).toBeVisible();
+  const copied = (await fs.readdir(output)).find((name) =>
+    name.endsWith(".openvolley"),
+  )!;
+  const copy = path.join(output, copied);
+  expect(
+    (await app.evaluate(() => (globalThis as any).snapshotDialog)).properties,
+  ).toContain("openDirectory");
+  expect(
+    await fs.access(path.join(copy, ".openvolleyball.lock")).then(
+      () => true,
+      () => false,
+    ),
+  ).toBe(false);
+  expect(await fs.readFile(path.join(folder, "tournament.json"))).toEqual(
+    before,
+  );
+  expect(await fs.readFile(path.join(copy, "scans/original.png"))).toEqual(
+    scan,
+  );
+  expect(
+    await fs.readFile(path.join(copy, "history/revision-original.json")),
+  ).toEqual(
+    await fs.readFile(path.join(folder, "history/revision-original.json")),
+  );
+  for (const d of opened.value.tournament.documents)
+    expect(await fs.readFile(path.join(copy, d.file))).toEqual(
+      await fs.readFile(path.join(folder, d.file)),
+    );
+  await dismiss();
+  await page.screenshot({
+    path: "docs/screenshots/exports.png",
+    fullPage: true,
+  });
+  await app.evaluate(({ dialog }, folder) => {
+    dialog.showOpenDialog = async () => ({
+      canceled: false,
+      filePaths: [folder],
+    });
+  }, copy);
+  await page
+    .getByRole("button", { name: "Ouvrir un autre tournoi", exact: true })
+    .click();
+  await expect(
+    page.getByText("Tournoi ouvert.", { exact: true }),
+  ).toBeVisible();
+  const restored = await page.evaluate(() =>
+    window.volley.call<any>("session"),
+  );
+  expect(restored.value.path).toBe(copy);
+  expect(restored.value.tournament).toEqual(opened.value.tournament);
+  expect(await fs.readFile(path.join(folder, "tournament.json"))).toEqual(
+    before,
+  );
+});

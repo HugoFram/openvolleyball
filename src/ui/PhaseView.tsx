@@ -275,7 +275,7 @@ export function DocumentButtons({
           </button>
         </>
       ) : (
-        <Hint error>Feuille manquante : utilisez Exports et diagnostic.</Hint>
+        <Hint error>Feuille manquante : fermez puis rouvrez le tournoi.</Hint>
       )}
     </div>
   );
