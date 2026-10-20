@@ -52,6 +52,7 @@ function within(folder: string, file: string) {
 export async function snapshotTournament(
   store: PackageStore,
   destination: string,
+  backupName?: string,
 ) {
   const source = await fs.realpath(store.folder);
   const parent = await fs.realpath(destination);
@@ -63,13 +64,24 @@ export async function snapshotTournament(
     !within(source, parent),
     "Choisissez une destination en dehors du dossier du tournoi.",
   );
+  if (backupName !== undefined)
+    check(
+      !!backupName.trim() &&
+        backupName === backupName.trim() &&
+        !/[<>:"/\\|?*\x00-\x1f]/.test(backupName) &&
+        ![".", ".."].includes(backupName),
+      "Choisissez un nom de backup valide.",
+    );
   const staging = await fs.mkdtemp(
     path.join(parent, ".openvolleyball-snapshot-"),
   );
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const name =
+    backupName ??
+    `${exportStem(store.current.name)} - backup ${stamp}-${path.basename(staging).slice(-6)}`;
   const target = path.join(
     parent,
-    `${exportStem(store.current.name)} - instantané ${stamp}-${path.basename(staging).slice(-6)}.openvolley`,
+    name.toLowerCase().endsWith(".openvolley") ? name : name + ".openvolley",
   );
   check(
     path.dirname(staging) === parent && path.dirname(target) === parent,
@@ -84,7 +96,7 @@ export async function snapshotTournament(
         continue;
       check(
         !entry.isSymbolicLink(),
-        "Le dossier contient un lien symbolique. Remplacez-le par ses fichiers avant de créer l’instantané.",
+        "Le dossier contient un lien symbolique. Remplacez-le par ses fichiers avant de créer le backup.",
       );
       const input = path.join(from, entry.name),
         output = path.join(to, entry.name);
@@ -101,6 +113,13 @@ export async function snapshotTournament(
     }
   }
   try {
+    check(
+      !(await fs.lstat(target).catch((error: NodeJS.ErrnoException) => {
+        if (error.code === "ENOENT") return null;
+        throw error;
+      })),
+      "Un backup ou un fichier de ce nom existe déjà. Choisissez un autre nom.",
+    );
     await copyFolder(source, staging, true);
     const raw = encode(store.current);
     decode(raw);
@@ -116,11 +135,11 @@ export async function snapshotTournament(
         "Référence de fichier invalide dans le tournoi.",
       );
       await fs.access(resolved).catch(() => {
-        throw Error(`Instantané impossible : fichier manquant (${file}).`);
+        throw Error(`Backup impossible : fichier manquant (${file}).`);
       });
     }
     await atomicWrite(path.join(staging, "tournament.json"), raw);
-    // The destination has a random suffix; never merge with an existing folder.
+    // Never merge with or overwrite an existing backup, including a chosen name.
     check(
       !(await fs.stat(target).catch(() => null)),
       "Cette destination existe déjà.",

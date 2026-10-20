@@ -15,7 +15,7 @@ export function DocumentsView() {
       if (result)
         notify(
           method === "snapshot-tournament"
-            ? `Instantané créé : ${result.path}`
+            ? `Backup créé : ${result.path}`
             : `${result.count} joueurs exportés : ${result.path}`,
         );
     } catch (e) {
@@ -34,7 +34,7 @@ export function DocumentsView() {
           <Copy size={18} />
           {working === "snapshot-tournament"
             ? "Copie du tournoi…"
-            : "Créer un instantané du tournoi"}
+            : "Créer un backup du tournoi"}
         </button>
         <button
           disabled={busy || !!working}

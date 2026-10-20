@@ -154,7 +154,7 @@ export function App() {
     { id: "progression", label: "Progression", icon: GitFork },
     { id: "registration", label: "Inscriptions", icon: Users },
     { id: "scans", label: "Feuilles scannées", icon: ScanLine },
-    { id: "documents", label: "Exports et diagnostic", icon: Files },
+    { id: "documents", label: "Exports et backup", icon: Files },
     { id: "history", label: "Historique", icon: History },
   ];
   const t = session?.tournament;

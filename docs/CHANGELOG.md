@@ -1,3 +1,12 @@
+# Version 2.0.0-alpha.9
+
+- Page renommée **Exports et backup** et bouton **Créer un backup du tournoi**.
+- Choix du nom et de l’emplacement du backup dans la fenêtre d’enregistrement.
+  Un dossier `.openvolley` portant le nom choisi est créé, sans renommer le tournoi
+  dans ses données. Extension ajoutée si nécessaire, sans duplication.
+- Un backup existant est conservé : choisir un autre nom au lieu de le remplacer.
+  Exports CSV, résultats et reconnaissance manuscrite inchangés.
+
 # Version 2.0.0-alpha.8
 
 - Exports et diagnostic réduit à deux actions, sans statistiques, liste de PDF,

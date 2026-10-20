@@ -1,10 +1,14 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.8** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.9** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
 avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
 transcrites localement puis relues. Les téléphones restent une prochaine étape.
 [Guide et checklist v2](docs/V2-OFFLINE.md).
+
+Alpha.9 permet de choisir le nom et l’emplacement du backup dans une fenêtre
+d’enregistrement. La page s’appelle **Exports et backup** et le bouton
+**Créer un backup du tournoi**. Un backup existant n’est jamais remplacé.
 
 Alpha.8 simplifie **Exports et diagnostic** à deux boutons : **Créer un instantané
 du tournoi**, copie complète et réouvrable dans le dossier choisi, et **Exporter

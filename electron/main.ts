@@ -478,12 +478,29 @@ async function handle(method: string, a: any) {
     }
     case "snapshot-tournament": {
       const store = requireActive(a.packageId);
-      const selection = await dialog.showOpenDialog(win, {
-        title: "Choisir le dossier de destination de l’instantané",
-        properties: ["openDirectory", "createDirectory"],
+      const selection = await dialog.showSaveDialog(win, {
+        title: "Créer un backup du tournoi",
+        buttonLabel: "Créer le backup",
+        defaultPath: path.join(
+          app.getPath("documents"),
+          `${exportStem(store.current.name)} - backup ${new Date().toISOString().slice(0, 10)}.openvolley`,
+        ),
+        filters: [
+          {
+            name: "Dossier de tournoi Open Volleyball",
+            extensions: ["openvolley"],
+          },
+        ],
+        properties: ["createDirectory", "showOverwriteConfirmation"],
       });
-      if (selection.canceled) return null;
-      return { path: await snapshotTournament(store, selection.filePaths[0]) };
+      if (selection.canceled || !selection.filePath) return null;
+      return {
+        path: await snapshotTournament(
+          store,
+          path.dirname(selection.filePath),
+          path.basename(selection.filePath),
+        ),
+      };
     }
     case "export-players": {
       const store = requireActive(a.packageId);

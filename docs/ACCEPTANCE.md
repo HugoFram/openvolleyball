@@ -2,6 +2,24 @@
 
 The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
 
+## Named backups: 2.0.0-alpha.9
+
+- **76 unit tests pass.** Backup tests additionally check a chosen Unicode name,
+  automatic `.openvolley` extension, rejection of invalid names, and preservation
+  of an existing backup when the same name is chosen again.
+- The targeted **packaged export workflow passes** with the renamed Exports et
+  backup page and Créer un backup du tournoi button. It exercises the save dialog,
+  exact custom backup folder name, cancellation, duplicate-name error, CSV export
+  and reopening the backup with unchanged tournament state.
+- Existing backups are never overwritten or merged. Their folder name is chosen
+  by the user; the tournament name and identifiers inside remain unchanged.
+- Scanning and recognition models remain unchanged. The full 19-workflow packaged
+  regression suite passed in alpha.8; alpha.9 reruns the affected export workflow.
+
+Manual check: click Créer un backup du tournoi, edit the suggested name, choose
+its location, and reopen the resulting `.openvolley` folder. Try the same name
+again and confirm the existing copy is retained.
+
 ## V2 tournament snapshots and player CSV: 2.0.0-alpha.8
 
 - **76 unit/domain/storage/model/PDF tests and 19 packaged Electron workflows

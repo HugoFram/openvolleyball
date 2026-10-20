@@ -97,7 +97,12 @@ it("creates an independently restorable full snapshot, with unchanged IDs, resul
   try {
     const original = await inventory(f.source),
       state = structuredClone(f.store.current);
-    const copy = await snapshotTournament(f.store, f.destination);
+    const copy = await snapshotTournament(
+      f.store,
+      f.destination,
+      "Avant les finales – été",
+    );
+    expect(path.basename(copy)).toBe("Avant les finales – été.openvolley");
     expect(path.extname(copy)).toBe(".openvolley");
     expect(await inventory(copy)).toEqual(original);
     expect(
@@ -115,6 +120,21 @@ it("creates an independently restorable full snapshot, with unchanged IDs, resul
     });
     expect(f.store.current).toEqual(state);
     expect(await inventory(f.source)).toEqual(original);
+    const savedCopy = await fs.readFile(path.join(copy, "tournament.json"));
+    await expect(
+      snapshotTournament(
+        f.store,
+        f.destination,
+        "Avant les finales – été.openvolley",
+      ),
+    ).rejects.toThrow(/existe déjà/);
+    expect(await fs.readFile(path.join(copy, "tournament.json"))).toEqual(
+      savedCopy,
+    );
+    await expect(
+      snapshotTournament(f.store, f.destination, "../escape"),
+    ).rejects.toThrow(/nom de backup/);
+    expect(await fs.readdir(f.destination)).toEqual([path.basename(copy)]);
     const second = await snapshotTournament(f.store, f.destination);
     expect(second).not.toBe(copy);
     expect(await inventory(second)).toEqual(original);

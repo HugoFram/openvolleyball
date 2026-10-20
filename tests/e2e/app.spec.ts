@@ -937,14 +937,17 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
   expect(opened.ok).toBe(true);
   await page.reload();
   await page
-    .getByRole("button", { name: "Exports et diagnostic", exact: true })
+    .getByRole("button", { name: "Exports et backup", exact: true })
     .click();
+  await expect(
+    page.getByRole("heading", { name: "Exports et backup", exact: true }),
+  ).toBeVisible();
   await expect(page.locator(".content button")).toHaveCount(2);
   await expect(page.locator(".content table, .content .stats-row")).toHaveCount(
     0,
   );
   const snapshot = page.getByRole("button", {
-    name: "Créer un instantané du tournoi",
+    name: "Créer un backup du tournoi",
     exact: true,
   });
   const csvButton = page.getByRole("button", {
@@ -986,21 +989,22 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
   expect(csvDialog.defaultPath).toMatch(/joueurs\.csv$/);
   expect(csvDialog.filters[0].extensions).toEqual(["csv"]);
   await dismiss();
-  await app.evaluate(({ dialog }, folder) => {
-    dialog.showOpenDialog = async (...args: unknown[]) => {
+  const copy = path.join(output, "Avant les finales – été.openvolley");
+  await app.evaluate(({ dialog }, target) => {
+    dialog.showSaveDialog = async (...args: unknown[]) => {
       (globalThis as any).snapshotDialog = args.at(-1);
-      return { canceled: false, filePaths: [folder] };
+      return { canceled: false, filePath: target };
     };
-  }, output);
+  }, copy);
   await snapshot.click();
-  await expect(page.getByText(/Instantané créé :/)).toBeVisible();
-  const copied = (await fs.readdir(output)).find((name) =>
-    name.endsWith(".openvolley"),
-  )!;
-  const copy = path.join(output, copied);
+  await expect(page.getByText(/Backup créé :/)).toBeVisible();
+  expect(await fs.readdir(output)).toContain(
+    "Avant les finales – été.openvolley",
+  );
   expect(
-    (await app.evaluate(() => (globalThis as any).snapshotDialog)).properties,
-  ).toContain("openDirectory");
+    (await app.evaluate(() => (globalThis as any).snapshotDialog)).filters[0]
+      .extensions,
+  ).toEqual(["openvolley"]);
   expect(
     await fs.access(path.join(copy, ".openvolleyball.lock")).then(
       () => true,
@@ -1022,6 +1026,9 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
     expect(await fs.readFile(path.join(copy, d.file))).toEqual(
       await fs.readFile(path.join(folder, d.file)),
     );
+  await dismiss();
+  await snapshot.click();
+  await expect(page.getByRole("alert")).toContainText("existe déjà");
   await dismiss();
   await page.screenshot({
     path: "docs/screenshots/exports.png",

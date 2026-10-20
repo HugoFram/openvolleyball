@@ -20,7 +20,7 @@ export function phaseDocuments(t: Tournament, phaseId: string): Document[] {
     );
     check(
       document,
-      "Une feuille est absente. Utilisez « Réparer les feuilles manquantes » dans Exports et diagnostic.",
+      "Une feuille est absente. Fermez puis rouvrez ce tournoi pour actualiser ses feuilles de match et de groupe.",
     );
     return document;
   });
