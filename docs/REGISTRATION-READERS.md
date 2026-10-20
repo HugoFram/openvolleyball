@@ -1,4 +1,4 @@
-# Lecture des inscriptions : expérimentation alpha.7
+# Lecture des inscriptions : fonctionnalité expérimentale
 
 L’objectif est de reconnaître au moins **75 % des chaînes non vides exactement**,
 en conservant les accents, chiffres, casse et ponctuation, sur les écritures
@@ -46,7 +46,7 @@ rejouée avec le **véritable code de découpage et moteur natif de l’applicat
 
 ## Installation et utilisation
 
-1. Lancer `Open-Volleyball-2.0.0-alpha.7-Windows.exe`.
+1. Lancer `Open-Volleyball-2.0.0-Windows.exe`.
 2. Décompresser le pack facultatif `OpenVolleyball-LecteurAvance` dans un dossier
    permanent du PC. Il contient environ 7 Go de fichiers. Prévoir 32 Go de RAM de
    préférence ; l’accélération graphique est facultative, 12 Go de VRAM conseillés.

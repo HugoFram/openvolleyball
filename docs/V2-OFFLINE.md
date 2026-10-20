@@ -1,6 +1,6 @@
-# V2 - Première étape : feuilles scannées, entièrement hors ligne
+# Feuilles scannées et exports, entièrement hors ligne
 
-Version `2.0.0-alpha.10`. Cette préversion ajoute un parcours utilisable de bout en
+Version officielle `2.0.0`. Cette version propose un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
@@ -25,7 +25,7 @@ compte, clé API, téléchargement de modèle au lancement ou connexion Internet
   classeur avec en-tête figé, filtres et largeurs adaptées. Choisir le nom et
   l’emplacement du fichier. Tout le traitement reste local.
 
-Les autres outils et listes de cette page sont retirés. Alpha.10 conserve les
+Les autres outils et listes de cette page sont retirés. La version officielle conserve les
 modèles, le statut expérimental et les exports d’inscriptions relues d’alpha.7.
 Le pack de lecteur avancé déjà installé reste compatible ; inutile de le réinstaller.
 
@@ -171,7 +171,7 @@ Les anciens tirages alpha.1 et leurs scans restent utilisables quand les rencont
 participants et cibles n’ont pas changé. Leur géométrie originale est conservée.
 Une modification sportive reste protégée comme avant.
 
-## Essayer la préversion
+## Utiliser les feuilles scannées
 
 1. Fermer Open Volleyball v1 puis lancer l’exécutable v2.
 2. Créer un tournoi de test, ou copier intégralement un dossier `.openvolley`

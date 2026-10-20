@@ -1,70 +1,12 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.10** :
-import de feuilles scannées, QR codes, lecture locale des chiffres et validation
-avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
-transcrites localement puis relues. Les téléphones restent une prochaine étape.
-[Guide et checklist v2](docs/V2-OFFLINE.md).
-
-Alpha.10 ajoute le choix du séparateur CSV (virgule ou point-virgule) et un bouton
-**Exporter les joueurs (Excel .xlsx)**. Les deux formats contiennent les mêmes
-cinq colonnes et demandent le nom et l’emplacement du fichier.
-
-Alpha.9 permet de choisir le nom et l’emplacement du backup dans une fenêtre
-d’enregistrement. La page s’appelle **Exports et backup** et le bouton
-**Créer un backup du tournoi**. Un backup existant n’est jamais remplacé.
-
-Alpha.8 simplifie **Exports et diagnostic** à deux boutons : **Créer un instantané
-du tournoi**, copie complète et réouvrable dans le dossier choisi, et **Exporter
-les joueurs (CSV)**, avec nom et emplacement du fichier au choix. Le CSV contient
-nom du joueur, équipe, niveau N/R/D/U, e-mail et club, pour toutes les catégories.
-La reconnaissance manuscrite expérimentale et les modèles restent inchangés.
-
-Alpha.7 marque **Feuilles scannées comme expérimental** et ajoute un lecteur
-avancé entièrement local, fourni dans un pack facultatif séparé. Comparaison de
-TrOCR, LightOnOCR et plusieurs modèles Qwen sans apprentissage sur les fiches
-fournies. Le seuil demandé est de **75 % de chaînes non vides entièrement
-correctes**, sans compter les cellules vides. Il n’est pas encore validé sur des
-écritures variées. Aucune obligation de lettres capitales ou de cases individuelles.
-[Résultats, limites et installation du lecteur](docs/REGISTRATION-READERS.md).
-Le lecteur intégré de cette version conserve le modèle public générique ; aucun
-modèle personnalisé ni aucune inscription privée ne sont distribués.
-
-Alpha.6 permet une adaptation locale du lecteur aux inscriptions relues, en
-séparant la lecture des e-mails de celle du texte ordinaire. Le modèle personnalisé
-reste local ; il n’est pas publié avec le dépôt. La compilation publique conserve
-le modèle générique, et la compilation Windows locale peut inclure l’adaptation.
-Les nouvelles fiches donnent aussi 17 % de largeur supplémentaire aux e-mails.
-
-Alpha.5 ajoute **Exporter les inscriptions relues** : extraits manuscrits,
-textes corrigés et propositions initiales, sans modifier les scans. Le lecteur
-embarqué bénéficie d’un entraînement supplémentaire sur des données publiques,
-dont des écritures françaises avec accents. Une relecture reste nécessaire.
-
-Alpha.4 rend les deux fiches d’inscription d’une A4 identiques et autonomes : titre,
-logo, site, QR et quatre repères sur chaque moitié. Imprimer, couper au milieu,
-faire remplir, puis importer les demi-feuilles en PDF/PNG/JPEG. Noms d’équipes et
-de joueurs, e-mails et clubs sont proposés par un lecteur manuscrit embarqué ;
-les niveaux cochés sont lus séparément. Vérifier et corriger avant d’enregistrer.
-
-Alpha.3 ajoute **Imprimer toutes les feuilles** dans chaque phase : tous les
-groupes/terrains ou matchs du tableau dans une seule impression. Le nouveau CNN
-local est adapté aux chiffres manuscrits relus, avec un lot séparé par scan pour
-vérifier le progrès. Les erreurs ambiguës restent signalées et à vérifier.
-
-La majorité de chaque cellule reste libre pour compter les points ; les
-petites cases Final servent au score terminé. Le lecteur adapte le contraste et
-signale ses divergences avec des propositions. L’export des scores relus permet
-de constituer un jeu réel pour améliorer et vérifier la reconnaissance.
-
-Tester avec un nouveau tournoi ou une copie complète : les tournois mis à jour au
-format 2 ne peuvent pas être ouverts par v1. Les distributions v1 sont conservées.
+**Version officielle : 2.0.0**, publiée depuis la branche `main`.
 
 Application de bureau en français pour préparer et conduire un tournoi local de volleyball. Implémentation indépendante de [la spécification](OpenVolleyball_Independent_Rebuild_Spec.md), sans code ni architecture de l’ancienne application.
 
 ## Lancer
 
-**Windows x64, sans installation :** ouvrir `release/Open-Volleyball-2.0.0-alpha.6-Windows.exe` pour la préversion v2, ou `release/Open-Volleyball-1.3.0-Windows.exe` pour la version stable. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
+**Windows x64, sans installation :** décompresser `release/Open-Volleyball-2.0.0-Windows.zip`, puis ouvrir `Open-Volleyball-2.0.0-Windows.exe`. Aucun compte, serveur, accès internet ou environnement de développement n’est nécessaire. Ces binaires locaux ne sont pas signés avec un certificat commercial.
 
 Depuis les sources, avec Node.js **22.13 ou plus récent** :
 
@@ -75,9 +17,26 @@ npm start
 ```
 
 Construire le programme portable : `npm run package`. Le résultat est placé dans `release/`.
+Après commit, `python scripts/package-release.py` prépare le ZIP, l’archive Git
+des sources et les empreintes SHA-256. La publication d’un numéro officiel sur
+`main` lance la construction et les vérifications Windows avant sa publication
+dans les [versions GitHub](https://github.com/HugoFram/openvolleyball/releases).
 `models:fetch` est une préparation des sources pour les développeurs : les fichiers
 publics sont figés et contrôlés par SHA-256. L’application distribuée inclut déjà
 le modèle et fonctionne intégralement hors ligne, y compris à son premier lancement.
+
+Les anciens bundles de distribution ont été retirés. L’historique du code reste
+consultable dans Git et le [journal des versions](docs/CHANGELOG.md).
+
+La lecture des scores est acceptée. **La transcription manuscrite des inscriptions
+reste expérimentale** : relire chaque proposition. Le lecteur intégré fonctionne
+sans installation supplémentaire ; le pack avancé facultatif conserve les mêmes
+modèles hors ligne et reste compatible avec une installation existante.
+[Reconnaissance et lecteur avancé](docs/REGISTRATION-READERS.md).
+
+Avant d’ouvrir un tournoi créé avec v1, conserver une copie complète de son dossier :
+le format v2 n’est pas lisible avec l’ancienne application. Aucun tournoi ni scan
+fourni pour les essais n’a été supprimé lors du nettoyage des distributions.
 
 ## Essayer immédiatement
 
@@ -100,6 +59,8 @@ Les exemples sont entièrement synthétiques et contiennent aussi huit équipes 
 - Phases de groupes ultérieures sans maximum prédéfini ; progression commune à deux branches ; tableaux 2–64, exemptions, finale et Petite finale.
 - Cartes de tableau reliées et accessibles au clavier ; rangs de la phase précédente ; échanges manuels du premier tour avant le premier résultat ; détails séparés ; progression des vainqueurs et perdants de demi-finale ; classement final.
 - Formulaires d’inscription vierges, une ou deux fiches par page ; fiches des joueurs imprimables depuis le classement final.
+- Import local de scans PDF/PNG/JPEG, lecture des scores et relecture avant validation ; transcription expérimentale des inscriptions et export des échantillons corrigés.
+- Backup complet avec nom et destination au choix ; liste des joueurs exportable en CSV (virgule ou point-virgule) et Excel `.xlsx`.
 - Correction avec annonce des conséquences et archivage des anciens résultats/étapes.
 
 ## Vérification et documentation
@@ -112,7 +73,7 @@ npm run test:ui
 
 Les tests Electron utilisent uniquement des dossiers temporaires et simulent les choix des dialogues natifs. Ils exécutent les véritables interface, moteur, IPC et stockage. Aucun exemple n’est modifié.
 
-- [Nouveautés de la version 1.3](docs/CHANGELOG.md)
+- [Historique des versions](docs/CHANGELOG.md)
 - [Guide de l’organisateur](docs/GUIDE.md)
 - [Règlement et décisions sportives](docs/SPORTING-RULES.md)
 - [Résultats, traçabilité A01–A21 et checklist](docs/ACCEPTANCE.md)

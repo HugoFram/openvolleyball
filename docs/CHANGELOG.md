@@ -1,3 +1,12 @@
+# Version 2.0.0 — version officielle
+
+- Version acceptée alpha.10 promue en 2.0.0 sur la branche principale, sans
+  modification du comportement de l’application ni des modèles.
+- Documentation et téléchargements unifiés autour de la version officielle.
+  Anciens bundles de distribution retirés ; exemples, scans et historique Git conservés.
+- Reconnaissance des inscriptions toujours marquée expérimentale. Le pack avancé
+  facultatif et les installations existantes restent compatibles.
+
 # Version 2.0.0-alpha.10
 
 - Choix du séparateur CSV à chaque export : virgule ou point-virgule, avec annulation.

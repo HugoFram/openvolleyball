@@ -43,9 +43,9 @@ L’impression prépare toutes les pages dans une vue dédiée avant d’ouvrir 
 
 Avant le tournoi, imprimez une feuille sur le matériel du site et gardez une copie externe du tournoi fermé.
 
-## Préversion v2 : feuilles scannées
+## Feuilles scannées
 
-La préversion v2 lit les scores manuscrits, les inscriptions et les niveaux cochés entièrement sur
+La version 2.0.0 lit les scores manuscrits, les inscriptions et les niveaux cochés entièrement sur
 l’ordinateur. **Feuilles scannées** importe PDF multipages, PNG et JPEG, puis permet
 de vérifier chaque valeur avant validation. Pour les inscriptions, imprimer deux
 fiches par A4, couper sur la ligne centrale puis scanner les demi-feuilles remplies.
@@ -57,4 +57,4 @@ les extraits manuscrits et les textes corrigés pour améliorer le lecteur. Comp
 ce dossier pour le transmettre directement ; il contient des noms et e-mails.
 Les scans originaux et les données du tournoi restent inchangés.
 Imprimer les nouvelles feuilles avec QR codes et conserver une
-copie du tournoi v1 avant de tester v2. Voir le [guide v2 et sa checklist](V2-OFFLINE.md).
+copie du tournoi v1 avant de l’ouvrir avec v2. Voir le [guide v2 et sa checklist](V2-OFFLINE.md).

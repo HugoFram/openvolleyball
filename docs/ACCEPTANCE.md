@@ -2,6 +2,16 @@
 
 The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
 
+## Official release: 2.0.0
+
+The accepted alpha.10 application is promoted to the official 2.0.0 release on
+`main`. Only version metadata and documentation change. Registration handwriting
+recognition remains experimental; existing reader installations stay compatible.
+All **78 unit tests and 18 standard packaged Electron workflows pass** for 2.0.0.
+The optional native-reader workflow is not rerun; its engine and models are unchanged.
+Previous distribution bundles are removed after verification of the official
+replacement. Git history, example tournaments and supplied samples are preserved.
+
 ## Player CSV delimiter and Excel exports: 2.0.0-alpha.10
 
 - **78 unit tests pass.** Both CSV separators preserve accents, quotes, embedded
