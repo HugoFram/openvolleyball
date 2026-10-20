@@ -3,8 +3,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import { createHash } from "node:crypto";
+import ExcelJS from "exceljs";
 import { PackageStore, encode } from "../electron/store";
-import { snapshotTournament, playersCsv } from "../electron/tournament-exports";
+import {
+  snapshotTournament,
+  playersCsv,
+  playersXlsx,
+} from "../electron/tournament-exports";
 import { makeSheet } from "../electron/pdf";
 import { groupPhase, registered, playPhase } from "./helpers";
 
@@ -183,36 +188,107 @@ it("removes only its own staging folder if a linked tournament file is missing",
   }
 });
 
-it("exports exactly five UTF-8 CSV columns, all categories and letter levels, preserving accents, delimiters, quotes, line breaks and empty optional fields", () => {
+it.each([",", ";"] as const)(
+  "exports five UTF-8 CSV columns using %s, preserving all categories, levels, accents, punctuation and empty fields",
+  (delimiter) => {
+    const t = registered(3);
+    t.teams = t.teams.slice(0, 2);
+    t.teams[0].name = 'Équipe; "Bleue"';
+    t.teams[1].category = "Femmes";
+    t.teams[1].withdrawn = true;
+    t.teams[0].players = t.teams[0].players.slice(0, 2);
+    t.teams[1].players = t.teams[1].players.slice(0, 2);
+    t.teams
+      .flatMap((team) => team.players)
+      .forEach((player, i) => {
+        player.level = 3 - i;
+        player.email = "";
+        player.club = "";
+      });
+    t.teams[0].players[0].name = 'Zoé "Été"\nDupré';
+    t.teams[0].players[0].email = "zoe@example.com";
+    t.teams[0].players[0].club = "Club; Léman, Volley";
+    const bytes = playersCsv(t, delimiter),
+      csv = bytes.toString("utf8");
+    expect(Array.from(bytes.subarray(0, 3))).toEqual([239, 187, 191]);
+    expect(csv).toContain(
+      [
+        '"Nom du joueur"',
+        '"Nom de l’équipe"',
+        '"Niveau"',
+        '"E-mail"',
+        '"Club"',
+      ].join(delimiter) + "\r\n",
+    );
+    expect(csv).toContain(
+      [
+        '"Zoé ""Été""\nDupré"',
+        '"Équipe; ""Bleue"""',
+        '"N"',
+        '"zoe@example.com"',
+        '"Club; Léman, Volley"',
+      ].join(delimiter) + "\r\n",
+    );
+    for (const level of ["N", "R", "D", "U"])
+      expect(csv).toContain(`${delimiter}"${level}"${delimiter}`);
+    expect(csv).toContain(`${delimiter}""${delimiter}""\r\n`);
+    t.teams = [];
+    expect(
+      playersCsv(t, delimiter).toString("utf8").split("\r\n"),
+    ).toHaveLength(2);
+  },
+);
+
+it("exports a real Excel workbook with the same literal player values, letter levels, filters and frozen header, including an empty tournament", async () => {
   const t = registered(3);
-  t.teams = t.teams.slice(0, 2);
-  t.teams[0].name = 'Équipe; "Bleue"';
   t.teams[1].category = "Femmes";
   t.teams[1].withdrawn = true;
-  t.teams[0].players = t.teams[0].players.slice(0, 2);
-  t.teams[1].players = t.teams[1].players.slice(0, 2);
-  t.teams
-    .flatMap((team) => team.players)
-    .forEach((player, i) => {
-      player.level = 3 - i;
-      player.email = "";
-      player.club = "";
-    });
-  t.teams[0].players[0].name = 'Zoé "Été"\nDupré';
-  t.teams[0].players[0].email = "zoe@example.com";
-  t.teams[0].players[0].club = "Club; Léman";
-  const bytes = playersCsv(t),
-    csv = bytes.toString("utf8");
-  expect(Array.from(bytes.subarray(0, 3))).toEqual([239, 187, 191]);
-  expect(csv).toContain(
-    '"Nom du joueur";"Nom de l’équipe";"Niveau";"E-mail";"Club"\r\n',
-  );
-  expect(csv).toContain(
-    '"Zoé ""Été""\nDupré";"Équipe; ""Bleue""";"N";"zoe@example.com";"Club; Léman"\r\n',
-  );
-  for (const level of ["N", "R", "D", "U"])
-    expect(csv).toContain(`;"${level}";`);
-  expect(csv).toContain(';"";""\r\n');
+  t.teams[0].name = 'Équipe; "Bleue", été';
+  const players = t.teams.flatMap((team) => team.players);
+  players[0].name = '=Élodie "Été"\nDupré';
+  players[0].email = "+elodie@example.com";
+  players[0].club = "Léman; Volley, été";
+  players[1].email = "";
+  players[1].club = "";
+  players.slice(0, 4).forEach((p, i) => (p.level = 3 - i));
+  const original = structuredClone(t);
+  const bytes = await playersXlsx(t);
+  expect(bytes.subarray(0, 2).toString()).toBe("PK");
+  const book = new ExcelJS.Workbook();
+  await book.xlsx.load(bytes as any);
+  expect(book.worksheets).toHaveLength(1);
+  const sheet = book.getWorksheet("Joueurs")!;
+  expect(sheet.rowCount).toBe(players.length + 1);
+  expect(sheet.columnCount).toBe(5);
+  expect(sheet.getRow(1).values).toEqual([
+    undefined,
+    "Nom du joueur",
+    "Nom de l’équipe",
+    "Niveau",
+    "E-mail",
+    "Club",
+  ]);
+  let row = 2;
+  for (const team of t.teams)
+    for (const player of team.players) {
+      expect(sheet.getRow(row++).values).toEqual([
+        undefined,
+        player.name,
+        team.name,
+        ["U", "D", "R", "N"][player.level],
+        player.email,
+        player.club,
+      ]);
+    }
+  expect(sheet.getCell("A2").type).toBe(ExcelJS.ValueType.String);
+  expect(sheet.getCell("D2").type).toBe(ExcelJS.ValueType.String);
+  expect(sheet.autoFilter).toBe("A1:E1");
+  expect(sheet.views[0]).toMatchObject({ state: "frozen", ySplit: 1 });
+  expect(sheet.getColumn(4).width).toBe(40);
+  expect(t).toEqual(original);
   t.teams = [];
-  expect(playersCsv(t).toString("utf8").split("\r\n")).toHaveLength(2);
+  const empty = new ExcelJS.Workbook();
+  await empty.xlsx.load((await playersXlsx(t)) as any);
+  expect(empty.worksheets[0].rowCount).toBe(1);
+  expect(empty.worksheets[0].columnCount).toBe(5);
 });

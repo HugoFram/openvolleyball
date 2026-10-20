@@ -117,6 +117,7 @@ for (const [pkg, name, file] of [
   ["jsqr", "jsQR", "LICENSE"],
   ["@huggingface/tokenizers", "Tokenizers.js", "LICENSE"],
   ["@huggingface/jinja", "Jinja", "LICENSE"],
+  ["exceljs", "ExcelJS", "LICENSE"],
 ])
   await fs.copyFile(
     `node_modules/${pkg}/${file}`,

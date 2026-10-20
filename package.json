@@ -1,6 +1,6 @@
 {
   "name": "open-volleyball",
-  "version": "2.0.0-alpha.9",
+  "version": "2.0.0-alpha.10",
   "private": true,
   "type": "module",
   "description": "Gestion locale de tournois de volleyball",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.0",
+    "exceljs": "4.4.0",
     "lucide-react": "^0.468.0",
     "pdfkit": "^0.17.2",
     "react": "^19.2.0",
@@ -75,6 +76,9 @@
     }
   },
   "overrides": {
+    "exceljs": {
+      "uuid": "11.1.1"
+    },
     "@huggingface/transformers": {
       "onnxruntime-web": "1.30.0"
     }

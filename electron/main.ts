@@ -35,6 +35,7 @@ import { currentForm, scoreFixtureKey } from "../src/domain/scans";
 import {
   exportStem,
   playersCsv,
+  playersXlsx,
   snapshotTournament,
 } from "./tournament-exports";
 let win: BrowserWindow;
@@ -502,23 +503,50 @@ async function handle(method: string, a: any) {
         ),
       };
     }
-    case "export-players": {
+    case "export-players":
+    case "export-players-xlsx": {
       const store = requireActive(a.packageId);
+      const xlsx = method === "export-players-xlsx";
+      let delimiter: "," | ";" = ";";
+      if (!xlsx) {
+        const choice = await dialog.showMessageBox(win, {
+          type: "question",
+          title: "Exporter les joueurs (CSV)",
+          message: "Quel séparateur utiliser pour le fichier CSV ?",
+          buttons: ["Point-virgule ( ; )", "Virgule ( , )", "Annuler"],
+          defaultId: 0,
+          cancelId: 2,
+          noLink: true,
+        });
+        if (choice.response === 2) return null;
+        delimiter = choice.response === 1 ? "," : ";";
+      }
+      const extension = xlsx ? "xlsx" : "csv";
       const selection = await dialog.showSaveDialog(win, {
         title: "Exporter la liste des joueurs",
         defaultPath: path.join(
           app.getPath("documents"),
-          `${exportStem(store.current.name)} - joueurs.csv`,
+          `${exportStem(store.current.name)} - joueurs.${extension}`,
         ),
-        filters: [{ name: "Fichier CSV", extensions: ["csv"] }],
+        filters: [
+          {
+            name: xlsx ? "Classeur Excel" : "Fichier CSV",
+            extensions: [extension],
+          },
+        ],
         properties: ["createDirectory", "showOverwriteConfirmation"],
       });
       if (selection.canceled || !selection.filePath) return null;
       check(
-        path.extname(selection.filePath).toLowerCase() === ".csv",
-        "Choisissez un nom de fichier se terminant par .csv.",
+        path.extname(selection.filePath).toLowerCase() === `.${extension}`,
+        `Choisissez un nom de fichier se terminant par .${extension}.`,
       );
-      await atomicWrite(selection.filePath, playersCsv(store.current));
+      await atomicWrite(
+        selection.filePath,
+        xlsx
+          ? await playersXlsx(store.current)
+          : playersCsv(store.current, delimiter),
+      );
       return {
         path: selection.filePath,
         count: store.current.teams.reduce(

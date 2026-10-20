@@ -1,3 +1,12 @@
+# Version 2.0.0-alpha.10
+
+- Choix du séparateur CSV à chaque export : virgule ou point-virgule, avec annulation.
+- Bouton **Exporter les joueurs (Excel .xlsx)** : mêmes cinq colonnes, niveaux
+  N/R/D/U, accents et champs facultatifs, pour tous les joueurs du tournoi.
+- Classeur local avec en-tête figé, filtres et largeurs adaptées. Nom et emplacement
+  du fichier au choix. Les valeurs restent du texte, y compris les adresses e-mail.
+- Backup et reconnaissance manuscrite inchangés.
+
 # Version 2.0.0-alpha.9
 
 - Page renommée **Exports et backup** et bouton **Créer un backup du tournoi**.

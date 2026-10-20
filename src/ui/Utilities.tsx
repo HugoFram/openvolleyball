@@ -5,7 +5,9 @@ import { useApp } from "./shared";
 export function DocumentsView() {
   const { session, native, busy, notify } = useApp();
   const [working, setWorking] = useState<string>();
-  async function run(method: "snapshot-tournament" | "export-players") {
+  async function run(
+    method: "snapshot-tournament" | "export-players" | "export-players-xlsx",
+  ) {
     setWorking(method);
     try {
       const result = await native<{ path: string; count?: number } | null>(
@@ -44,6 +46,15 @@ export function DocumentsView() {
           {working === "export-players"
             ? "Export en cours…"
             : "Exporter les joueurs (CSV)"}
+        </button>
+        <button
+          disabled={busy || !!working}
+          onClick={() => void run("export-players-xlsx")}
+        >
+          <Download size={18} />
+          {working === "export-players-xlsx"
+            ? "Export en cours…"
+            : "Exporter les joueurs (Excel .xlsx)"}
         </button>
       </div>
     </section>

@@ -1,10 +1,14 @@
 # Open Volleyball
 
-La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.9** :
+La branche `feature/offline-scan-inbox` contient la préversion **2.0.0-alpha.10** :
 import de feuilles scannées, QR codes, lecture locale des chiffres et validation
 avec l’image. Aucun accès Internet requis. Les inscriptions manuscrites sont
 transcrites localement puis relues. Les téléphones restent une prochaine étape.
 [Guide et checklist v2](docs/V2-OFFLINE.md).
+
+Alpha.10 ajoute le choix du séparateur CSV (virgule ou point-virgule) et un bouton
+**Exporter les joueurs (Excel .xlsx)**. Les deux formats contiennent les mêmes
+cinq colonnes et demandent le nom et l’emplacement du fichier.
 
 Alpha.9 permet de choisir le nom et l’emplacement du backup dans une fenêtre
 d’enregistrement. La page s’appelle **Exports et backup** et le bouton

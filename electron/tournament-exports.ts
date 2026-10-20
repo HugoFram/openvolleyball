@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import ExcelJS from "exceljs";
 import { check } from "../src/domain/engine";
 import { levelLetter } from "../src/domain/levels";
 import type { Tournament } from "../src/domain/types";
@@ -15,8 +16,8 @@ export function exportStem(name: string) {
   );
 }
 
-export function playersCsv(t: Tournament): Buffer {
-  const rows = [
+function playerRows(t: Tournament): string[][] {
+  return [
     ["Nom du joueur", "Nom de l’équipe", "Niveau", "E-mail", "Club"],
     ...t.teams.flatMap((team) =>
       team.players.map((player) => [
@@ -28,13 +29,52 @@ export function playersCsv(t: Tournament): Buffer {
       ]),
     ),
   ];
-  // UTF-8 BOM and semicolons allow French Excel to open accents and columns directly.
-  const csv = rows
+}
+
+export function playersCsv(t: Tournament, delimiter: "," | ";"): Buffer {
+  check(delimiter === "," || delimiter === ";", "Séparateur CSV invalide.");
+  // Quote every field and retain the UTF-8 BOM for accents in spreadsheet apps.
+  const csv = playerRows(t)
     .map((row) =>
-      row.map((value) => `"${value.replaceAll('"', '""')}"`).join(";"),
+      row.map((value) => `"${value.replaceAll('"', '""')}"`).join(delimiter),
     )
     .join("\r\n");
   return Buffer.from("\uFEFF" + csv + "\r\n", "utf8");
+}
+
+export async function playersXlsx(t: Tournament): Promise<Buffer> {
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet("Joueurs", {
+    views: [{ state: "frozen", ySplit: 1 }],
+  });
+  // Strings stay literal, including names starting with '=' or '+' and emails.
+  sheet.addRows(playerRows(t));
+  [32, 32, 12, 40, 32].forEach((width, index) => {
+    sheet.getColumn(index + 1).width = width;
+    sheet.getColumn(index + 1).numFmt = "@";
+  });
+  sheet.eachRow((row, index) => {
+    row.alignment = { vertical: "middle", wrapText: true };
+    row.font = { name: "Calibri", size: 11 };
+    if (index === 1) {
+      row.height = 28;
+      row.font = {
+        name: "Calibri",
+        size: 11,
+        bold: true,
+        color: { argb: "FFFFFFFF" },
+      };
+      row.eachCell((cell) => {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "FF245A81" },
+        };
+      });
+    }
+  });
+  sheet.autoFilter = { from: "A1", to: "E1" };
+  return Buffer.from(await workbook.xlsx.writeBuffer());
 }
 
 function within(folder: string, file: string) {

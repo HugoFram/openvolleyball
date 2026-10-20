@@ -1,6 +1,6 @@
 # V2 - Première étape : feuilles scannées, entièrement hors ligne
 
-Version `2.0.0-alpha.9`. Cette préversion ajoute un parcours utilisable de bout en
+Version `2.0.0-alpha.10`. Cette préversion ajoute un parcours utilisable de bout en
 bout : impression des nouvelles feuilles, import de scans, lecture locale des
 chiffres, vérification et enregistrement des résultats. Aucun service cloud,
 compte, clé API, téléchargement de modèle au lancement ou connexion Internet.
@@ -16,12 +16,16 @@ compte, clé API, téléchargement de modèle au lancement ou connexion Internet
   L’original reste inchangé. Pour reprendre cet état, ouvrir le dossier du
   backup avec **Ouvrir un autre tournoi**. Choisir une destination extérieure
   au dossier du tournoi actif ; une copie incomplète n’est jamais publiée.
-- **Exporter les joueurs (CSV)** : choisir l’emplacement et le nom du fichier CSV.
+- **Exporter les joueurs (CSV)** : choisir le séparateur (virgule ou point-virgule),
+  puis l’emplacement et le nom du fichier CSV.
   Colonnes : nom du joueur, nom de l’équipe, niveau N/R/D/U, e-mail, club. Toutes les
   catégories et les joueurs des équipes retirées sont inclus. Encodage UTF-8 avec
-  marqueur BOM, séparateur point-virgule ; accents et champs facultatifs conservés.
+  marqueur BOM ; accents et champs facultatifs conservés.
+- **Exporter les joueurs (Excel .xlsx)** : mêmes colonnes et joueurs, dans un
+  classeur avec en-tête figé, filtres et largeurs adaptées. Choisir le nom et
+  l’emplacement du fichier. Tout le traitement reste local.
 
-Les autres outils et listes de cette page sont retirés. Alpha.9 conserve les
+Les autres outils et listes de cette page sont retirés. Alpha.10 conserve les
 modèles, le statut expérimental et les exports d’inscriptions relues d’alpha.7.
 Le pack de lecteur avancé déjà installé reste compatible ; inutile de le réinstaller.
 

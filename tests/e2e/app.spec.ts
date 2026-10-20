@@ -8,6 +8,7 @@ import {
 import fs from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
+import ExcelJS from "exceljs";
 import { PDFDocument, PDFDict, PDFName } from "pdf-lib";
 import { encode } from "../../electron/store";
 import { applyCommand, getPhase } from "../../src/domain/engine";
@@ -884,7 +885,7 @@ test("Bracket ranks and first-round team swaps persist, update byes and PDFs, th
     .screenshot({ path: "docs/screenshots/bracket-ranks.png" });
 });
 
-test("Exports page contains only snapshot and player CSV actions; dialogs cancel cleanly and a full snapshot reopens independently", async () => {
+test("Exports page offers backup, both CSV delimiters and Excel; dialogs cancel cleanly and a full backup reopens independently", async () => {
   const folder = path.join(parent, "Tournoi original.openvolley");
   await fs.mkdir(folder);
   await fs.mkdir(path.join(folder, "history"));
@@ -942,7 +943,7 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
   await expect(
     page.getByRole("heading", { name: "Exports et backup", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".content button")).toHaveCount(2);
+  await expect(page.locator(".content button")).toHaveCount(3);
   await expect(page.locator(".content table, .content .stats-row")).toHaveCount(
     0,
   );
@@ -954,13 +955,31 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
     name: "Exporter les joueurs (CSV)",
     exact: true,
   });
+  const xlsxButton = page.getByRole("button", {
+    name: "Exporter les joueurs (Excel .xlsx)",
+    exact: true,
+  });
   const before = await fs.readFile(path.join(folder, "tournament.json"));
   await app.evaluate(({ dialog }) => {
+    dialog.showMessageBox = async () => ({
+      response: 2,
+      checkboxChecked: false,
+    });
     dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
     dialog.showSaveDialog = async () => ({ canceled: true, filePath: "" });
   });
   await snapshot.click();
   await expect(snapshot).toBeEnabled();
+  await csvButton.click();
+  await expect(csvButton).toBeEnabled();
+  await xlsxButton.click();
+  await expect(xlsxButton).toBeEnabled();
+  await app.evaluate(({ dialog }) => {
+    dialog.showMessageBox = async () => ({
+      response: 0,
+      checkboxChecked: false,
+    });
+  });
   await csvButton.click();
   await expect(csvButton).toBeEnabled();
   expect(await fs.readFile(path.join(folder, "tournament.json"))).toEqual(
@@ -972,6 +991,10 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
   await fs.mkdir(output);
   const csvPath = path.join(output, "Mes joueurs été.csv");
   await app.evaluate(({ dialog }, file) => {
+    dialog.showMessageBox = async (...args: unknown[]) => {
+      (globalThis as any).delimiterDialog = args.at(-1);
+      return { response: 0, checkboxChecked: false };
+    };
     dialog.showSaveDialog = async (...args: unknown[]) => {
       (globalThis as any).csvDialog = args.at(-1);
       return { canceled: false, filePath: file };
@@ -988,6 +1011,49 @@ test("Exports page contains only snapshot and player CSV actions; dialogs cancel
   const csvDialog = await app.evaluate(() => (globalThis as any).csvDialog);
   expect(csvDialog.defaultPath).toMatch(/joueurs\.csv$/);
   expect(csvDialog.filters[0].extensions).toEqual(["csv"]);
+  expect(
+    (await app.evaluate(() => (globalThis as any).delimiterDialog)).buttons,
+  ).toEqual(["Point-virgule ( ; )", "Virgule ( , )", "Annuler"]);
+  await dismiss();
+  const commaPath = path.join(output, "Mes joueurs virgule.csv");
+  await app.evaluate(({ dialog }, file) => {
+    dialog.showMessageBox = async () => ({
+      response: 1,
+      checkboxChecked: false,
+    });
+    dialog.showSaveDialog = async () => ({ canceled: false, filePath: file });
+  }, commaPath);
+  await csvButton.click();
+  await expect(page.getByText(/joueurs exportés :/)).toBeVisible();
+  expect(await fs.readFile(commaPath, "utf8")).toContain(
+    ',"N","elodie@example.com","Léman; Volley"',
+  );
+  await dismiss();
+  const xlsxPath = path.join(output, "Mes joueurs été.xlsx");
+  await app.evaluate(({ dialog }, file) => {
+    dialog.showMessageBox = async () => {
+      throw Error("Excel must not ask for a delimiter");
+    };
+    dialog.showSaveDialog = async (...args: unknown[]) => {
+      (globalThis as any).xlsxDialog = args.at(-1);
+      return { canceled: false, filePath: file };
+    };
+  }, xlsxPath);
+  await xlsxButton.click();
+  await expect(page.getByText(/joueurs exportés :/)).toBeVisible();
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile(xlsxPath);
+  const sheet = workbook.getWorksheet("Joueurs")!;
+  expect(sheet.rowCount).toBe(
+    t.teams.reduce((n, team) => n + team.players.length, 0) + 1,
+  );
+  expect(sheet.getCell("A2").value).toBe('Élodie "Été"');
+  expect(sheet.getCell("C2").value).toBe("N");
+  expect(sheet.getCell("D2").value).toBe("elodie@example.com");
+  expect(sheet.getCell("E2").value).toBe("Léman; Volley");
+  const xlsxDialog = await app.evaluate(() => (globalThis as any).xlsxDialog);
+  expect(xlsxDialog.defaultPath).toMatch(/joueurs\.xlsx$/);
+  expect(xlsxDialog.filters[0].extensions).toEqual(["xlsx"]);
   await dismiss();
   const copy = path.join(output, "Avant les finales – été.openvolley");
   await app.evaluate(({ dialog }, target) => {

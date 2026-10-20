@@ -2,6 +2,28 @@
 
 The application was built from the supplied specification against an empty repository. Automated tests use disposable synthetic data; the three original example tournaments remain unchanged. Alpha.2 also uses a separate read-only diagnostic of locally approved scans, with copies kept outside version control.
 
+## Player CSV delimiter and Excel exports: 2.0.0-alpha.10
+
+- **78 unit tests pass.** Both CSV separators preserve accents, quotes, embedded
+  delimiters, line breaks and optional blanks. Excel round trips preserve the
+  same five columns, all categories and withdrawn teams, N/R/D/U levels, literal
+  text, frozen header and filters. Empty tournaments export the header correctly.
+- The affected packaged export workflow checks the three buttons, both CSV
+  separator choices, cancellation at the separator and file dialogs, selected
+  filenames, Excel workbook contents and unchanged tournament data. The backup
+  still reopens independently and duplicate backup names preserve the first copy.
+- The export generator runs entirely locally. Scanning and models are unchanged.
+  The full 19-workflow regression passed in alpha.8; this release reruns the
+  affected export workflow and portable startup check.
+
+Manual check:
+
+1. In **Exports et backup**, export CSV once with each separator and verify the
+   five columns using the chosen separator in your spreadsheet application's import.
+2. Cancel the separator prompt, then the file dialog; confirm no file is created.
+3. Export Excel to a chosen `.xlsx` filename and open it. Check player/team names,
+   N/R/D/U levels, emails, clubs, accents and blanks; try the column filters.
+
 ## Named backups: 2.0.0-alpha.9
 
 - **76 unit tests pass.** Backup tests additionally check a chosen Unicode name,
